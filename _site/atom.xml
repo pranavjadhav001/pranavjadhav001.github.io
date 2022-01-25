@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Hello. I&apos;m Pranav Jadhav.</title>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <link href="http://localhost:4000/"/>
+ <updated>2022-01-23T16:20:58+05:30</updated>
+ <id>http://localhost:4000</id>
+ <author>
+   <name>Pranav Jadhav</name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>Multi-Head Self-Attention Layer</title>
+   <link href="http://localhost:4000/development/2022/01/20/attention.html"/>
+   <updated>2022-01-20T06:30:00+05:30</updated>
+   <id>http://localhost:4000/development/2022/01/20/attention</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Biometrics</title>
+   <link href="http://localhost:4000/development/2022/01/19/biometrics.html"/>
+   <updated>2022-01-19T06:30:00+05:30</updated>
+   <id>http://localhost:4000/development/2022/01/19/biometrics</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>padim</title>
+   <link href="http://localhost:4000/development/2022/01/18/padim_post.html"/>
+   <updated>2022-01-18T06:30:00+05:30</updated>
+   <id>http://localhost:4000/development/2022/01/18/padim_post</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Smart Keyboard</title>
+   <link href="http://localhost:4000/development/2022/01/17/keyboard.html"/>
+   <updated>2022-01-17T06:30:00+05:30</updated>
+   <id>http://localhost:4000/development/2022/01/17/keyboard</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+
+</feed>

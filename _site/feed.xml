@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hello. I&apos;m Pranav Jadhav.</title>
+    <description>I&apos;m an ardent Machine Learning engineer who loves to unravel the black box of AI</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 23 Jan 2022 16:20:58 +0530</pubDate>
+    <lastBuildDate>Sun, 23 Jan 2022 16:20:58 +0530</lastBuildDate>
+    <generator>Jekyll v3.9.1</generator>
+    
+      <item>
+        <title>Multi-Head Self-Attention Layer</title>
+        <description>
+</description>
+        <pubDate>Thu, 20 Jan 2022 06:30:00 +0530</pubDate>
+        <link>http://localhost:4000/development/2022/01/20/attention.html</link>
+        <guid isPermaLink="true">http://localhost:4000/development/2022/01/20/attention.html</guid>
+        
+        <category>Transformers</category>
+        
+        <category>Tensorflow</category>
+        
+        <category>Attention</category>
+        
+        
+        <category>development</category>
+        
+      </item>
+    
+      <item>
+        <title>Biometrics</title>
+        <description>
+</description>
+        <pubDate>Wed, 19 Jan 2022 06:30:00 +0530</pubDate>
+        <link>http://localhost:4000/development/2022/01/19/biometrics.html</link>
+        <guid isPermaLink="true">http://localhost:4000/development/2022/01/19/biometrics.html</guid>
+        
+        <category>FaceRecognition</category>
+        
+        <category>PoseEstimation</category>
+        
+        <category>SpeechRecognition</category>
+        
+        
+        <category>development</category>
+        
+      </item>
+    
+      <item>
+        <title>padim</title>
+        <description>
+</description>
+        <pubDate>Tue, 18 Jan 2022 06:30:00 +0530</pubDate>
+        <link>http://localhost:4000/development/2022/01/18/padim_post.html</link>
+        <guid isPermaLink="true">http://localhost:4000/development/2022/01/18/padim_post.html</guid>
+        
+        <category>Tensorflow</category>
+        
+        <category>AnomalyDetection</category>
+        
+        <category>Mvtec</category>
+        
+        
+        <category>development</category>
+        
+      </item>
+    
+      <item>
+        <title>Smart Keyboard</title>
+        <description>
+</description>
+        <pubDate>Mon, 17 Jan 2022 06:30:00 +0530</pubDate>
+        <link>http://localhost:4000/development/2022/01/17/keyboard.html</link>
+        <guid isPermaLink="true">http://localhost:4000/development/2022/01/17/keyboard.html</guid>
+        
+        <category>NLP</category>
+        
+        <category>Tensorflow</category>
+        
+        
+        <category>development</category>
+        
+      </item>
+    
+  </channel>
+</rss>
