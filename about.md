@@ -15,8 +15,3 @@ Agsmartic was first ML internship. Agsmartic was a incubated startup by NASSCOM 
 ### SwitchOn
 
 Switchon was my first full time job. Initially I started here as a intern for 2 months and later got converted to full time based on my performance. Switchon is seed funded Deep tech startup whose main goal is to improve plant efficiency using its product. I'm one of the initial members of vision department at the company. Since then I've been involved in vision products such as Surface Inspection, OCR, Absence-presence. I work on the core product of Switchon which is surface inspection product which when deployed inspects parts at the plant and removes outliers/defected parts. 
-
-### Test
-
-
-
