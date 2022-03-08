@@ -4,13 +4,22 @@
  <title>Hello. I&apos;m Pranav Jadhav.</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-01-25T21:01:27+05:30</updated>
+ <updated>2022-03-08T23:37:04+05:30</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Pranav Jadhav</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Implementing Attention Layer</title>
+   <link href="http://localhost:4000/development/2022/01/21/medium-attention.html"/>
+   <updated>2022-01-21T06:30:00+05:30</updated>
+   <id>http://localhost:4000/development/2022/01/21/medium-attention</id>
+   <content type="html">
+</content>
+ </entry>
  
  <entry>
    <title>Multi-Head Self-Attention Layer</title>
