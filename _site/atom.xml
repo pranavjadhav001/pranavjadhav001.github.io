@@ -4,7 +4,7 @@
  <title>Hello. I&apos;m Pranav Jadhav.</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-03-08T23:37:04+05:30</updated>
+ <updated>2022-03-08T23:45:22+05:30</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Pranav Jadhav</name>
@@ -13,10 +13,10 @@
 
  
  <entry>
-   <title>Implementing Attention Layer</title>
-   <link href="http://localhost:4000/development/2022/01/21/medium-attention.html"/>
+   <title>Object Detection with Transformers</title>
+   <link href="http://localhost:4000/development/2022/01/21/detr.html"/>
    <updated>2022-01-21T06:30:00+05:30</updated>
-   <id>http://localhost:4000/development/2022/01/21/medium-attention</id>
+   <id>http://localhost:4000/development/2022/01/21/detr</id>
    <content type="html">
 </content>
  </entry>
