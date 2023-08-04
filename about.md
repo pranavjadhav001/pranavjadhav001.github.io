@@ -5,7 +5,7 @@ permalink: /about/
 ---
 # About me
 
-Hi! I'm Pranav Jadhav, AI practitioner by day, cinephile/footballer/gamer by night.I graduated from DITE college of GGSIPU University of Delhi in 2019.I love to code, draw, train ml models.   
+I'm Pranav Jadhav, AI practitioner by day, cinephile/footballer/gamer by night.I graduated from DITE college of GGSIPU University of Delhi in 2019.I love to code, draw, train ML models.
 ## Career
 
 ### Agsmartic Technologies
@@ -14,4 +14,8 @@ Agsmartic was first ML internship. Agsmartic was a incubated startup by NASSCOM 
 
 ### SwitchOn
 
-Switchon was my first full time job. Initially I started here as a intern for 2 months and later got converted to full time based on my performance. Switchon is seed funded Deep tech startup whose main goal is to improve plant efficiency using its product. I'm one of the initial members of vision department at the company. Since then I've been involved in vision products such as Surface Inspection, OCR, Absence-presence. I work on the core product of Switchon which is surface inspection product which when deployed inspects parts at the plant and removes outliers/defected parts. 
+Switchon was my first full time job. Initially I started here as a intern for 2 months and later got converted to full time based on my performance. Switchon is seed funded Deep tech startup whose main goal is to improve plant efficiency using its product. I'm one of the initial members of vision department at the company. Since then I've been involved in vision products such as Surface Inspection, OCR, Absence-presence. I used to work on the core product of Switchon which is surface inspection product which when deployed on premises inspects parts and removes outliers/defected parts. 
+
+### Tricog Health
+
+I ventured onto Tricog in June'22. I've always been curious and seeking to solve healthcare challenges through kaggle challenges or personal projects. It was a logical step to do it at a more serious and challenging level at a company where the core is AI and Healthcare. I work mostly as an IC in a team of experienced and seasoned colleagues who nudge me in the right direction.
