@@ -9,34 +9,36 @@
         <div class="hero-content">
 
           {% if site.title != '' %}
-          <h1 class="text-center">{{site.title}}</h1>
+          <h1 class="text-center">Pranav Jadhav.</h1>
           {% endif %}
 
           {% if site.description != '' or site.enable_contact == true %}
           <p class="text-center">
-            {% if site.description != '' %}
-            {{site.description}}
-            {% endif %}
-
-            {% if site.enable_contact == true %}
-            {% include contact.html %}
-            {% include contact-modal.html %}
-            {% endif %}
+            
+            ML @ <a href="https://www.tricog.com/">tricog</a> | coffee @ <a href="https://drive.google.com/file/d/1CNNIRbfQA7bg89vwCkJXXe9wcoy-eKIq/view?usp=drive_link">home</a> | football | movies
+            
           </p>
           {% endif %}
 
-          <div class="hero-buttons">
-
+          <div class="hero-buttons" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 10px;">
             {% if site.twitter_username != '' %}
-              <a href="https://drive.google.com/file/d/1ACkoh_mrME0D0fBkAQfpV3fmIrIaltUB/view?usp=sharing"><button class="btn btn-default btn-lg"><i class="fa fa-resume fa-lg"></i>Resume</button></a>
+              <a href="https://twitter.com/pranav9194"><button class="btn btn-default btn-lg"><i class="fa fa-twitter fa-lg"></i>twitter</button></a>
             {% endif %}
+            
+            <a href="https://boxd.it/4S4ZH"><button class="btn btn-default btn-lg"><i class="fa fa-letterboxd fa-lg"></i>letterboxd</button></a>
+
+            {% if site.medium_username != '' %}
+              <a href="https://{{ site.medium_username }}"><button class="btn btn-default btn-lg"><i class="fa fa-medium fa-lg"></i>Medium</button></a>
+            {% endif %}                        
+            
+            <a href="https://www.goodreads.com/pranavjadhav"><button class="btn btn-default btn-lg"><i class="fa fa-goodreads fa-lg"></i>goodreads</button></a>
+
             {% if site.github_username != '' %}
               <a href="https://github.com/{{ site.github_username }}"><button class="btn btn-default btn-lg"><i class="fa fa-github fa-lg"></i>Github</button></a>
             {% endif %}
-            {% if site.medium_username != '' %}
-              <a href="https://{{ site.medium_username }}"><button class="btn btn-default btn-lg"><i class="fa fa-medium fa-lg"></i>Medium</button></a>
-            {% endif %}
-
+            
+            <a href="https://drive.google.com/file/d/1ACkoh_mrME0D0fBkAQfpV3fmIrIaltUB/view?usp=sharing"><button class="btn btn-default btn-lg"><i class="fa fa-resume fa-lg"></i>Resume</button></a>
+            
           </div>
 
         </div>
