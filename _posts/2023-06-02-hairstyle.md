@@ -7,7 +7,7 @@ categories: CV
 tags: HuggingFace Diffusion Repaint
 featured_image: '/img/posts/hairstyle.png'
 project_link: 'https://github.com/pranavjadhav001/diffusers_hairstyle_transfer'
-button_icon: 'github'
+button_icon: 'fab fa-github fa-lg'
 button_text: 'Visit github'
 lead_text: 'Attempt to solve hairstyle transfer using Diffusion and Repaint paper'
 ---
