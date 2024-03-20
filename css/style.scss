@@ -32,6 +32,7 @@ $secondary: #FF7B7B;
   }
 }
 
+
 body {
   background-color: #e9edf0;
   @extend %opensans;
@@ -272,6 +273,7 @@ button.btn, input.btn {
     h3.title {
       position: relative;
       margin-bottom: 1.5em;
+/*
       &:after {
         content: '';
         position: absolute;
@@ -281,6 +283,7 @@ button.btn, input.btn {
         height: 3px;
         background-color: #ECEFF1;
       }
+*/
     }
     .excerpt {
       width: 80%;
