@@ -27,6 +27,11 @@ markdown: kramdown
 # theme: phantom # Uncomment once published to RubyGems
 plugins:
   - jekyll-paginate
+exclude:
+  - worker
+  - claude_plans
+  - vendor
+  - scripts
 
 ############################################################
 # Site configuration for the Jekyll 3 Pagination Gem
@@ -101,3 +106,4 @@ enable_nav: true
 nav_item:
   - { url: '/', text: 'Home' }
   - { url: '/about', text: 'About' }
+  - { url: '/coffee/', text: 'Coffee' }
