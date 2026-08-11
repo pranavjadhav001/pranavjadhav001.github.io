@@ -1,0 +1,231 @@
+/*--------------------------------------------------------------
+  About page — standalone resume/portfolio design
+  (independent of the Phantom theme's bootstrap/mixins/style.scss)
+--------------------------------------------------------------*/
+
+:root {
+  --paper: #F5F2EA;
+  --ink: #16161A;
+  --rule: #E1DDD2;
+  --muted: #6B7280;
+  --card: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0B0B0C;
+    --ink: #F2F2F2;
+    --rule: #26262A;
+    --muted: #9AA0A6;
+    --card: #151517;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0B0B0C;
+  --ink: #F2F2F2;
+  --rule: #26262A;
+  --muted: #9AA0A6;
+  --card: #151517;
+}
+:root[data-theme="light"] {
+  --paper: #F5F2EA;
+  --ink: #16161A;
+  --rule: #E1DDD2;
+  --muted: #6B7280;
+  --card: #FFFFFF;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/Inter-Variable-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-Variable-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 14px;
+  min-height: 100vh;
+}
+@media (prefers-reduced-motion: no-preference) {
+  body, .theme-toggle, .resume-btn, a { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+}
+
+a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--ink); }
+
+.back-link-wrap {
+  max-width: 820px;
+  margin: 2rem auto 0;
+  padding: 0 clamp(1.5rem, 6vw, 5rem);
+}
+.back-link {
+  font-size: .78rem;
+  color: var(--muted);
+  text-decoration: none;
+
+  &:hover { color: var(--ink); text-decoration: none; }
+}
+
+.page { max-width: 820px; margin: 0 auto; padding: 2.5rem clamp(1.5rem, 6vw, 5rem) 6rem; font-size: 1rem; }
+
+.masthead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2.5rem;
+}
+.eyebrow {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 .35rem; text-wrap: balance; }
+.subtitle { font-size: .95rem; font-weight: 600; color: var(--muted); margin: 0 0 1.1rem; }
+.byline { color: var(--muted); font-size: 1rem; margin: 0; max-width: 52ch; line-height: 1.7; }
+.byline strong { font-weight: 700; }
+
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  font-size: .875rem;
+  padding: .75em 1.4em;
+  border-radius: 6px;
+  text-decoration: none;
+
+  &:hover { text-decoration: none; opacity: .82; }
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule);
+  background: none;
+  color: var(--ink);
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: inherit;
+
+  &:hover { border-color: var(--ink); }
+  &:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+}
+
+.section-label {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+  margin: 0 0 1.4rem;
+  font-weight: 600;
+}
+
+.skills { margin-bottom: 3.5rem; }
+.skills-line {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--ink);
+  margin: 0;
+}
+
+.experience { margin-bottom: 3.5rem; }
+.job {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  padding: 1.6rem 0;
+  border-top: 1px solid var(--rule);
+
+  &:first-of-type { border-top: none; padding-top: 0; }
+}
+.job-dates {
+  font-size: .82rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: .2rem;
+}
+.job-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 .2rem;
+}
+.job-role { font-weight: 500; color: var(--muted); }
+.job-location {
+  font-size: .82rem;
+  color: var(--muted);
+  margin-bottom: .8rem;
+}
+.job-body ul {
+  margin: 0;
+  padding-left: 1.2em;
+  color: var(--ink);
+  font-size: .92rem;
+  line-height: 1.65;
+}
+.job-body li { margin-bottom: .55em; }
+.job-body li:last-child { margin-bottom: 0; }
+.job-body strong { color: var(--ink); }
+
+.contact { margin-bottom: 0; }
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .9rem;
+}
+.contact-list li {
+  display: flex;
+  gap: 1rem;
+  font-size: .92rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: .9rem;
+}
+.contact-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.contact-label {
+  width: 90px;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
+.resume-cta {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+.resume-cta .resume-btn { font-size: .95rem; padding: .85em 1.8em; }
+
+@media (max-width: 640px) {
+  .page { padding: 2rem 1.25rem 4rem; }
+  .back-link-wrap { padding: 0 1.25rem; }
+  h1 { font-size: 2.25rem; }
+  .masthead { flex-direction: column; }
+  .job { grid-template-columns: 1fr; gap: .3rem; }
+  .job-dates { order: -1; }
+}

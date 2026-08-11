@@ -10,7 +10,6 @@ title: Coffee
 
   <header class="masthead">
     <div>
-      <div class="eyebrow">field log &middot; specialty coffee</div>
       <h1>Coffee</h1>
       <p class="byline">Roast notes, brew gear, and a running ledger of every bag tried.</p>
     </div>

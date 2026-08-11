@@ -406,7 +406,6 @@ tbody tr.data-row:hover { background: var(--crema); }
 @media (max-width: 640px) {
   .page { padding: 3rem 1.25rem 4rem; }
   h1 { font-size: 1.15rem; }
-  .masthead { flex-direction: column; }
   .ledger-head-right { width: 100%; justify-content: space-between; }
   .card-grid { grid-template-columns: 1fr; }
   .view-toggle-btn { padding: .6em 1em; font-size: .72rem; }
