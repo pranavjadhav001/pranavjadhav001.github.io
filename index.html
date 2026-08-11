@@ -38,7 +38,7 @@ layout: landing
       </div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" fill="currentColor"/><path d="M12 4 C9 8 15 8 12 12 C9 16 15 16 12 20" fill="none" stroke-width="1.4" stroke-linecap="round" style="stroke:var(--paper)"/></svg></button>
     </div>
-    <p class="byline">I work at the intersection of <strong>healthcare and AI</strong> at Tricog Health, with <strong>6+ years</strong> building production systems. I work with <strong>medical imaging, LLMs, computer vision, and inference optimization</strong> at clinical scale. I'm happiest in the details a metric won't catch but will impact the end user.<br>In my personal time, I love following, reading, and implementing the latest research and software ideas wherever my curiosity takes me. I also read and listen to fiction, non-fiction, philosophy, and politics across books and podcasts.<br>Off the clock: I'm a <a href="/coffee/">home barista</a>, <a href="https://letterboxd.com/pranavjadhav/" target="_blank" rel="noopener">cinephile</a>, <a href="https://www.goodreads.com/user/show/61567123-pranav-jadhav" target="_blank" rel="noopener">light reader</a>, and footballer.</p>
+    <p class="byline">I work at the intersection of <strong>healthcare and AI</strong> at Tricog Health, with <strong>6+ years</strong> building production systems. I work with <strong>medical imaging, LLMs, computer vision, and inference optimization</strong> at clinical scale. I'm happiest working on details a metric won't catch but will impact the end user.<br>In my personal time, I love following, reading, and implementing the latest research and software ideas wherever my curiosity takes me. I also read and listen to fiction, non-fiction, philosophy, and politics across books and podcasts.<br>Off the clock: I'm a <a href="/coffee/">home barista</a>, <a href="https://letterboxd.com/pranavjadhav/" target="_blank" rel="noopener">cinephile</a>, <a href="https://www.goodreads.com/user/show/61567123-pranav-jadhav" target="_blank" rel="noopener">light reader</a>, and footballer.</p>
   </header>
 
   <section class="work">
@@ -48,11 +48,11 @@ layout: landing
       <h3 class="work-company-name">Tricog Health</h3>
       <div class="work-role">
         <span class="work-role-title">Senior Machine Learning Engineer</span>
-        <span class="work-role-dates">Dec 2024 &mdash; Present</span>
+        <span class="work-role-dates">Dec 2024 - Present</span>
       </div>
       <div class="work-role">
         <span class="work-role-title">Machine Learning Engineer</span>
-        <span class="work-role-dates">Jun 2022 &mdash; Dec 2024</span>
+        <span class="work-role-dates">Jun 2022 - Dec 2024</span>
       </div>
     </a>
 
@@ -60,7 +60,7 @@ layout: landing
       <h3 class="work-company-name">Switchon</h3>
       <div class="work-role">
         <span class="work-role-title">Computer Vision Engineer</span>
-        <span class="work-role-dates">Aug 2019 &mdash; Jun 2022</span>
+        <span class="work-role-dates">Aug 2019 - Jun 2022</span>
       </div>
     </a>
   </section>
@@ -70,7 +70,12 @@ layout: landing
     <div class="writing-list">
       {% for post in site.posts %}
       <div class="writing-row">
-        <a class="writing-title" href="{{ post.project_link }}" target="_blank" rel="noopener">{{ post.title }}</a>
+        <span class="writing-title-wrap">
+          <a class="writing-title" href="{{ post.project_link }}" target="_blank" rel="noopener">{{ post.title }}</a>
+          <span class="writing-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M14 6L20 12L14 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </span>
         <span class="writing-date">{{ post.date | date: "%b %-d, %Y" }}</span>
       </div>
       {% endfor %}

@@ -13,7 +13,7 @@ title: About
       <div class="eyebrow">machine learning &middot; computer vision &middot; healthcare</div>
       <h1>Hi, I'm Pranav Jadhav</h1>
       <p class="subtitle">Senior Machine Learning Engineer</p>
-      <p class="byline">I work at the intersection of <strong>healthcare and AI</strong> at Tricog Health, with <strong>6+ years</strong> building production systems. I work with <strong>medical imaging, LLMs, computer vision, and inference optimization</strong> at clinical scale. I'm happiest in the details a metric won't catch but will impact the end user.<br>In my personal time, I love following, reading, and implementing the latest research and software ideas wherever my curiosity takes me. I also read and listen to fiction, non-fiction, philosophy, and politics across books and podcasts.<br>Off the clock: I'm a <a href="/coffee/">home barista</a>, <a href="https://letterboxd.com/pranavjadhav/" target="_blank" rel="noopener">cinephile</a>, <a href="https://www.goodreads.com/user/show/61567123-pranav-jadhav" target="_blank" rel="noopener">light reader</a>, and footballer.</p>
+      <p class="byline">I work at the intersection of <strong>healthcare and AI</strong> at Tricog Health, with <strong>6+ years</strong> building production systems. I work with <strong>medical imaging, LLMs, computer vision, and inference optimization</strong> at clinical scale. I'm happiest working on details a metric won't catch but will impact the end user.<br>In my personal time, I love following, reading, and implementing the latest research and software ideas wherever my curiosity takes me. I also read and listen to fiction, non-fiction, philosophy, and politics across books and podcasts.<br>Off the clock: I'm a <a href="/coffee/">home barista</a>, <a href="https://letterboxd.com/pranavjadhav/" target="_blank" rel="noopener">cinephile</a>, <a href="https://www.goodreads.com/user/show/61567123-pranav-jadhav" target="_blank" rel="noopener">light reader</a>, and footballer.</p>
     </div>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" fill="currentColor"/><path d="M12 4 C9 8 15 8 12 12 C9 16 15 16 12 20" fill="none" stroke-width="1.4" stroke-linecap="round" style="stroke:var(--paper)"/></svg></button>
   </header>
@@ -27,7 +27,7 @@ title: About
     <h2 class="section-label">Experience</h2>
 
     <div class="job">
-      <div class="job-dates">Dec 2024 &mdash; Present</div>
+      <div class="job-dates">Dec 2024 - Present</div>
       <div class="job-body">
         <h3>Tricog Health <span class="job-role">&middot; Senior Machine Learning Engineer</span></h3>
         <div class="job-location">Bangalore</div>
@@ -42,7 +42,7 @@ title: About
     </div>
 
     <div class="job">
-      <div class="job-dates">Jun 2022 &mdash; Dec 2024</div>
+      <div class="job-dates">Jun 2022 - Dec 2024</div>
       <div class="job-body">
         <h3>Tricog Health <span class="job-role">&middot; Machine Learning Engineer</span></h3>
         <div class="job-location">Bangalore</div>
@@ -55,7 +55,7 @@ title: About
     </div>
 
     <div class="job">
-      <div class="job-dates">Aug 2019 &mdash; Jun 2022</div>
+      <div class="job-dates">Aug 2019 - Jun 2022</div>
       <div class="job-body">
         <h3>Switchon <span class="job-role">&middot; Computer Vision Engineer</span></h3>
         <div class="job-location">Bangalore</div>

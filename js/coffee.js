@@ -40,14 +40,10 @@
 
   /* ---------------- View toggle ---------------- */
 
-  var TABLE_HINT = 'Click a row for its photo. Click “Roast ▾” to filter, click “Purchased” to sort.';
-  var CARD_HINT = "A quick-glance gallery of every bag tried.";
-
   function wireViewToggle() {
     var tableBtn = document.getElementById("viewToggleTable");
     var cardsBtn = document.getElementById("viewToggleCards");
     var ledgerSection = document.getElementById("ledgerSection");
-    var hint = document.getElementById("ledgerHint");
     if (!tableBtn || !cardsBtn || !ledgerSection) return;
 
     function setView(view) {
@@ -56,7 +52,6 @@
       ledgerSection.setAttribute("data-view", view);
       tableBtn.classList.toggle("is-active", !isCards);
       cardsBtn.classList.toggle("is-active", isCards);
-      if (hint) hint.textContent = isCards ? CARD_HINT : TABLE_HINT;
       if (!allBeans.length) return;
       if (isCards) {
         renderCards(allBeans);
@@ -416,7 +411,7 @@
   }
 
   function cardFooterRight(bean) {
-    if (!bean.purchaseDate) return '<span class="empty-cell">&mdash;</span>';
+    if (!bean.purchaseDate) return '<span class="empty-cell">-</span>';
     return escapeHtml(dateLabel(bean.purchaseDate));
   }
 
@@ -429,11 +424,11 @@
   /* ---------------- Cell helpers ---------------- */
 
   function cell(value) {
-    return value === null || value === undefined || value === "" ? '<span class="empty-cell">&mdash;</span>' : escapeHtml(String(value));
+    return value === null || value === undefined || value === "" ? '<span class="empty-cell">-</span>' : escapeHtml(String(value));
   }
 
   function notesCell(tags) {
-    if (!tags || tags.length === 0) return '<span class="empty-cell">&mdash;</span>';
+    if (!tags || tags.length === 0) return '<span class="empty-cell">-</span>';
     return "[" + tags.map(escapeHtml).join(", ") + "]";
   }
 

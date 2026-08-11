@@ -19,26 +19,26 @@ title: Coffee
   <section class="field-notes">
     <details class="note-tab">
       <summary>Humble beginnings</summary>
-      <div class="note-body">
+      <div class="note-body note-body-intro">
 
         <h5>Move to BLR</h5>
-        <p>It all began when I moved to Bangalore for my first job. Our office had a <a href="https://www.industrybuying.com/coffee-maker-morphy-richards-FUR.COF.71514001">Morphy Richards coffee machine</a>&mdash;an unholy contraption that had exactly <strong>one</strong> job: force hot water through ground coffee. It served 1 purpose to keep us caffeinated and did it successfully.</p>
+        <p>It all began when I moved to Bangalore for my first job. Our office had a <a href="https://www.industrybuying.com/coffee-maker-morphy-richards-FUR.COF.71514001">Morphy Richards coffee machine</a>, an unholy contraption that had exactly <strong>one</strong> job: force hot water through ground coffee. It served 1 purpose to keep us caffeinated and did it successfully.</p>
         <p>This was my first real encounter with black coffee. I remember thinking, <strong>&ldquo;Who in their right mind drinks this willingly? And enjoys it?&rdquo;</strong> Initially, I drowned it in milk and sugar to mask the bitterness. Since it is an acquired taste, gradually I reduced these impurities to make my palette accustomed to the black coffee taste.</p>
-        <p>Around this time, Indiranagar was becoming a hub for specialty coffee, and since it was near my office, we occasionally ventured out for a proper cup in the evening. Some of these cafes&mdash;like <strong>Little Black Choux</strong> (now <strong>Truebrew</strong>), <strong>Araku</strong>, and <strong>Something&rsquo;s Brewing</strong>&mdash;are still around. I started ordering Americanos instead of cappuccinos and lattes, and that&rsquo;s when I realized: <strong>black coffee could actually taste good.</strong> Compared to the swill from our office machine, it was a revelation.</p>
+        <p>Around this time, Indiranagar was becoming a hub for specialty coffee, and since it was near my office, we occasionally ventured out for a proper cup in the evening. Some of these cafes, like <strong>Little Black Choux</strong> (now <strong>Truebrew</strong>), <strong>Araku</strong>, and <strong>Something&rsquo;s Brewing</strong>, are still around. I started ordering Americanos instead of cappuccinos and lattes, and that&rsquo;s when I realized: <strong>black coffee could actually taste good.</strong> Compared to the swill from our office machine, it was a revelation.</p>
 
         <h5>The Lockdown</h5>
-        <p>Then came the COVID lockdown. No office machine, no cafe visits. Desperate times called for desperate measures, so I ordered a <strong>French press.</strong> Unlike the pressure-driven machine at work, the French press works by full immersion, producing a richer, more textured brew. I got into the habit of brewing coffee overnight and enjoying it as cold brew in the morning&mdash;those were good times.</p>
+        <p>Then came the COVID lockdown. No office machine, no cafe visits. Desperate times called for desperate measures, so I ordered a <strong>French press.</strong> Unlike the pressure-driven machine at work, the French press works by full immersion, producing a richer, more textured brew. I got into the habit of brewing coffee overnight and enjoying it as cold brew in the morning. Those were good times.</p>
         <p>After six months, I upgraded to a <strong>Bialetti Brikka moka pot</strong>, thanks to a friend&rsquo;s recommendation. There are countless moka pot brands, but Bialetti is the gold standard. Among their models, the Brikka stands out because it has an extra component that creates a pseudo-crema, mimicking espresso&rsquo;s velvety top layer. Over time, I started adding less and less water to my 4-cup espresso shot, until one day, I realized I preferred drinking straight espresso.</p>
         <img class="note-photo" src="/img/coffee/lockdown.png" alt="Moka pot espresso">
-        <p>This was also when I got hooked on <strong>Araku&rsquo;s signature beans</strong>, which became my go-to because they paired beautifully with the moka pot. I used to get them ground at the cafe itself&mdash;until I noticed something troubling.</p>
+        <p>This was also when I got hooked on <strong>Araku&rsquo;s signature beans</strong>, which became my go-to because they paired beautifully with the moka pot. I used to get them ground at the cafe itself, until I noticed something troubling.</p>
 
         <h5>The Grinder Epiphany</h5>
         <p>I realized that pre-ground coffee, especially the last bits, became stale quickly. To preserve freshness, I bought a <strong>Fellow Atmos vacuum canister.</strong> That same year, during a Secret Santa, I was gifted a <strong>coffee blade grinder.</strong> While the blade grinder was not absolutely best at grinding uniformly, it did good enough for moka. After usage of more than 1 year, my moka pot&rsquo;s handle broke off. After that it was 1 mistake away from a disaster.</p>
 
         <h5>Espresso Obsession &amp; The Search for the Perfect Shot</h5>
-        <p>In mid-2023, I decided to go all-in and bought a <strong>Flair Pro 2 manual espresso machine.</strong> It was a beautiful, hands-on experience&mdash;until I encountered a new problem. My blade grinder&rsquo;s inconsistent grind size meant that pulling a decent shot was a coin toss. Either the coffee clogged the filter, or the water shot through like a bullet train.</p>
+        <p>In mid-2023, I decided to go all-in and bought a <strong>Flair Pro 2 manual espresso machine.</strong> It was a beautiful, hands-on experience, until I encountered a new problem. My blade grinder&rsquo;s inconsistent grind size meant that pulling a decent shot was a coin toss. Either the coffee clogged the filter, or the water shot through like a bullet train.</p>
         <p>It was clear: I needed a better grinder. Enter the <strong>Timemore C3 manual hand grinder.</strong> This single purchase <strong>elevated my coffee game like nothing else.</strong> I also added a <strong>WDT tool</strong> (a fancy coffee stirrer) to ensure even distribution and break up clumps in the coffee bed.</p>
-        <p>I enjoyed my espresso honeymoon for a while but then, another challenge emerged. The Flair Pro 2 struggled with <strong>light roasts</strong>&mdash;they&rsquo;d come out tasting sour and over-extracted. And I really wanted to experiment with some <strong>lighter roast beans.</strong></p>
+        <p>I enjoyed my espresso honeymoon for a while but then, another challenge emerged. The Flair Pro 2 struggled with <strong>light roasts</strong>: they&rsquo;d come out tasting sour and over-extracted. And I really wanted to experiment with some <strong>lighter roast beans.</strong></p>
 
         <h5>The Purrover begins 😼</h5>
         <p>Around this time, I started frequenting a cafe that swore by its <strong>pourovers</strong> complemented with their in-house roasted beans. They encouraged people to explore the nuanced flavors of light roasts brewed through a <strong>Kalita dripper</strong>. Unlike espresso, which vanishes in a few sips, a well-made pourover lets you savor the experience, revealing subtle notes and aromas that an espresso shot bulldozes over.</p>
@@ -47,7 +47,7 @@ title: Coffee
         <p>At first, I was using a regular electric kettle to pour water, but without a proper spout, my pouring technique was about as delicate as a waterfall. I was introducing too much agitation, ruining the brew. So, for Christmas 2024, I decided to <strong>gift myself a gooseneck electric kettle.</strong> Best decision ever.</p>
         <p>And the journey continues&hellip;</p>
         <blockquote>
-          <p>&ldquo;The fresh smell of coffee soon wafted through the apartment, the smell that separates night from day.&rdquo; &mdash; Haruki Murakami, <a href="https://www.goodreads.com/work/quotes/24593525"><em>Colorless Tsukuru Tazaki and His Years of Pilgrimage</em></a></p>
+          <p>&ldquo;The fresh smell of coffee soon wafted through the apartment, the smell that separates night from day.&rdquo; by Haruki Murakami, <a href="https://www.goodreads.com/work/quotes/24593525"><em>Colorless Tsukuru Tazaki and His Years of Pilgrimage</em></a></p>
         </blockquote>
 
       </div>
@@ -156,7 +156,7 @@ title: Coffee
       <div class="note-body">
         <ul>
           <li><a href="https://www.elbuenocoffee.com/collections/all">El Bueno</a></li>
-          <li><a href="https://www.savorworksroasters.com/products/fruits-bomb">Savor Works &mdash; Fruits Bomb</a></li>
+          <li><a href="https://www.savorworksroasters.com/products/fruits-bomb">Savor Works: Fruits Bomb</a></li>
           <li>International coffee sellers
             <ul>
               <li>Curious Life</li>
@@ -172,16 +172,16 @@ title: Coffee
           <li>Gundha, AP, Subko (notes: shiraz wine)</li>
           <li>Coffeeverse Biodynamic
             <ul>
-              <li><a href="https://coffeeverse.co.in/products/bio-dynamic-naturals-filter-roast-balmaadi-estate">Bio-Dynamic Naturals Filter Roast Coffee &mdash; Balmaadi Estate</a></li>
+              <li><a href="https://coffeeverse.co.in/products/bio-dynamic-naturals-filter-roast-balmaadi-estate">Bio-Dynamic Naturals Filter Roast Coffee: Balmaadi Estate</a></li>
             </ul>
           </li>
           <li><a href="https://kokoro.in/Shop">Kokoro Koffee</a></li>
           <li><a href="https://corridorseven.coffee/products/anai-kadu">Anai Kadu Estate Aerobic Naturals</a></li>
           <li><a href="https://ikkis.coffee/products/mulberry-melt">ikkis.coffee</a></li>
-          <li><a href="https://hermanoscoffeeroasters.com/products/tasting-kit-50g-100g">Hermanos Coffee Roasters &mdash; Tasting Kit</a></li>
+          <li><a href="https://hermanoscoffeeroasters.com/products/tasting-kit-50g-100g">Hermanos Coffee Roasters: Tasting Kit</a></li>
           <li><a href="https://roasterycoffee.co.in/product/ratnagiri-estate-amara-rose/">Ratnagiri Estate Amara Rose</a></li>
           <li><a href="https://www.arakucoffee.in/products/anniversary-edition-coffee-araku">Araku Anniversary Edition</a></li>
-          <li><a href="https://genetics.coffee/products/thermal-shock">Genetics Coffee &mdash; Thermal Shock</a></li>
+          <li><a href="https://genetics.coffee/products/thermal-shock">Genetics Coffee: Thermal Shock</a></li>
         </ul>
       </div>
     </details>
@@ -189,7 +189,7 @@ title: Coffee
 
   <section class="ledger" id="ledgerSection">
     <div class="ledger-head">
-      <h2>Coffee beans</h2>
+      <h2>Coffee beans tried</h2>
       <div class="ledger-head-right">
         <div class="view-toggle" role="group" aria-label="Choose view">
           <button type="button" class="view-toggle-btn is-active" id="viewToggleTable" data-view="table">Table</button>
@@ -198,8 +198,6 @@ title: Coffee
         <div class="ledger-count"><b id="visibleCount">&hellip;</b></div>
       </div>
     </div>
-    <p class="ledger-hint" id="ledgerHint">Click a row for its photo. Click &ldquo;Roast &#9662;&rdquo; to filter, click &ldquo;Purchased&rdquo; to sort.</p>
-
     <div class="ledger-breakout" id="tableView">
       <div id="coffee-table-root">
         <p class="coffee-status">Loading coffee beans&hellip;</p>

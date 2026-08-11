@@ -10,15 +10,6 @@
   --muted: #6B7280;
   --card: #FFFFFF;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0B0B0C;
-    --ink: #F2F2F2;
-    --rule: #26262A;
-    --muted: #9AA0A6;
-    --card: #151517;
-  }
-}
 :root[data-theme="dark"] {
   --paper: #0B0B0C;
   --ink: #F2F2F2;

@@ -12,18 +12,7 @@
   --muted: #767270;
   --bg-highlight: #FFFFFF;
   --bg-fade: #F7F0E7;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #1B140F;
-    --ink: #EDE3D3;
-    --rule: #3A2C21;
-    --roast: #D98A4E;
-    --crema: #35281B;
-    --muted: #A08D74;
-    --bg-highlight: #3D2817;
-    --bg-fade: #000000;
-  }
+  --highlight: #E6B98A;
 }
 :root[data-theme="dark"] {
   --paper: #1B140F;
@@ -34,6 +23,7 @@
   --muted: #A08D74;
   --bg-highlight: #3D2817;
   --bg-fade: #000000;
+  --highlight: #7A4620;
 }
 :root[data-theme="light"] {
   --paper: #F7F0E7;
@@ -44,7 +34,10 @@
   --muted: #767270;
   --bg-highlight: #FFFFFF;
   --bg-fade: #F7F0E7;
+  --highlight: #E6B98A;
 }
+
+::selection { background: var(--highlight); }
 
 @font-face {
   font-family: 'Geist';
@@ -158,6 +151,11 @@ h1 { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 
   h5 { font-size: .95rem; margin: 1.4em 0 .4em; }
   blockquote { margin: 1em 0; padding-left: 1em; border-left: 2px solid var(--rule); color: var(--muted); font-style: italic; }
 }
+.note-body-intro {
+  color: var(--muted);
+  font-size: .95rem;
+  font-weight: 400;
+}
 .note-photo {
   display: block;
   max-width: 100%;
@@ -184,7 +182,6 @@ h1 { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 
 .ledger-head-right { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .ledger-count { font-size: .78rem; color: var(--muted); }
 .ledger-count b { color: var(--roast); font-weight: 700; }
-.ledger-hint { font-size: .78rem; color: var(--muted); margin: 0 0 1rem; }
 
 .view-toggle {
   display: inline-flex;
