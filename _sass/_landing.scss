@@ -57,6 +57,7 @@ body {
   font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 @media (prefers-reduced-motion: no-preference) {
   body, .theme-toggle, a { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
