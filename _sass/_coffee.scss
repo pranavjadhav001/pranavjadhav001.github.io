@@ -56,7 +56,7 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
 body {
   background-color: var(--paper);
   background-image: radial-gradient(150% 150% at 100% 100%, var(--bg-highlight) 0%, var(--bg-fade) 70%);
@@ -219,6 +219,19 @@ h1 { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 
   transform: translateX(-50%);
 }
 
+/* Default view is decided by CSS, not JS, so there's no flash of the
+   900px-wide table on mobile while coffee.js is still loading/running. */
+#cardView { display: none; }
+@media (max-width: 640px) {
+  #tableView { display: none; }
+  #cardView { display: block; }
+}
+/* An explicit toggle click always wins over the viewport default. */
+#ledgerSection[data-view="table"] #tableView { display: block !important; }
+#ledgerSection[data-view="table"] #cardView { display: none !important; }
+#ledgerSection[data-view="cards"] #tableView { display: none !important; }
+#ledgerSection[data-view="cards"] #cardView { display: block !important; }
+
 .coffee-status { text-align: center; color: var(--muted); padding: 2em 0; }
 .coffee-status-error { color: #b23b3b; }
 
@@ -310,6 +323,7 @@ tbody tr.data-row:hover { background: var(--crema); }
   flex-direction: column;
   gap: .5rem;
   min-height: 164px;
+  min-width: 0;
 }
 .bean-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .6rem; min-width: 0; }
 .bean-card-heading { min-width: 0; flex: 1; }
@@ -374,6 +388,7 @@ tbody tr.data-row:hover { background: var(--crema); }
   color: var(--muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  min-width: 0;
 
   span:first-child { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 }
@@ -394,4 +409,7 @@ tbody tr.data-row:hover { background: var(--crema); }
   .masthead { flex-direction: column; }
   .ledger-head-right { width: 100%; justify-content: space-between; }
   .card-grid { grid-template-columns: 1fr; }
+  .view-toggle-btn { padding: .6em 1em; font-size: .72rem; }
+  .th-filter-btn { padding: .4em; margin: -.4em; }
+  .th-sort { display: inline-block; padding: .4em 0; margin: -.4em 0; }
 }

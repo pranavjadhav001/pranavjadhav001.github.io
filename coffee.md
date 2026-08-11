@@ -188,7 +188,7 @@ title: Coffee
     </details>
   </section>
 
-  <section class="ledger">
+  <section class="ledger" id="ledgerSection">
     <div class="ledger-head">
       <h2>Coffee beans</h2>
       <div class="ledger-head-right">
@@ -207,7 +207,7 @@ title: Coffee
       </div>
     </div>
 
-    <div class="card-view" id="cardView" hidden>
+    <div class="card-view" id="cardView">
       <div id="coffee-cards-root">
         <p class="coffee-status">Loading coffee beans&hellip;</p>
       </div>

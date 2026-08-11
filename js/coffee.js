@@ -1,9 +1,10 @@
 (function () {
   "use strict";
 
-  var tableRoot, visibleCountEl, cardView;
+  var tableRoot, visibleCountEl;
   var rows = []; // <tr> elements, once rendered
   var allBeans = [];
+  var currentView = "table"; // kept in sync with #ledgerSection's data-view (CSS decides the actual default)
 
   document.addEventListener("DOMContentLoaded", init);
 
@@ -23,7 +24,10 @@
       .then(function (beans) {
         allBeans = Array.isArray(beans) ? beans : [];
         renderTable(allBeans);
-        if (cardView && !cardView.hidden) renderCards(allBeans);
+        if (currentView === "cards") {
+          renderCards(allBeans);
+          if (visibleCountEl) visibleCountEl.textContent = allBeans.length + " entries";
+        }
       })
       .catch(function () {
         var msg =
@@ -42,18 +46,18 @@
   function wireViewToggle() {
     var tableBtn = document.getElementById("viewToggleTable");
     var cardsBtn = document.getElementById("viewToggleCards");
-    var tableView = document.getElementById("tableView");
+    var ledgerSection = document.getElementById("ledgerSection");
     var hint = document.getElementById("ledgerHint");
-    cardView = document.getElementById("cardView");
-    if (!tableBtn || !cardsBtn || !tableView || !cardView) return;
+    if (!tableBtn || !cardsBtn || !ledgerSection) return;
 
     function setView(view) {
       var isCards = view === "cards";
+      currentView = view;
+      ledgerSection.setAttribute("data-view", view);
       tableBtn.classList.toggle("is-active", !isCards);
       cardsBtn.classList.toggle("is-active", isCards);
-      tableView.hidden = isCards;
-      cardView.hidden = !isCards;
       if (hint) hint.textContent = isCards ? CARD_HINT : TABLE_HINT;
+      if (!allBeans.length) return;
       if (isCards) {
         renderCards(allBeans);
         if (visibleCountEl) visibleCountEl.textContent = allBeans.length + " entries";
@@ -64,6 +68,11 @@
 
     tableBtn.addEventListener("click", function () { setView("table"); });
     cardsBtn.addEventListener("click", function () { setView("cards"); });
+
+    // Table needs 900px of breathing room and a sideways scroll on a phone; the CSS
+    // default already renders cards below the breakpoint, this just keeps the toggle
+    // pill and hint text in sync with what's actually on screen.
+    if (window.matchMedia("(max-width: 640px)").matches) setView("cards");
   }
 
   function wireThemeToggle() {
