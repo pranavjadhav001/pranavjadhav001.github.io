@@ -4,7 +4,7 @@ permalink: /coffee/
 title: Coffee
 ---
 
-<div class="back-link-wrap"><a class="back-link" href="/">&larr; pranavjadhav.github.io</a></div>
+<div class="back-link-wrap"><a class="back-link" href="/">&larr; Home</a></div>
 
 <div class="page">
 
@@ -191,12 +191,26 @@ title: Coffee
   <section class="ledger">
     <div class="ledger-head">
       <h2>Coffee beans</h2>
-      <div class="ledger-count"><b id="visibleCount">&hellip;</b></div>
+      <div class="ledger-head-right">
+        <div class="view-toggle" role="group" aria-label="Choose view">
+          <button type="button" class="view-toggle-btn is-active" id="viewToggleTable" data-view="table">Table</button>
+          <button type="button" class="view-toggle-btn" id="viewToggleCards" data-view="cards">Cards</button>
+        </div>
+        <div class="ledger-count"><b id="visibleCount">&hellip;</b></div>
+      </div>
     </div>
-    <p class="ledger-hint">Click a row for its photo. Click &ldquo;Roast &#9662;&rdquo; to filter, click &ldquo;Purchased&rdquo; to sort.</p>
+    <p class="ledger-hint" id="ledgerHint">Click a row for its photo. Click &ldquo;Roast &#9662;&rdquo; to filter, click &ldquo;Purchased&rdquo; to sort.</p>
 
-    <div id="coffee-table-root">
-      <p class="coffee-status">Loading coffee beans&hellip;</p>
+    <div class="ledger-breakout" id="tableView">
+      <div id="coffee-table-root">
+        <p class="coffee-status">Loading coffee beans&hellip;</p>
+      </div>
+    </div>
+
+    <div class="card-view" id="cardView" hidden>
+      <div id="coffee-cards-root">
+        <p class="coffee-status">Loading coffee beans&hellip;</p>
+      </div>
     </div>
   </section>
 

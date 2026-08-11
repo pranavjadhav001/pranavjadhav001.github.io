@@ -1,13 +1,15 @@
 (function () {
   "use strict";
 
-  var tableRoot, visibleCountEl;
+  var tableRoot, visibleCountEl, cardView;
   var rows = []; // <tr> elements, once rendered
+  var allBeans = [];
 
   document.addEventListener("DOMContentLoaded", init);
 
   function init() {
     wireThemeToggle();
+    wireViewToggle();
 
     tableRoot = document.getElementById("coffee-table-root");
     visibleCountEl = document.getElementById("visibleCount");
@@ -19,12 +21,49 @@
         return res.json();
       })
       .then(function (beans) {
-        renderTable(Array.isArray(beans) ? beans : []);
+        allBeans = Array.isArray(beans) ? beans : [];
+        renderTable(allBeans);
+        if (cardView && !cardView.hidden) renderCards(allBeans);
       })
       .catch(function () {
-        tableRoot.innerHTML =
+        var msg =
           '<p class="coffee-status coffee-status-error">Couldn\'t load the coffee list right now. Try refreshing in a bit.</p>';
+        tableRoot.innerHTML = msg;
+        var cardsRoot = document.getElementById("coffee-cards-root");
+        if (cardsRoot) cardsRoot.innerHTML = msg;
       });
+  }
+
+  /* ---------------- View toggle ---------------- */
+
+  var TABLE_HINT = 'Click a row for its photo. Click “Roast ▾” to filter, click “Purchased” to sort.';
+  var CARD_HINT = "A quick-glance gallery of every bag tried.";
+
+  function wireViewToggle() {
+    var tableBtn = document.getElementById("viewToggleTable");
+    var cardsBtn = document.getElementById("viewToggleCards");
+    var tableView = document.getElementById("tableView");
+    var hint = document.getElementById("ledgerHint");
+    cardView = document.getElementById("cardView");
+    if (!tableBtn || !cardsBtn || !tableView || !cardView) return;
+
+    function setView(view) {
+      var isCards = view === "cards";
+      tableBtn.classList.toggle("is-active", !isCards);
+      cardsBtn.classList.toggle("is-active", isCards);
+      tableView.hidden = isCards;
+      cardView.hidden = !isCards;
+      if (hint) hint.textContent = isCards ? CARD_HINT : TABLE_HINT;
+      if (isCards) {
+        renderCards(allBeans);
+        if (visibleCountEl) visibleCountEl.textContent = allBeans.length + " entries";
+      } else {
+        updateCount();
+      }
+    }
+
+    tableBtn.addEventListener("click", function () { setView("table"); });
+    cardsBtn.addEventListener("click", function () { setView("cards"); });
   }
 
   function wireThemeToggle() {
@@ -56,7 +95,6 @@
     html += "<th>Process</th>";
     html += "<th>Varietal</th>";
     html += "<th>Notes</th>";
-    html += '<th class="num">&#8377;/250g</th>';
     html += '<th><span class="th-sort" id="sortByDate" data-dir="desc">Purchased<span id="sortArrow"> &#8595;</span></span></th>';
     html += "</tr></thead><tbody id=\"ledgerBody\">";
 
@@ -96,7 +134,6 @@
     html += "<td>" + cell(bean.process) + "</td>";
     html += "<td>" + cell(bean.varietal) + "</td>";
     html += "<td>" + notesCell(bean.flavorNotes) + "</td>";
-    html += '<td class="num">' + priceCell(bean.pricePer250g) + "</td>";
     html += "<td>" + cell(bean.purchaseDate) + "</td>";
     html += "</tr>";
     return html;
@@ -126,9 +163,7 @@
   // (temporary) Notion URL the worker returned for this bean.
   var LOCAL_PHOTO_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "gif"];
 
-  function buildPhotoElement(id, liveUrl, altText) {
-    var img = document.createElement("img");
-    img.alt = altText;
+  function wirePhotoFallback(img, id, liveUrl, onExhausted) {
     var extIndex = 0;
 
     function tryNext() {
@@ -140,12 +175,20 @@
         img.src = liveUrl;
       } else {
         img.removeEventListener("error", tryNext);
-        img.replaceWith(emptyPhotoNote());
+        onExhausted();
       }
     }
 
     img.addEventListener("error", tryNext);
     tryNext();
+  }
+
+  function buildPhotoElement(id, liveUrl, altText) {
+    var img = document.createElement("img");
+    img.alt = altText;
+    wirePhotoFallback(img, id, liveUrl, function () {
+      img.replaceWith(emptyPhotoNote());
+    });
     return img;
   }
 
@@ -177,7 +220,7 @@
         detail.className = "detail-row";
         detail.dataset.owner = id;
         var td = document.createElement("td");
-        td.colSpan = 10;
+        td.colSpan = 9;
         var panel = document.createElement("div");
         panel.className = "detail-panel";
         panel.appendChild(buildPhotoElement(id, liveUrl, name));
@@ -291,14 +334,93 @@
     });
   }
 
+  /* ---------------- Card view ---------------- */
+
+  var PIN_ICON =
+    '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-7.58 7-12A7 7 0 0 0 5 10c0 4.42 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+  var PLANT_ICON =
+    '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V13"/><path d="M12 13c0-4 3-6 7-6 0 4-3 7-7 6z"/><path d="M12 13c0-3-2.5-5-6-5 0 3.5 2.5 6 6 5z"/></svg>';
+
+  var ROAST_LEVEL = { "Light": 1, "Light-Medium": 2, "Medium": 3, "Medium-Dark": 4, "Dark": 5 };
+
+  function renderCards(beans) {
+    var root = document.getElementById("coffee-cards-root");
+    if (!root) return;
+    if (beans.length === 0) {
+      root.innerHTML = '<p class="coffee-status">No coffee beans found.</p>';
+      return;
+    }
+
+    root.innerHTML = '<div class="card-grid">' + beans.map(cardHTML).join("") + "</div>";
+  }
+
+  function cardHTML(bean) {
+    var hasLoc = !!bean.origin;
+    var hasVar = !!bean.varietal;
+    var metaParts = [];
+    if (hasLoc) metaParts.push('<span class="bean-card-meta-item">' + PIN_ICON + "<span>" + escapeHtml(bean.origin) + "</span></span>");
+    if (hasLoc && hasVar) metaParts.push('<span class="bean-card-sep"></span>');
+    if (hasVar) metaParts.push('<span class="bean-card-meta-item">' + PLANT_ICON + "<span>" + escapeHtml(bean.varietal) + "</span></span>");
+
+    var notesLine =
+      bean.flavorNotes && bean.flavorNotes.length
+        ? '<div class="bean-card-notes">' + escapeHtml(bean.flavorNotes.join(" · ")) + "</div>"
+        : "";
+
+    return (
+      '<div class="bean-card">' +
+        '<div class="bean-card-top">' +
+          '<div class="bean-card-heading">' +
+            '<div class="bean-card-name">' + escapeHtml(bean.name) + "</div>" +
+            (bean.company ? '<div class="bean-card-company">' + escapeHtml(bean.company) + "</div>" : "") +
+          "</div>" +
+          '<div class="bean-card-roast">' + roastIndicator(bean.roast) + "</div>" +
+        "</div>" +
+        (metaParts.length ? '<div class="bean-card-meta">' + metaParts.join("") + "</div>" : "") +
+        notesLine +
+        '<div class="bean-card-footer"><span>' + cell(bean.process) + "</span><span>" + cardFooterRight(bean) + "</span></div>" +
+      "</div>"
+    );
+  }
+
+  function roastIndicator(roast) {
+    if (!roast) return '<span class="bean-card-omni">Unrated</span>';
+    var level = ROAST_LEVEL[roast];
+    if (!level) return '<span class="bean-card-omni">' + escapeHtml(roast) + "</span>";
+    var dots = "";
+    for (var i = 0; i < 5; i++) dots += beanDot(i < level);
+    return '<div class="bean-card-beans" title="' + escapeHtml(roast) + " roast (" + level + '/5)">' + dots + "</div>";
+  }
+
+  function beanDot(filled) {
+    var fill = filled ? "var(--muted)" : "none";
+    var strokeOpacity = filled ? 1 : 0.35;
+    var creaseColor = filled ? "var(--bg-highlight)" : "var(--muted)";
+    var creaseOpacity = filled ? 0.6 : 0.3;
+    return (
+      '<svg width="8" height="11" viewBox="0 0 9 12" aria-hidden="true">' +
+        '<path d="M4.5.6C2 .6.6 3 .6 6s1.4 5.4 3.9 5.4S8.4 9 8.4 6 7 .6 4.5.6z" fill="' + fill +
+          '" stroke="var(--muted)" stroke-opacity="' + strokeOpacity + '" stroke-width="1"/>' +
+        '<path d="M4.5 1.4v9.2" stroke="' + creaseColor + '" stroke-opacity="' + creaseOpacity + '" stroke-width=".8" stroke-linecap="round"/>' +
+      "</svg>"
+    );
+  }
+
+  function cardFooterRight(bean) {
+    if (!bean.purchaseDate) return '<span class="empty-cell">&mdash;</span>';
+    return escapeHtml(dateLabel(bean.purchaseDate));
+  }
+
+  function dateLabel(dateStr) {
+    var d = new Date(dateStr + "T00:00:00");
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+
   /* ---------------- Cell helpers ---------------- */
 
   function cell(value) {
     return value === null || value === undefined || value === "" ? '<span class="empty-cell">&mdash;</span>' : escapeHtml(String(value));
-  }
-
-  function priceCell(value) {
-    return value === null || value === undefined ? '<span class="empty-cell">&mdash;</span>' : "&#8377;" + escapeHtml(String(value));
   }
 
   function notesCell(tags) {
