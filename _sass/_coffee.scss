@@ -164,10 +164,195 @@ h1 { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 
   margin-bottom: 1.2em;
 }
 
-.equipment-item {
-  margin-bottom: 1.2em;
-  h5 { margin-bottom: .3em; }
-  ul { margin: 0; padding-left: 1.2em; }
+/* ---------------- Equipment grid + detail takeover ---------------- */
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1.4rem 1rem;
+}
+.equipment-card {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+
+  &:focus-visible { outline: 2px solid var(--roast); outline-offset: 4px; }
+}
+.equipment-card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+
+  img { width: 88%; height: 88%; object-fit: contain; transition: transform .2s ease; }
+}
+.equipment-card:hover .equipment-card-image img,
+.equipment-card:focus-visible .equipment-card-image img { transform: scale(1.04); }
+
+.equipment-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--paper);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .5s cubic-bezier(.2, 0, 0, 1);
+  overflow-y: auto;
+}
+.equipment-detail.is-open { opacity: 1; pointer-events: auto; }
+
+body.equipment-open .page,
+body.bean-open .page { opacity: 0; pointer-events: none; transition: opacity .9s ease-out; }
+
+.equipment-detail-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  gap: 2.5rem;
+  padding: clamp(1.5rem, 6vw, 5rem);
+  grid-template-columns: 1fr;
+
+  @media (min-width: 700px) {
+    grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+  }
+}
+.equipment-detail-image {
+  aspect-ratio: 1;
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  opacity: 0;
+  transform: scale(.78);
+  transition: opacity 1s cubic-bezier(.16, 1, .3, 1), transform 1s cubic-bezier(.16, 1, .3, 1);
+
+  img { width: 88%; height: 88%; object-fit: contain; }
+}
+.equipment-detail.is-open .equipment-detail-image { opacity: 1; transform: translate(0, 0) scale(1); }
+
+.equipment-detail-meta {
+  max-width: 44ch;
+  transform-origin: top left;
+  opacity: 0;
+  transform: translate(24px, 18px) scale(.94);
+  transition: opacity .8s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1);
+}
+.equipment-detail.is-open .equipment-detail-meta { opacity: 1; transform: translate(0, 0) scale(1); }
+.equipment-detail-brand { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 .5rem; }
+.equipment-detail-meta h1 { font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 .4rem; }
+.equipment-detail-price { color: var(--roast); font-weight: 600; font-size: .95rem; margin: 0 0 1rem; }
+.equipment-detail-desc { color: var(--ink); font-size: .92rem; line-height: 1.7; margin: 0 0 1.2rem; }
+.equipment-detail-link { font-size: .85rem; font-weight: 600; }
+
+.equipment-detail-hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1.5rem;
+  text-align: center;
+  font-size: .72rem;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity .15s cubic-bezier(.2, 0, 0, 1);
+  pointer-events: none;
+}
+.equipment-detail.is-open .equipment-detail-hint { opacity: 1; }
+
+@media (max-width: 640px) {
+  .equipment-detail-hint { display: none; }
+}
+
+/* ---------------- Bean detail takeover (pouch photo) ---------------- */
+
+.bean-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--paper);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .5s cubic-bezier(.2, 0, 0, 1);
+  overflow-y: auto;
+}
+.bean-detail.is-open { opacity: 1; pointer-events: auto; }
+
+.bean-detail-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  gap: 2.5rem;
+  padding: clamp(1.5rem, 6vw, 5rem);
+  grid-template-columns: 1fr;
+
+  @media (min-width: 700px) {
+    grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+  }
+}
+.bean-detail-image {
+  aspect-ratio: 3 / 4;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  opacity: 0;
+  transform: scale(.78);
+  transition: opacity 1s cubic-bezier(.16, 1, .3, 1), transform 1s cubic-bezier(.16, 1, .3, 1);
+
+  img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+}
+.bean-detail.is-open .bean-detail-image { opacity: 1; transform: translate(0, 0) scale(1); }
+
+.bean-detail-meta {
+  max-width: 44ch;
+  transform-origin: top left;
+  opacity: 0;
+  transform: translate(24px, 18px) scale(.94);
+  transition: opacity .8s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1);
+}
+.bean-detail.is-open .bean-detail-meta { opacity: 1; transform: translate(0, 0) scale(1); }
+.bean-detail-meta h1 { font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 1rem; }
+.bean-detail-fields { border-top: 1px solid var(--rule); }
+.bean-detail-field {
+  display: grid;
+  grid-template-columns: 8.5em 1fr;
+  gap: 1rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: .88rem;
+}
+.bean-detail-field-label { color: var(--muted); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.bean-detail-field-value { color: var(--ink); }
+
+.bean-detail-hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1.5rem;
+  text-align: center;
+  font-size: .72rem;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity .15s cubic-bezier(.2, 0, 0, 1);
+  pointer-events: none;
+}
+.bean-detail.is-open .bean-detail-hint { opacity: 1; }
+
+@media (max-width: 640px) {
+  .bean-detail-hint { display: none; }
 }
 
 .ledger-head {
@@ -217,13 +402,10 @@ h1 { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 
 }
 
 /* Default view is decided by CSS, not JS, so there's no flash of the
-   900px-wide table on mobile while coffee.js is still loading/running. */
-#cardView { display: none; }
-@media (max-width: 640px) {
-  #tableView { display: none; }
-  #cardView { display: block; }
-}
-/* An explicit toggle click always wins over the viewport default. */
+   900px-wide table while coffee.js is still loading/running. Cards are the
+   default everywhere (not just mobile) until the user explicitly toggles. */
+#tableView { display: none; }
+/* An explicit toggle click always wins over the default. */
 #ledgerSection[data-view="table"] #tableView { display: block !important; }
 #ledgerSection[data-view="table"] #cardView { display: none !important; }
 #ledgerSection[data-view="cards"] #tableView { display: none !important; }
@@ -322,7 +504,27 @@ tbody tr.data-row:hover { background: var(--crema); }
   min-height: 164px;
   min-width: 0;
 }
+.bean-card.has-photo {
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color .15s ease, transform .15s ease;
+
+  &:hover, &:focus-visible { border-color: var(--roast); transform: translateY(-1px); }
+  &:focus-visible { outline: 2px solid var(--roast); outline-offset: 2px; }
+}
 .bean-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .6rem; min-width: 0; }
+.bean-card-photo {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
 .bean-card-heading { min-width: 0; flex: 1; }
 .bean-card-name { font-size: .92rem; font-weight: 500; letter-spacing: -0.01em; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bean-card-company {
@@ -408,4 +610,6 @@ tbody tr.data-row:hover { background: var(--crema); }
   .view-toggle-btn { padding: .6em 1em; font-size: .72rem; }
   .th-filter-btn { padding: .4em; margin: -.4em; }
   .th-sort { display: inline-block; padding: .4em 0; margin: -.4em 0; }
+  .equipment-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 1.1rem .75rem; }
+  .equipment-detail-inner { gap: 1.6rem; padding: 3.5rem 1.25rem 4rem; }
 }

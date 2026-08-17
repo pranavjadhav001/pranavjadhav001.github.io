@@ -56,98 +56,9 @@ title: Coffee
     <details class="note-tab">
       <summary>Equipment</summary>
       <div class="note-body">
-
-        <img class="note-photo" src="/img/coffee/equipment.png" alt="Coffee equipment collection">
-
-        <div class="equipment-item">
-          <h5>Flair Pro 2 Manual Espresso Maker</h5>
-          <ul>
-            <li>Bought from <a href="https://www.benkibrewingtools.com/">Benki Brewing Tools</a></li>
-            <li>Price: Rs. 31,000</li>
-            <li><a href="https://www.benkibrewingtools.com/products/flair-pro2-espresso-maker">Product link</a></li>
-          </ul>
+        <div class="equipment-grid" id="equipmentGrid">
+          <p class="coffee-status">Loading equipment&hellip;</p>
         </div>
-
-        <div class="equipment-item">
-          <h5>Hario V60 Pourover</h5>
-          <ul>
-            <li>Bought from <a href="https://somethingsbrewing.in/collections/coffee-makers">Something&rsquo;s Brewing</a></li>
-            <li>Price: Rs. 2,250</li>
-            <li><a href="https://somethingsbrewing.in/products/hario-v60-coffee-server-02-set-manual-brewer-with-server-700ml-copy">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>Timemore Chestnut C3 Hand Grinder</h5>
-          <ul>
-            <li>Bought from <a href="https://somethingsbrewing.in/collections/coffee-makers">Something&rsquo;s Brewing</a></li>
-            <li>Price: Rs. 8,000</li>
-            <li><a href="https://somethingsbrewing.in/products/timemore-c3-hand-grinder">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>Fellow Atmos Vacuum Storage Canister</h5>
-          <ul>
-            <li>Bought from <a href="https://somethingsbrewing.in/collections/coffee-makers">Something&rsquo;s Brewing</a></li>
-            <li>Price: Rs. 3,200</li>
-            <li><a href="https://somethingsbrewing.in/products/fellow-atmos-vacuum-storage-canister-clear-glass">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>Bialetti Brikka Moka Pot</h5>
-          <ul>
-            <li>Bought from Amazon</li>
-            <li>Price: Rs. 9,000</li>
-            <li><a href="https://www.amazon.in/gp/product/B089LZSR7M">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>KitchenTour Coffee Scale</h5>
-          <ul>
-            <li>Bought from Amazon</li>
-            <li>Price: Rs. 1,600</li>
-            <li><a href="https://www.amazon.in/gp/product/B083PX1VHG">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>WDT Coffee Stirrer</h5>
-          <ul>
-            <li>Bought from Amazon</li>
-            <li>Price: Rs. 400</li>
-            <li><a href="https://www.amazon.in/gp/product/B0CQM658F8">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>Instacuppa Milk Frother</h5>
-          <ul>
-            <li>Got as a gift</li>
-            <li><a href="https://amzn.in/d/fgrqYsy">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>Instacuppa French Press</h5>
-          <ul>
-            <li>Bought from Amazon</li>
-            <li>Price: Rs. 1,500</li>
-            <li><a href="https://amzn.in/d/fgrqYsy">Product link</a></li>
-          </ul>
-        </div>
-
-        <div class="equipment-item">
-          <h5>Sipologie Gooseneck Electric Kettle</h5>
-          <ul>
-            <li>Bought from Sipologie</li>
-            <li>Price: Rs. 4,500</li>
-            <li><a href="https://sipologie.in/products/sipologie-precision-electric-gooseneck-kettle-2">Product link</a></li>
-          </ul>
-        </div>
-
       </div>
     </details>
 
@@ -192,8 +103,8 @@ title: Coffee
       <h2>Coffee beans tried</h2>
       <div class="ledger-head-right">
         <div class="view-toggle" role="group" aria-label="Choose view">
-          <button type="button" class="view-toggle-btn is-active" id="viewToggleTable" data-view="table">Table</button>
-          <button type="button" class="view-toggle-btn" id="viewToggleCards" data-view="cards">Cards</button>
+          <button type="button" class="view-toggle-btn" id="viewToggleTable" data-view="table">Table</button>
+          <button type="button" class="view-toggle-btn is-active" id="viewToggleCards" data-view="cards">Cards</button>
         </div>
         <div class="ledger-count"><b id="visibleCount">&hellip;</b></div>
       </div>
@@ -215,7 +126,18 @@ title: Coffee
 
 </div>
 
+<div class="equipment-detail" id="equipmentDetail" aria-hidden="true">
+  <div class="equipment-detail-inner" id="equipmentDetailInner"></div>
+  <p class="equipment-detail-hint">Click anywhere outside to return</p>
+</div>
+
+<div class="bean-detail" id="beanDetail" aria-hidden="true">
+  <div class="bean-detail-inner" id="beanDetailInner"></div>
+  <p class="bean-detail-hint">Click anywhere outside to return</p>
+</div>
+
 <script>
   window.COFFEE_WORKER_URL = "https://coffee-beans-proxy.pranavjadhav001.workers.dev/coffee-beans";
 </script>
 <script src="/js/coffee.js"></script>
+<script src="/js/equipment.js"></script>

@@ -1,19 +1,106 @@
 (function () {
   "use strict";
 
+  // Maps a ledger row's Notion page id to its AI-rendered pouch photo in
+  // img/coffee/3d/. Built from img/coffee/3d/mapping.md -- only ~51 of the
+  // 86 ledger rows have a matching render, the rest are intentionally absent.
+  var POUCH_IMAGES = {
+    "180f2382-6e38-800e-8e8b-c3b6bca68f4e": "satchmo+bloom-coffee-roasters-2.webp",
+    "1a4f2382-6e38-809c-b2d2-ebd7a60b875b": "ijen-lestari-java+gb-roasters.webp",
+    "1a4f2382-6e38-80e5-a62c-f7b527e3dcfc": "el-burro-gesha+gb-roasters.webp",
+    "180f2382-6e38-8016-bdbc-cb4c9005e2df": "project-pearl-ratnagiri-estate+subko.webp",
+    "302f2382-6e38-80d3-adb6-fcaaebe6e763": "project-pearl-ratnagiri-estate+subko-2.webp",
+    "2a0f2382-6e38-8009-987f-fd21419d609f": "yemen-ahmed-bin-ahmed-naturals+coffee-libre.webp",
+    "2a0f2382-6e38-8062-893f-f93c6d21bcbb": "honduras-coe-4th-place-goldmund-collection+coffee-libre.webp",
+    "2cff2382-6e38-805c-9987-e1dbaf6e74ef": "ekata-estate-best-of-gundikhan+gb-roastery.webp",
+    "18ff2382-6e38-80ef-abb9-f0dd830209ae": "wubanchi-yirgacheffe+gb-roasters.webp",
+    "25ef2382-6e38-803c-a79d-dc11ef378bf5": "yung-gun+subko.webp",
+    "180f2382-6e38-80a8-8863-c887e2f4e011": "project-sankalp-garo-hills+subko.webp",
+    "180f2382-6e38-80ac-9298-dd144af18e77": "vienna-roast+blue-tokai.webp",
+    "180f2382-6e38-80b1-afc4-dfee5aa4dbf6": "ethiopia-gedeb-metad-natural+blue-bottle-coffee.webp",
+    "180f2382-6e38-80b7-8a12-c9014617c0ab": "red-honey+roast-the-caffeine-capital.webp",
+    "180f2382-6e38-80b9-93d5-c8f7d21f6164": "s-orange+bacha-coffee.webp",
+    "25ef2382-6e38-8093-a0c7-c81d17bb0942": "arabica-blend+arabica.webp",
+    "180f2382-6e38-80be-a67c-c6755f1ee030": "sumatra-mandheling+gb-roasters.webp",
+    "180f2382-6e38-80bf-b0a9-c95f5ef5c34a": "columbia-huila-monteblanco+arabica.webp",
+    "180f2382-6e38-80c0-9d6d-ead840703e33": "thogarihunkal-estate+blue-tokai.webp",
+    "180f2382-6e38-80c2-ba47-e7313bf1c9c3": "nosy-lucy+veronicas.webp",
+    "180f2382-6e38-80c3-9118-d325de4880dc": "hosabane-estate+blue-tokai.webp",
+    "180f2382-6e38-80db-b293-cd79b106a9c4": "salawara-blend+ground-up.webp",
+    "180f2382-6e38-80e5-b6d2-c29ba98917c5": "hidden-falls+7-to-9-grams.webp",
+    "180f2382-6e38-80e7-b80b-e633e92303a1": "kolli-berri-estate+blue-tokai.webp",
+    "180f2382-6e38-80ef-9466-e14e760dab56": "gundikhan-estate+blue-tokai.webp",
+    "180f2382-6e38-800e-9adf-e707b1bab30d": "pearl-mountain+earth-roastery.webp",
+    "180f2382-6e38-801e-afcd-e8eeccc835ef": "red-honey+kc-roasters.webp",
+    "180f2382-6e38-804d-8c6f-e04ef2de794f": "the-rose-coffee+greysoul.webp",
+    "180f2382-6e38-805f-98f0-cf2bb5d577ef": "blue-danube+bacha-coffee.webp",
+    "180f2382-6e38-807c-a5d2-c7459cf6e12c": "columbia-geisha+gb-roasters.webp",
+    "180f2382-6e38-807f-af03-e866dd15348f": "m-s-estate+blue-tokai.webp",
+    "180f2382-6e38-808d-bec4-dc841a7410c1": "thogarihunkal-estate-hsd+blue-tokai.webp",
+    "180f2382-6e38-809f-8d9a-fcd54655e352": "mango-punch+fraction9.webp",
+    "291f2382-6e38-8030-b8d3-f8c541c82f06": "chiang-mai-doi-inthanon-peacerry-farm+sarnies.webp",
+    "180f2382-6e38-8006-98d9-d750901f2177": "monsoon-malabar-aa+naivo.webp",
+    "180f2382-6e38-8025-ba0b-c5bd83ec9c2e": "salawara-estate-espresso-blend+beanlore.webp",
+    "180f2382-6e38-8030-87ac-df9563dedf46": "koji-fermented-naturals+subko.webp",
+    "180f2382-6e38-8037-b672-d74d1aadb588": "starbucks-reserve-tokyo+starbucks.webp",
+    "180f2382-6e38-8040-b159-cf16335ee6af": "1910+bacha-coffee.webp",
+    "180f2382-6e38-8045-82be-f07196710614": "high-octane-coffee+grind-bar.webp",
+    "180f2382-6e38-8046-9ddb-fd1311765841": "seethargundu-estate+blue-tokai.webp",
+    "180f2382-6e38-8049-b8a6-f199140c1247": "howdia-estate+blue-tokai.webp",
+    "180f2382-6e38-8051-bd73-c2b1d2028aa4": "kwatz.webp",
+    "180f2382-6e38-8069-9bad-c28cb6d63119": "coffee-rooster+coffee-rooster.webp",
+    "180f2382-6e38-8074-9e24-f19d5fda0dd0": "cima-yeast-fermented-natural-baarbara-estate+blue-tokai.webp",
+    "201f2382-6e38-80ab-9328-cd0f252e08bf": "baarbara-estate+gb-roasters.webp",
+    "201f2382-6e38-80ea-84f7-e1d1124b98d7": "mudremane-estate+gb-roasters.webp",
+    "234f2382-6e38-8046-8288-ce5120967f6f": "zebra-blend+zebra.webp",
+    "245f2382-6e38-8062-ba6f-e2bfb21c4ac1": "odisha-fermented-naturals+greysoul.webp",
+    "291f2382-6e38-80bc-96a4-e8c06b36fcd3": "brazil-sitio-passaredo-red-catuai+cobbled-roastery-edinburgh.webp",
+    "180f2382-6e38-8086-afd9-cd1c8057458c": "nicaragua-jinotega-las-delicias+arabica.webp",
+    "180f2382-6e38-8058-9844-fbb65204c62b": "gundikhan-estate+curious-life.webp",
+    "180f2382-6e38-803a-863a-c40a1560592f": "zunheboto-naturals+greysoul-roasters.webp",
+    "1e4f2382-6e38-8034-b9b5-edd01144dc0c": "ratnagiri-estate-alchemy+subko.webp",
+    "1e4f2382-6e38-80ac-a8ec-da84290a8061": "ethiopia-hamasho-village+gb-roasters.webp",
+    "302f2382-6e38-8097-9a36-daa8330d7157": "macinato-fresh+kimbo.webp",
+    "3a9f2382-6e38-817e-93d5-e1f21c5a8cdb": "haven+beanrove.webp",
+    "302f2382-6e38-8061-8c93-c3a2f54fe404": "honduras-by-rush+rush-coffee-roasters.webp",
+    "302f2382-6e38-80e9-9970-ca42d8d188f1": "flower-ferry+korero.webp",
+    "302f2382-6e38-80f6-a634-ec45d7a7434e": "anthology+korero-coffee-roasters.webp",
+    "302f2382-6e38-8063-a995-f0b7c4992f79": "gravity+korero.webp",
+    "180f2382-6e38-80a8-bab1-d266cd12c311": "rohan-bopannas-masterblend+mavericks-and-farmers.webp",
+    "180f2382-6e38-801a-b454-f369c7610701": "tall-dark-handsome+mavericks-and-farmers.webp",
+    "180f2382-6e38-80e5-8d38-c369c83e48a5": "selection+araku.webp",
+    "180f2382-6e38-800a-b864-cde1ac035045": "signature+araku.webp",
+    "3bff2382-6e38-8175-a803-cfa688ccc508": "honduras-las-virginias-lot-278+stellar-coffee.webp",
+    "3bff2382-6e38-812f-9e71-c2b5dc547a27": "atok-benguet+commune.webp",
+    "3bff2382-6e38-81de-b8aa-e0106aadbebb": "depth+beanrove.webp",
+    "3bff2382-6e38-81e1-bb87-c4001499df1d": "peaberry-atok-benguet+commune.webp"
+  };
+
+  function pouchImage(id) {
+    var file = POUCH_IMAGES[id];
+    return file ? "/img/coffee/3d/" + file : null;
+  }
+
   var tableRoot, visibleCountEl;
   var rows = []; // <tr> elements, once rendered
   var allBeans = [];
-  var currentView = "table"; // kept in sync with #ledgerSection's data-view (CSS decides the actual default)
+  var beanById = {};
+  var currentView = "cards"; // kept in sync with #ledgerSection's data-view (CSS decides the actual default: cards, everywhere)
+  var beanDetail, beanDetailInner, beanBody;
+  var lastFocusedBean = null;
 
   document.addEventListener("DOMContentLoaded", init);
 
   function init() {
     wireThemeToggle();
     wireViewToggle();
+    wireBeanDetailClose();
 
     tableRoot = document.getElementById("coffee-table-root");
     visibleCountEl = document.getElementById("visibleCount");
+    beanDetail = document.getElementById("beanDetail");
+    beanDetailInner = document.getElementById("beanDetailInner");
+    beanBody = document.body;
     if (!tableRoot || !window.COFFEE_WORKER_URL) return;
 
     fetch(window.COFFEE_WORKER_URL)
@@ -23,6 +110,8 @@
       })
       .then(function (beans) {
         allBeans = Array.isArray(beans) ? beans : [];
+        beanById = {};
+        allBeans.forEach(function (b) { if (b.id) beanById[b.id] = b; });
         renderTable(allBeans);
         if (currentView === "cards") {
           renderCards(allBeans);
@@ -63,11 +152,6 @@
 
     tableBtn.addEventListener("click", function () { setView("table"); });
     cardsBtn.addEventListener("click", function () { setView("cards"); });
-
-    // Table needs 900px of breathing room and a sideways scroll on a phone; the CSS
-    // default already renders cards below the breakpoint, this just keeps the toggle
-    // pill and hint text in sync with what's actually on screen.
-    if (window.matchMedia("(max-width: 640px)").matches) setView("cards");
   }
 
   function wireThemeToggle() {
@@ -208,6 +292,12 @@
       row.addEventListener("click", function (e) {
         if (e.target.closest("a, button")) return;
 
+        var bean = beanById[row.dataset.key];
+        if (bean && pouchImage(bean.id)) {
+          openBeanDetail(bean, null);
+          return;
+        }
+
         var existing = row.nextElementSibling;
         if (existing && existing.classList.contains("detail-row") && existing.dataset.owner === row.dataset.key) {
           existing.remove();
@@ -233,6 +323,101 @@
         row.parentNode.insertBefore(detail, row.nextSibling);
         row.querySelector(".expand-arrow").textContent = "▾";
       });
+    });
+  }
+
+  /* ---------------- Bean detail takeover (pouch photo) ---------------- */
+
+  function beanMetaHTML(bean) {
+    var fields = [
+      ["Roaster", bean.company],
+      ["Process", bean.process],
+      ["Varietal", bean.varietal],
+      ["Location", bean.origin],
+      ["Price", bean.pricePer250g ? "Rs. " + bean.pricePer250g + " / 250g" : null],
+      ["Purchased on", bean.purchaseDate ? dateLabel(bean.purchaseDate) : null],
+      ["Notes", bean.flavorNotes && bean.flavorNotes.length ? bean.flavorNotes.join(", ") : null]
+    ];
+
+    var rows = fields
+      .filter(function (f) { return !!f[1]; })
+      .map(function (f) {
+        return '<div class="bean-detail-field"><span class="bean-detail-field-label">' + escapeHtml(f[0]) +
+          '</span><span class="bean-detail-field-value">' + escapeHtml(f[1]) + "</span></div>";
+      })
+      .join("");
+
+    // Roast has no text row -- the bean-dot design (same as the card view) stands in for it.
+    if (bean.roast) {
+      rows += '<div class="bean-detail-field"><span class="bean-detail-field-label">Roast</span>' +
+        '<span class="bean-detail-field-value">' + roastIndicator(bean.roast) + "</span></div>";
+    }
+
+    return "<h1>" + escapeHtml(bean.name) + "</h1>" + '<div class="bean-detail-fields">' + rows + "</div>";
+  }
+
+  function openBeanDetail(bean, triggerEl) {
+    if (!beanDetail || !beanDetailInner) return;
+    var photo = pouchImage(bean.id);
+    if (!photo) return;
+
+    lastFocusedBean = triggerEl || null;
+
+    beanDetailInner.innerHTML =
+      '<div class="bean-detail-image"><img src="' + photo + '" alt="' + escapeHtml(bean.name) + '"></div>' +
+      '<div class="bean-detail-meta">' + beanMetaHTML(bean) + "</div>";
+
+    beanDetail.setAttribute("aria-hidden", "false");
+
+    var imageWrap = beanDetailInner.querySelector(".bean-detail-image");
+    var metaWrap = beanDetailInner.querySelector(".bean-detail-meta");
+    var thumb = triggerEl ? triggerEl.querySelector(".bean-card-photo") : null;
+    var startRect = thumb ? thumb.getBoundingClientRect() : null;
+
+    // Same FLIP treatment as the equipment detail takeover: pin the image to
+    // where the clicked card's thumbnail sits on screen, then release the pin
+    // so it grows/moves into its full-size laid-out position.
+    requestAnimationFrame(function () {
+      if (imageWrap) {
+        imageWrap.style.transition = "none";
+        if (startRect) {
+          var endRect = imageWrap.getBoundingClientRect();
+          var scale = endRect.width ? startRect.width / endRect.width : 0.78;
+          var dx = (startRect.left + startRect.width / 2) - (endRect.left + endRect.width / 2);
+          var dy = (startRect.top + startRect.height / 2) - (endRect.top + endRect.height / 2);
+          imageWrap.style.transform = "translate(" + dx + "px, " + dy + "px) scale(" + scale + ")";
+        }
+      }
+      if (metaWrap) metaWrap.style.transition = "none";
+
+      requestAnimationFrame(function () {
+        beanBody.classList.add("bean-open");
+        beanDetail.classList.add("is-open");
+        if (imageWrap) {
+          imageWrap.style.transition = "";
+          imageWrap.style.transform = "";
+        }
+        if (metaWrap) metaWrap.style.transition = "";
+      });
+    });
+  }
+
+  function closeBeanDetail() {
+    beanBody.classList.remove("bean-open");
+    beanDetail.classList.remove("is-open");
+    beanDetail.setAttribute("aria-hidden", "true");
+    if (lastFocusedBean && typeof lastFocusedBean.focus === "function") lastFocusedBean.focus();
+  }
+
+  function wireBeanDetailClose() {
+    var detail = document.getElementById("beanDetail");
+    var inner = document.getElementById("beanDetailInner");
+    if (!detail) return;
+    detail.addEventListener("click", function (event) {
+      if (event.target === detail || event.target === inner) closeBeanDetail();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && detail.classList.contains("is-open")) closeBeanDetail();
     });
   }
 
@@ -356,6 +541,7 @@
     }
 
     root.innerHTML = '<div class="card-grid">' + beans.map(cardHTML).join("") + "</div>";
+    wireCardExpansion(root);
   }
 
   function cardHTML(bean) {
@@ -371,9 +557,15 @@
         ? '<div class="bean-card-notes">' + escapeHtml(bean.flavorNotes.join(" · ")) + "</div>"
         : "";
 
+    var photo = pouchImage(bean.id);
+    var photoThumb = photo
+      ? '<span class="bean-card-photo"><img src="' + photo + '" alt="" loading="lazy"></span>'
+      : "";
+
     return (
-      '<div class="bean-card">' +
+      '<div class="bean-card' + (photo ? " has-photo" : "") + '"' + (photo ? ' data-id="' + escapeHtml(bean.id) + '" tabindex="0" role="button" aria-label="View ' + escapeHtml(bean.name) + ' pouch"' : "") + '>' +
         '<div class="bean-card-top">' +
+          photoThumb +
           '<div class="bean-card-heading">' +
             '<div class="bean-card-name">' + escapeHtml(bean.name) + "</div>" +
             (bean.company ? '<div class="bean-card-company">' + escapeHtml(bean.company) + "</div>" : "") +
@@ -387,8 +579,21 @@
     );
   }
 
+  function wireCardExpansion(root) {
+    Array.prototype.slice.call(root.querySelectorAll(".bean-card.has-photo")).forEach(function (card) {
+      function open() {
+        var bean = beanById[card.getAttribute("data-id")];
+        if (bean) openBeanDetail(bean, card);
+      }
+      card.addEventListener("click", open);
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+      });
+    });
+  }
+
   function roastIndicator(roast) {
-    if (!roast) return '<span class="bean-card-omni">Unrated</span>';
+    if (!roast) return "";
     var level = ROAST_LEVEL[roast];
     if (!level) return '<span class="bean-card-omni">' + escapeHtml(roast) + "</span>";
     var dots = "";
