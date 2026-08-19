@@ -209,7 +209,7 @@ section:last-child { margin-bottom: 0; }
 .writing-row:hover .writing-arrow { opacity: 1; transform: translateX(0); }
 .writing-date { color: var(--muted); font-size: .8rem; flex-shrink: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
 
-.writing-row--draft, .writing-list .writing-row--draft:hover { cursor: default; opacity: .7; }
+.writing-row--draft, .writing-list .writing-row--draft:hover { cursor: default; opacity: .85; }
 .writing-row--draft .writing-title { color: var(--muted); cursor: default; pointer-events: none; }
 .writing-draft-label { font-style: italic; letter-spacing: .02em; }
 
