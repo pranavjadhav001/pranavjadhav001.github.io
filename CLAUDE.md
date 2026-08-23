@@ -35,3 +35,7 @@ There are no lint or test commands/scripts in this repo — it's a static Jekyll
 
 - To add or update a post: add/edit a `.md` file under `_posts/`, following the existing front-matter shape (see any file in `_posts/` for the template — `layout`, `position`, `title`, `date`, `categories`, `tags`, `featured_image`, `project_link`, `button_icon`, `button_text`, `lead_text`).
 - To change the home page hero title/description/buttons: edit `_includes/home-hero.html`.
+
+## Instructions when writing content
+- Avoid emdash
+
