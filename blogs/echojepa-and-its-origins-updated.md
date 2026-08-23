@@ -1,6 +1,6 @@
 ---
 layout: blog
-permalink: /blogs/echojepa-and-its-origins-updated/
+permalink: /blogs/echojepa-and-its-origins/
 title: 'Echo(JEPA) and Its Origins'
 lead: "How Yann LeCun's bet against pixel prediction became the largest latent-predictive foundation model built for the heart."
 date: 2026-08-11
