@@ -12,6 +12,13 @@
   --bg-highlight: #FFFFFF;
   --bg-fade: #F7F0E7;
   --highlight: #F0C36D;
+  /* rose-pine-dawn, for code blocks */
+  --code-bg: #FFFFFF;
+  --code-keyword: #286983;
+  --code-string: #EA9D34;
+  --code-number: #907AA9;
+  --code-function: #56949F;
+  --code-comment: #797593;
 }
 :root[data-theme="dark"] {
   --paper: #0F172A;
@@ -21,6 +28,12 @@
   --bg-highlight: #16233A;
   --bg-fade: #000000;
   --highlight: #475569;
+  --code-bg: #1a1f21;
+  --code-keyword: #B8A6FF;
+  --code-string: #FBBF24;
+  --code-number: #7DB4FF;
+  --code-function: #5EEAD4;
+  --code-comment: #94A3B8;
 }
 :root[data-theme="light"] {
   --paper: #F7F0E7;
@@ -30,6 +43,13 @@
   --bg-highlight: #FFFFFF;
   --bg-fade: #F7F0E7;
   --highlight: #F0C36D;
+  /* rose-pine-dawn, for code blocks */
+  --code-bg: #FFFFFF;
+  --code-keyword: #286983;
+  --code-string: #EA9D34;
+  --code-number: #907AA9;
+  --code-function: #56949F;
+  --code-comment: #797593;
 }
 
 ::selection { background: var(--highlight); }
@@ -68,7 +88,7 @@ body {
   body, .theme-toggle, a { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
 }
 
-a { color: var(--ink); text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+a { color: var(--ink); text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--muted); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
 a:hover { text-decoration-color: var(--ink); }
 
 .back-link-wrap {
@@ -215,6 +235,16 @@ h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing:
 .prose details.collapsible[open] summary::before { transform: rotate(90deg); }
 .prose details.collapsible summary h3 { display: inline; margin: 0; }
 .prose details.collapsible summary:hover h3 { color: var(--ink); }
+.prose details.collapsible summary h4 {
+  display: inline;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--ink);
+}
+.prose details.collapsible summary:hover h4 { color: var(--ink); }
 .prose details.collapsible > *:not(summary):first-of-type { margin-top: .9rem; }
 .prose h4 { font-size: .88rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.6rem 0 .6rem; }
 .prose p { line-height: 1.75; margin: 0 0 1.2rem; max-width: 68ch; }
@@ -224,8 +254,16 @@ h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing:
 .prose li:last-child { margin-bottom: 0; }
 .prose li ul, .prose li ol { margin: .6em 0 0; }
 .prose strong { font-weight: 600; }
+.prose blockquote {
+  border-left: 3px solid var(--rule);
+  padding: .1rem 1.2rem;
+  margin: 1.2rem 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+.prose blockquote p:last-child { margin-bottom: 0; }
 .prose code {
-  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   font-size: .88em;
   background: color-mix(in srgb, var(--ink) 6%, var(--paper));
   padding: .15em .4em;
@@ -243,8 +281,104 @@ h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing:
   color: var(--ink);
 }
 .pull-quote cite { display: block; margin-top: .6rem; font-size: .78rem; font-weight: 400; color: var(--muted); font-style: normal; }
+.pull-quote cite a { color: var(--muted); }
+.pull-quote cite a:hover { color: var(--ink); }
 
 .lead-term { color: var(--muted); font-size: .99em; font-weight: 600; }
+
+/* ---------------- Flow diagram (vertical step chain, e.g. tokenizer -> model -> output) ---------------- */
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.4rem 0;
+}
+.flow-step {
+  width: 100%;
+  max-width: 46ch;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: .6rem 1rem;
+  background: color-mix(in srgb, var(--ink) 3%, var(--paper));
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: .84rem;
+  line-height: 1.6;
+  text-align: center;
+}
+.flow-step p { margin: 0; }
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.4;
+  padding: .35rem 1rem;
+  text-align: center;
+  max-width: 42ch;
+}
+.flow-arrow .glyph {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1;
+}
+
+/* ---------------- Stage flow (horizontal pipeline of named stages) ---------------- */
+.stage-flow {
+  display: flex;
+  align-items: stretch;
+  margin: 1.6rem 0;
+}
+.stage-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: .9rem 1rem;
+  background: color-mix(in srgb, var(--ink) 3%, var(--paper));
+}
+.stage-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 1.2rem;
+  padding: 0 .4rem;
+}
+.stage-label {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin: 0 0 .3rem;
+}
+.stage-name {
+  font-size: .88rem;
+  font-weight: 700;
+  margin: 0 0 .5rem;
+  line-height: 1.3;
+}
+.stage-desc {
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0 0 .6rem;
+}
+.stage-outcome {
+  font-size: .76rem;
+  line-height: 1.55;
+  margin: auto 0 0;
+  padding-top: .6rem;
+  border-top: 1px dashed var(--rule);
+}
+@media (max-width: 640px) {
+  .stage-flow { flex-direction: column; }
+  .stage-connector { transform: rotate(90deg); padding: .3rem 0; }
+}
 
 .note {
   margin: 1.2rem 0;
@@ -266,8 +400,14 @@ h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing:
   font-weight: 700;
 }
 
-.formula {
-  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+.code-filename {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: .8rem;
+  color: var(--muted);
+  margin: 1.2rem 0 -.6rem;
+}
+.formula, pre.formula {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   font-size: .85rem;
   background: color-mix(in srgb, var(--ink) 5%, var(--paper));
   border: 1px solid var(--rule);
@@ -278,6 +418,43 @@ h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing:
   line-height: 1.7;
   max-width: 100%;
 }
+pre.formula {
+  white-space: pre-wrap;
+  background: var(--code-bg);
+  border-color: var(--muted);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+pre.formula code {
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre-wrap;
+  text-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* ---------------- Code syntax highlighting (Prism.js: core + clike + python), rose-pine-dawn palette ---------------- */
+.token.comment { color: var(--code-comment); font-style: italic; }
+.token.string { color: var(--code-string); }
+.token.number, .token.boolean { color: var(--code-number); }
+.token.keyword, .token.operator { color: var(--code-keyword); }
+.token.function { color: var(--code-function); }
+.token.class-name { color: var(--code-function); font-weight: 600; }
+.token.decorator, .token.builtin { color: var(--code-keyword); }
+.token.punctuation { color: var(--code-comment); }
+
+/* ---------------- Code syntax highlighting (Rouge, build-time, no client JS) ---------------- */
+.highlight .c, .highlight .c1, .highlight .cm { color: var(--code-comment); font-style: italic; }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sa { color: var(--code-string); }
+.highlight .m, .highlight .mi, .highlight .mf { color: var(--code-number); }
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv, .highlight .o {
+  color: var(--code-keyword);
+}
+.highlight .nf { color: var(--code-function); }
+.highlight .nc { color: var(--code-function); font-weight: 600; }
+.highlight .nb, .highlight .bp { color: var(--code-keyword); }
+.highlight .p { color: var(--code-comment); }
 
 /* ---------------- Figures (real diagrams, from the slides / excalidraw source) ---------------- */
 .figure { margin: 1.6rem 0; }
@@ -471,6 +648,7 @@ h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing:
   background: color-mix(in srgb, var(--highlight) 22%, transparent);
   border-radius: 4px;
 }
+.blog-table .hl td { font-weight: 700; color: var(--ink); }
 p.table-caption { font-size: .78rem; color: var(--muted); margin: .5rem 0 0; max-width: none; }
 .table-caption strong { color: var(--ink); }
 
@@ -506,7 +684,7 @@ p.table-caption { font-size: .78rem; color: var(--muted); margin: .5rem 0 0; max
 }
 .sources { margin-top: 2rem; }
 .sources h2 { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; margin: 0 0 .8rem; }
-.sources ol { margin: 0; padding-left: 1.3em; font-size: .84rem; line-height: 1.8; color: var(--muted); }
+.sources ol { margin: 0; padding-left: 0; list-style-position: inside; font-size: .84rem; line-height: 1.8; color: var(--muted); }
 .sources a { color: var(--muted); }
 .sources a:hover { color: var(--ink); }
 
@@ -634,6 +812,13 @@ p.table-caption { font-size: .78rem; color: var(--muted); margin: .5rem 0 0; max
 .diagram-wrap .sub { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 11.5px; font-weight: 400; fill: var(--d-ink-soft); }
 .diagram-wrap .clbl { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 13.5px; font-weight: 700; fill: var(--d-teal-strong); }
 .diagram-wrap .shapetxt { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 12px; font-weight: 700; fill: var(--d-red); }
+.diagram-wrap .heat-dark { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 13px; font-weight: 700; fill: var(--d-ink); }
+.diagram-wrap .heat-light { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 13px; font-weight: 700; fill: var(--d-paper); }
+.diagram-wrap .heat-pred-correct rect { fill: var(--d-teal-strong); fill-opacity: .18; stroke: var(--d-teal-strong); stroke-width: 2; }
+.diagram-wrap .heat-pred-correct text { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 13px; font-weight: 700; fill: var(--d-teal-strong); }
+.diagram-wrap .heat-pred-wrong rect { fill: var(--d-paper); stroke: var(--d-red); stroke-width: 3; }
+.diagram-wrap .heat-pred-wrong text { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 13px; font-weight: 700; fill: var(--d-red); }
+.diagram-wrap .pred-actual { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 11px; font-weight: 400; fill: var(--d-red); }
 .diagram-wrap .skiplbl { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 10.5px; font-weight: 400; fill: var(--d-red); opacity: 0.9; letter-spacing: 0.02em; }
 .diagram-wrap .addsym { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 19px; font-weight: 700; fill: var(--d-red); }
 .diagram-wrap .term { fill: var(--d-paper); stroke: var(--d-teal); stroke-width: 2.4; }
