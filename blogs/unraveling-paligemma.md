@@ -6,6 +6,7 @@ lead: "Notes on PaliGemma, a lightweight open vision-language model built from S
 date: 2026-09-12
 mathjax: true
 code: false
+social_image: /img/blogs/paligemma-3b/paligemma-social.png
 ---
 
 <div class="back-link-wrap"><a class="back-link" href="/">&larr; Home</a></div>
@@ -107,6 +108,11 @@ code: false
   </nav>
 
   <div class="prose">
+
+    <figure class="figure" style="max-width:900px;margin:0 auto 2rem;">
+      <img src="/img/blogs/paligemma-3b/paligemma-teaser.gif" alt="Animated teaser: a photo of a cat licking its paw is split into a patch grid on the left, labeled Image Patches, while the prompt 'what is the cat doing' and the generated answer 'the cat is licking its paw' build on the right. As each answer word is generated, matching image patches light up -- the cat's head for 'cat', its mouth for 'licking', its paw for 'paw' -- while filler words like 'the' and 'is' light up the whole image faintly." style="display:block;width:100%;height:auto;border-radius:18px;">
+      <figcaption class="figure-caption" style="text-align:center;">How PaliGemma sees a good orange boi</figcaption>
+    </figure>
 
     <section style="margin-bottom: 1.5rem;">
       <h2 id="venturing-into-the-unknown">Venturing into the Unknown</h2>
