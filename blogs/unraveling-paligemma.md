@@ -872,7 +872,7 @@ Take the sentence <strong>"My name is pranav"</strong>: row-wise softmax turns e
 
       <div class="diagram-wrap">
         <figure>
-<svg viewBox="0 0 484 464" role="img">
+<svg viewBox="0 0 484 464" style="width:60%;min-width:0;max-width:100%;margin:0 auto;" role="img">
 <text x="284.0" y="24" class="lbl" text-anchor="middle">key</text>
 <text x="24" y="268.0" class="lbl" text-anchor="middle" transform="rotate(-90 24 268.0)">query</text>
 <text x="152.0" y="78" class="sub" text-anchor="middle">My</text>
