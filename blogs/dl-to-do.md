@@ -1,0 +1,20 @@
+- [ ] decide fate of the stray "How is ML different than DL?" section (rename to "what makes it deep" or fold into weights section, it currently just restates section 1's title)
+- [ ] what are weights?
+  - [ ] generalize m, c to a matrix: y = Wx + b is the same line, just many of it at once
+  - [ ] stacking linear layers alone is still linear (WA * WB = one W), so a nonlinearity between layers is what actually makes it "deep"
+  - [ ] small figure: single line fitting rent vs sqft, next to stacked layers fitting something a line can't
+  - [ ] explain gradient descent at this scale
+    - [ ] call back explicitly to the m,c nudge-loop and its animation already in section 1: "same loop, now on millions of weights instead of two"
+    - [ ] backprop is that same chain rule, just chained through more functions/layers instead of one
+    - [ ] maybe a mini chalk animation: 2-layer toy network, gradient flowing backward layer by layer
+    - [ ] preview vanishing/exploding gradients here, sets up why RNN/LSTM struggled (next section's problem)
+- [ ] how text generation worked before RNNs and LSTMs
+- [ ] how "Attention Is All You Need" changed the paradigm
+- [ ] what is self-attention, and how does it work?
+- [ ] from attention to a full transformer block: multi-head attention, RoPE, layernorm, residuals
+- [ ] autoregressive decoding: reframe everything before this as "training", this section introduces "inference" as its own problem
+- [ ] the KV cache: memory vs compute tradeoff, reuse/adapt the MHA vs MQA memory math already done in unraveling-paligemma.md instead of rederiving
+- [ ] batching: static batching's limits, continuous/in-flight batching
+- [ ] speculative decoding: draft-and-verify, rejection sampling, reuse the chalkboarding skill's own reference figures (EAGLE-3, DFlash, rejection sampling) built for exactly this topic
+- [ ] quantization: lower-precision weights/activations
+- [ ] capstone: how it all fits into a serving system (scheduler + paged KV cache + continuous batching + speculative decoding), the actual "LLM inference engineering" payoff

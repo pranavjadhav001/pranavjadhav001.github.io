@@ -31,6 +31,12 @@ There are no lint or test commands/scripts in this repo — it's a static Jekyll
 - **Styling**: `css/style.scss` plus `_sass/_bootstrap.scss` and `_sass/_mixins.scss` (Bootstrap-based). `css/animate.min.css` and `js/wow.min.js` drive the scroll-triggered `wow fadeIn` animations used when looping posts in `home.html`.
 - `_plugins/` is empty (just `.gitkeep`) — no custom Jekyll plugins currently.
 
+## Design guidelines for blog posts
+
+Posts under `blogs/*.md` (front matter `layout: blog` — separate from the Phantom home theme covered above) follow a shared design system documented in **`design-guidelines.md`**. Read it before adding or restyling any post component: page shell/front matter, tokens, masthead/TOC, formula boxes, figures + lightbox, `.diagram-wrap` architecture diagrams, tables, stage-flow, and the rest of the component catalog. It was written from `blogs/unraveling-paligemma.md` as the reference implementation. New reusable components belong in `_sass/_blogs.scss`, not inline per-post CSS.
+
+For an animated/explainer figure — a mechanism unfolding as a sequence of beats, rather than a static technical diagram — use the **chalkboarding** skill (`/chalkboarding`) instead of hand-rolling animation. `design-guidelines.md`'s "Animated/explainer figures" section covers when to reach for it versus `.diagram-wrap`, and how to wire the resulting figure into a post (output directory convention, iframe embed, the `postMessage` height-sync listener).
+
 ## Editing conventions (from README.md)
 
 - To add or update a post: add/edit a `.md` file under `_posts/`, following the existing front-matter shape (see any file in `_posts/` for the template — `layout`, `position`, `title`, `date`, `categories`, `tags`, `featured_image`, `project_link`, `button_icon`, `button_text`, `lead_text`).
