@@ -73,7 +73,16 @@
     "3bff2382-6e38-8175-a803-cfa688ccc508": "honduras-las-virginias-lot-278+stellar-coffee.webp",
     "3bff2382-6e38-812f-9e71-c2b5dc547a27": "atok-benguet+commune.webp",
     "3bff2382-6e38-81de-b8aa-e0106aadbebb": "depth+beanrove.webp",
-    "3bff2382-6e38-81e1-bb87-c4001499df1d": "peaberry-atok-benguet+commune.webp"
+    "3bff2382-6e38-81e1-bb87-c4001499df1d": "peaberry-atok-benguet+commune.webp",
+    "3e1f2382-6e38-81b9-83de-eb56c73c97d3": "berry-me-softly+bitter-waters-coffee.webp",
+    "3e1f2382-6e38-8131-8765-fb954c4e13a6": "koraput-odissi-coffee+gb-roasters.webp",
+    "3e1f2382-6e38-81db-afa0-e9c884c10033": "juicy-allegations+bitter-waters-coffee.webp",
+    "3e1f2382-6e38-81d5-9937-f2638b9de0fc": "spiced-opinions+bitter-waters-coffee.webp",
+    "3e1f2382-6e38-8112-9167-cf5c8d286089": "nagaland-mokokchung-sl9+gb-roasters.webp",
+    "3e1f2382-6e38-8132-a3b8-f038a677668a": "citrusly-speaking+bitter-waters-coffee.webp",
+    "3e1f2382-6e38-81cb-814c-c4551d8f47a7": "bon-bock-cafe+bitter-waters-coffee.webp",
+    "3e1f2382-6e38-816f-97a3-e4446dc9c86d": "padmna-ribang-gayo+gb-roasters.webp",
+    "3e1f2382-6e38-81bc-b02b-c7ed078cd782": "ethiopia-bombe-1+gb-roasters.webp"
   };
 
   function pouchImage(id) {

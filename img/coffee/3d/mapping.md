@@ -10,7 +10,7 @@ Filenames follow `<coffee-name-slug>+<roaster-slug>.webp` (no roaster suffix
 if none was legible on the pouch). A `-2`/`-3` suffix marks a duplicate
 render of the same coffee.
 
-## Matched (72 images → 69 ledger rows)
+## Matched (81 images → 78 ledger rows)
 
 | Image file | Ledger name | Ledger company | Note |
 |---|---|---|---|
@@ -86,6 +86,15 @@ render of the same coffee.
 | `atok-benguet+commune.webp` | Atok, Benguet | Commune | ledger row created 2026-08-17 from this pouch |
 | `depth+beanrove.webp` | Depth | Beanrove | ledger row created 2026-08-17 from this pouch (same Project Sarada / Beanrove series as Haven); Process "Deep Time Natural" and Roast "Medium" (read off the pouch's dot indicator, not explicitly labeled) were added as new options in this run |
 | `peaberry-atok-benguet+commune.webp` | Peaberry Atok, Benguet | Commune | ledger row created 2026-08-17 from this pouch |
+| `berry-me-softly+bitter-waters-coffee.webp` | Berry Me Softly | Bitter Waters Coffee | ledger row created 2026-09-20 from this pouch |
+| `koraput-odissi-coffee+gb-roasters.webp` | Koraput - Odissi Coffee | GB Roasters | ledger row created 2026-09-20 from this pouch |
+| `juicy-allegations+bitter-waters-coffee.webp` | Juicy Allegations | Bitter Waters Coffee | ledger row created 2026-09-20 from this pouch |
+| `spiced-opinions+bitter-waters-coffee.webp` | Spiced Opinions | Bitter Waters Coffee | ledger row created 2026-09-20 from this pouch |
+| `nagaland-mokokchung-sl9+gb-roasters.webp` | Nagaland - Mokokchung SL9 | GB Roasters | ledger row created 2026-09-20 from this pouch |
+| `citrusly-speaking+bitter-waters-coffee.webp` | Citrusly Speaking | Bitter Waters Coffee | ledger row created 2026-09-20 from this pouch |
+| `bon-bock-cafe+bitter-waters-coffee.webp` | Bon Bock Café | Bitter Waters Coffee | ledger row created 2026-09-20 from this pouch |
+| `padmna-ribang-gayo+gb-roasters.webp` | Padmna Ribang Gayo | GB Roasters | ledger row created 2026-09-20 from this pouch |
+| `ethiopia-bombe-1+gb-roasters.webp` | Ethiopia Bombe #1 | GB Roasters | ledger row created 2026-09-20 from this pouch |
 
 ## Unmatched images (3)
 
