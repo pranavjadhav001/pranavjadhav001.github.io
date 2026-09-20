@@ -104,3 +104,81 @@ No secrets ever reach the browser. New Notion rows appear on next page load (wor
 4. Check responsive layout at mobile width (table should scroll horizontally, toolbar controls should wrap, not break page layout).
 5. Confirm the worker rejects requests from other origins (e.g. `curl -H "Origin: https://evil.example"` should not get the CORS header) so the endpoint isn't casually scraped.
 6. Confirm nav link and home-hero link both point at `/coffee/` and the old raw Notion link is gone from the homepage.
+
+## Update (2026-09-20): the plan above is stale for photos — read this first
+
+Everything above describes the *original* design. Since then, `js/coffee.js` grew a
+second, separate photo mechanism that the sections above don't mention, and it's the
+one that actually matters for what you see on the page:
+
+- **Default "cards" view** (`currentView = "cards"`, CSS forces this everywhere) renders
+  each bean's thumbnail from `pouchImage(bean.id)`, which looks the Notion page id up in
+  a **hardcoded `POUCH_IMAGES` map at the top of `js/coffee.js`** and points at
+  `img/coffee/3d/<file>.webp`. These are hand-picked "AI-rendered pouch photos", not
+  auto-synced. Only beans present in this map get a thumbnail — everything else renders
+  with no photo at all.
+- `img/coffee/3d/mapping.md` is the living log of that map: which image file matches
+  which ledger row, plus a running history of additions/edits.
+- **`img/coffee/beans/`** (`scripts/sync-coffee-images.js`, described above) still exists
+  and is still real, but it's now only a **fallback for the legacy table-row-expand code
+  path** (`wireRowExpansion`), which the cards-view CSS may not even make reachable. Don't
+  assume dropping a photo there does anything visible — it didn't, and cost a full
+  extra debugging round trip to figure out (see git history around 2026-09-20,
+  commits `ba45628` then the fix in `e11e105`).
+
+### Runbook: adding a new bean (with photo) end to end
+
+1. **Create the Notion row.** Use the Notion MCP tools against data source
+   `collection://3ea563b7-762f-4163-82be-96d565d0ed49` (fetch it first for the current
+   schema/options — `Process` and `Flavor Notes` are locked `select`/`multi_select` lists).
+   - `Process` (single select, ~44 options as of 2026-09-20): if the value you want isn't
+     an existing option, `notion-update-data-source` with `ALTER COLUMN "Process" SET
+     SELECT(...)` can add it — but you must pass **every existing option verbatim with its
+     color**, not just the new one, or you'll silently drop the others. Build the
+     statement programmatically from a fresh schema fetch rather than hand-typing it.
+   - `Flavor Notes` (multi-select) is **stuck at 124 options**, already over Notion's
+     API-enforced cap of 100 for writes. You cannot add a new tag here via the API without
+     first removing existing ones (untouched as of 2026-09-20, pending the site owner's
+     review of what's safe to prune). Until then, put any flavor note that isn't an
+     existing option into the `Deductions` text field instead of forcing a mismatch.
+   - `Looks` (file property): do **not** set this in the same `notion-create-pages` call —
+     passing a bare file-upload-id string there fails with `"File ... not found"`. Instead:
+     1. `notion-create-file-upload` → get `file_upload_id` + `upload_url` + `upload_headers`.
+     2. Immediately `curl -X POST <upload_url> -H "authorization: <upload_headers.authorization>" -F "file=@photo.png;type=image/png"`.
+        Do this right away — the upload slot's authorization is short-lived.
+     3. Create the page (properties only, no `Looks`, `content: ""`).
+     4. `notion-update-page` on that page, `command: "update_properties"`, with
+        `{"Looks": [{"type": "file_upload", "file_upload": {"id": "<file_upload_id>"}}]}`.
+        This is the only shape that actually resolves — `notion-create-pages`'s plain
+        string-array format for file properties doesn't work.
+   - Note the new page's id (dashed UUID, e.g. `3e1f2382-6e38-81b9-83de-eb56c73c97d3`) —
+     you need it for the next step.
+
+2. **Prep the photo for `img/coffee/3d/`.** Existing pouch images are `.webp`, ~630-650px
+   wide, ~50-100KB. Resize/convert with Pillow (or similar) to match, e.g.:
+   ```python
+   from PIL import Image
+   im = Image.open(src).convert("RGB")
+   w, h = im.size
+   im = im.resize((640, int(h * 640 / w)), Image.LANCZOS)
+   im.save(dst, "WEBP", quality=82)
+   ```
+   Name it `<coffee-name-slug>+<roaster-slug>.webp` (see `img/coffee/3d/mapping.md` for
+   the exact convention, including the `-2`/`-3` suffix for duplicate renders).
+
+3. **Wire it up in code:**
+   - Add `"<notion-page-id>": "<filename>.webp"` to `POUCH_IMAGES` in `js/coffee.js`.
+   - Add a row to the "Matched" table in `img/coffee/3d/mapping.md` (bump the count in
+     its header too).
+
+4. **Do not** also drop the photo in `img/coffee/beans/` — it's not read by the default
+   view and just adds dead weight (see the stale-plan note above).
+
+5. **Commit and push to `main`** (or a feature branch + PR, per whatever the site owner
+   prefers that day) — GitHub Pages rebuilds automatically on push to `main`, no CI step
+   needed. Give it a minute or two after pushing before checking the live site.
+
+6. **Verify** on the live site (not just locally) — the bean *data* (name/roast/notes)
+   comes from a live Notion fetch through the Cloudflare Worker and shows up immediately
+   regardless of git state; only the *photo* depends on the `main` branch actually being
+   deployed with the `img/coffee/3d/` file + `POUCH_IMAGES` entry.
