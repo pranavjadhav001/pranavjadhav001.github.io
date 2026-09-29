@@ -80,7 +80,7 @@ title: About
   </section>
 
   <div class="resume-cta">
-    <a class="resume-btn" href="/resume/25-04-2026_resume.pdf" target="_blank" rel="noopener">Download Resume</a>
+    <a class="resume-btn" href="/resume/14-09-2026_resume.pdf" target="_blank" rel="noopener">Download Resume</a>
   </div>
 
 </div>
