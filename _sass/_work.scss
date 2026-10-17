@@ -1,0 +1,42 @@
+/*--------------------------------------------------------------
+  Work pages (/work/<company>/): a sticky side column
+  and numbered project cards. Reuses the blog tokens and type.
+--------------------------------------------------------------*/
+
+.work-page { max-width: 1120px; margin: 0 auto; padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 6rem; }
+.back-link-wrap.is-wide { max-width: 1120px; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+.work-page .masthead { margin-bottom: 1.5rem; border-bottom: none; padding-bottom: 0; }
+.work-page .company-link { font-size: .9rem; color: var(--muted); text-decoration: none; }
+.work-page .company-link:hover { color: var(--ink); text-decoration: underline; }
+
+/* ---------------- Two columns ---------------- */
+.work-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 3.5rem; align-items: start; }
+.work-side { position: sticky; top: 2rem; font-size: .88rem; }
+.side-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 .9rem; }
+.side-block + .side-block { margin-top: 2.2rem; }
+.work-side .timeline { margin: 0; }
+.work-side .timeline-item { padding-bottom: 1.2rem; }
+.work-side .timeline-title { font-size: .9rem; margin: .15rem 0 .25rem; }
+.work-side .timeline-desc { font-size: .8rem; line-height: 1.55; color: var(--muted); }
+
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.chips li { font-size: .76rem; border: 1px solid var(--rule); border-radius: 999px; padding: .2rem .65rem; background: var(--bg-highlight); }
+
+/* ---------------- Project cards ---------------- */
+.project { padding-bottom: 3rem; margin-bottom: 3rem; border-bottom: 1px solid var(--rule); scroll-margin-top: 2rem; }
+.project:last-child { border-bottom: none; margin-bottom: 0; }
+.project-head { display: flex; align-items: baseline; gap: .9rem; margin-bottom: 1rem; }
+.project-num { font-size: .8rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.project-head h2 { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin: 0; }
+.project .chalk-figure { margin: 0 0 1.4rem; }
+
+.project-body p { margin: 0 0 1rem; font-size: .95rem; line-height: 1.65; }
+.project-body p:last-child { margin-bottom: 0; }
+
+.hard { margin-top: 1.6rem; padding-left: 1rem; border-left: 2px solid var(--rule); }
+.hard p { margin: 0; font-size: .9rem; line-height: 1.7; }
+
+@media (max-width: 860px) {
+  .work-grid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .work-side { position: static; }
+}
