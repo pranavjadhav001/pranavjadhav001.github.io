@@ -45,6 +45,17 @@
 {{ content }}
 
 <script>
+  // chalk figures post their rendered height; size the matching iframe to fit
+  window.addEventListener("message", function (e) {
+    var d = e.data;
+    if (!d || typeof d.chalkHeight !== "number") return;
+    document.querySelectorAll(".chalk-figure iframe").forEach(function (f) {
+      if (f.contentWindow === e.source) f.style.height = d.chalkHeight + "px";
+    });
+  });
+</script>
+
+<script>
   (function () {
     var overlay = document.createElement("div");
     overlay.className = "lightbox-overlay";

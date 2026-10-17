@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline inspection station</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F5F4EF" stop-opacity="1"/><stop offset=".4" stop-color="#F5F4EF" stop-opacity=".85"/><stop offset="1" stop-color="#F5F4EF" stop-opacity=".22"/></linearGradient>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">one station on the shop floor</div>
+    <svg class="scene" viewBox="0 0 900 440" aria-label="A top camera over a conveyor feeds a Jetson. The screen logs each part; a reject arm drops the scratched one into a bin.">
+      <!-- ===== floor, ceiling, conveyor ===== -->
+      <g class="el wv" data-t="0.2">
+        <path class="stroke faint" d="M20,426 L880,424"/>
+        <path class="stroke faint" d="M290,18 L640,19"/>
+        <path class="stroke" d="M52,318 L628,318 M52,342 L628,342"/>
+        <circle class="stroke" cx="52" cy="330" r="12"/>
+        <circle class="stroke" cx="628" cy="330" r="12"/>
+        <circle class="stroke dim" cx="200" cy="330" r="5"/>
+        <circle class="stroke dim" cx="365" cy="330" r="5"/>
+        <circle class="stroke dim" cx="500" cy="330" r="5"/>
+        <path class="stroke dim" d="M95,342 L92,425 M540,342 L543,425"/>
+        <text class="lbl" x="250" y="372">conveyor</text>
+        <text class="lbl l" x="60" y="280" style="font-size:17px">parts in</text>
+        <path class="stroke dim" d="M62,292 L130,292 M120,285 L131,292 L120,299"/>
+      </g>
+
+      <!-- ===== top camera ===== -->
+      <g class="el wv" data-t="0.9">
+        <path class="stroke dim" d="M365,19 L365,48"/>
+        <rect class="stroke" x="338" y="48" width="54" height="32" rx="4"/>
+        <rect class="stroke" x="355" y="80" width="20" height="10" rx="2"/>
+        <text class="lbl l" x="402" y="70">top camera</text>
+      </g>
+      <path class="stroke dim dash el wv" data-t="1.6" d="M362,94 L314,312"/>
+      <path class="stroke dim dash el wv" data-t="1.6" d="M368,94 L416,312"/>
+      <path id="flash" class="wv" d="M365,94 L314,312 L416,312 Z" fill="rgba(245,244,239,.16)" opacity="0"/>
+
+      <!-- ===== jetson + no wifi ===== -->
+      <g class="el wv" data-t="2.4">
+        <rect class="stroke" x="470" y="170" width="120" height="60" rx="6"/>
+        <path class="stroke dim" d="M484,178 L484,194 M494,178 L494,194 M504,178 L504,194 M514,178 L514,194 M524,178 L524,194 M534,178 L534,194 M544,178 L544,194 M554,178 L554,194 M564,178 L564,194 M574,178 L574,194"/>
+        <text class="lbl ink" x="530" y="220" style="font-size:20px">jetson</text>
+        <text class="lbl" x="530" y="254" style="font-size:16px">nano / xavier</text>
+      </g>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.4" d="M392,64 Q470,66 500,168"/>
+      <g class="el wv2" data-t="3.0">
+        <path class="stroke" d="M498,120 Q520,100 542,120 M505,128 Q520,115 535,128"/>
+        <circle class="fillc" cx="520" cy="136" r="2.6"/>
+        <path class="stroke amber" d="M500,100 L540,140 M540,100 L500,140"/>
+        <text class="lbl l" x="552" y="126" style="font-size:17px">no wifi here</text>
+      </g>
+
+      <!-- ===== screen + operator ===== -->
+      <g class="el wv" data-t="3.0">
+        <rect class="stroke" x="660" y="34" width="224" height="140" rx="7"/>
+        <path class="stroke" d="M772,174 L772,198 M742,200 L802,199"/>
+        <text class="lbl" x="772" y="64" style="font-size:16px">station log</text>
+        <path class="stroke faint" d="M676,74 L868,74"/>
+      </g>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.0" d="M590,200 Q640,204 662,150"/>
+      <g class="wv">
+        <text class="lbl l ink el" data-t="4.9" x="676" y="104" style="font-size:18px">#1 ok</text>
+        <text class="lbl l ink el" data-t="5.4" x="738" y="104" style="font-size:18px">13/13</text>
+        <text class="lbl l ink el" data-t="5.9" x="798" y="104" style="font-size:18px">DG23J</text>
+        <text class="lbl l amber el" data-t="9.2" x="676" y="140" style="font-size:18px">#2 scratch</text>
+        <text class="lbl l amber el" data-t="9.7" x="790" y="140" style="font-size:18px">reject</text>
+      </g>
+      <g class="el wv2" data-t="3.4">
+        <circle class="stroke" cx="842" cy="262" r="13"/>
+        <path class="stroke" d="M842,275 L842,345 M842,292 L816,262 M842,292 L866,318 M842,345 L824,424 M842,345 L860,424"/>
+      </g>
+
+      <!-- ===== reject arm, bins ===== -->
+      <g class="el wv" data-t="2.0">
+        <path class="stroke dim" d="M605,19 L605,236"/>
+        <circle class="stroke" cx="605" cy="242" r="6"/>
+      </g>
+      <g id="arm" class="el wv" data-t="2.0">
+        <path class="stroke" d="M0,6 L0,52"/>
+        <rect class="stroke" x="-13" y="52" width="26" height="8" rx="2"/>
+      </g>
+      <text class="lbl el" data-t="2.0" x="672" y="262" style="font-size:16px">reject arm</text>
+      <g class="el wv" data-t="2.0">
+        <path class="stroke" d="M560,372 L566,420 L644,420 L650,372"/>
+        <text class="lbl" x="605" y="364" style="font-size:16px">reject</text>
+        <path class="stroke" d="M672,372 L678,420 L776,420 L782,372"/>
+        <text class="lbl" x="727" y="364" style="font-size:16px">ok</text>
+      </g>
+
+      <!-- ===== the two parts ===== -->
+      <g id="p1" class="wv" opacity="0">
+        <rect class="stroke" x="-22" y="-26" width="44" height="26" rx="3"/>
+        <circle class="stroke" cx="0" cy="-13" r="6"/>
+      </g>
+      <g id="p2" class="wv" opacity="0">
+        <rect class="stroke" x="-22" y="-26" width="44" height="26" rx="3"/>
+        <circle class="stroke" cx="0" cy="-13" r="6"/>
+        <path class="stroke amber" d="M-17,-21 L-11,-16 L-14,-12 L-6,-7"/>
+      </g>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var p1 = document.getElementById('p1'), p2 = document.getElementById('p2');
+  var arm = document.getElementById('arm'), flash = document.getElementById('flash');
+  var status = document.getElementById('status');
+  var BELT = 318, CAM = 365, END = 12.4;
+
+  function ease(a){ a = Math.max(0, Math.min(1, a)); return a * a * (3 - 2 * a); }
+  function lerp(a, b, k){ return a + (b - a) * k; }
+  function place(g, x, y, on){ g.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')'); g.setAttribute('opacity', on ? 1 : 0); }
+
+  function paint(t){
+    // part 1: in, stop under the camera, on to the ok crate
+    var x1 = t < 6.4 ? lerp(60, CAM, ease((t - 3.4) / 1.2)) : lerp(CAM, 640, ease((t - 6.4) / 0.9));
+    var y1 = BELT;
+    if (t > 7.3){ var f = ease((t - 7.3) / 0.5); x1 = lerp(640, 727, f); y1 = lerp(BELT, 416, f * f); }
+    place(p1, x1, y1, t >= 3.4);
+
+    // part 2: in, stop, scratch found, kicked into the reject bin
+    var x2 = t < 9.9 ? lerp(60, CAM, ease((t - 7.6) / 1.2)) : lerp(CAM, 605, ease((t - 9.9) / 0.7));
+    var y2 = BELT;
+    if (t > 10.8){ var g = ease((t - 10.8) / 0.5); y2 = lerp(BELT, 416, g * g); }
+    place(p2, x2, y2, t >= 7.6);
+
+    // arm rests swung up, sweeps down at 10.6, eases back
+    var swing = t < 10.6 ? 0 : t < 10.9 ? ease((t - 10.6) / 0.3) : 1 - ease((t - 11.3) / 0.6);
+    arm.setAttribute('transform', 'translate(605,242) rotate(' + lerp(-118, -4, swing).toFixed(1) + ')');
+
+    // camera flash as each part stops
+    var fl = Math.max(0, 1 - Math.abs(t - 4.75) / 0.18) + Math.max(0, 1 - Math.abs(t - 8.95) / 0.18);
+    flash.setAttribute('opacity', Math.min(1, fl).toFixed(2));
+
+    status.textContent =
+      t < 3.4 ? 'a camera above the line, a small computer beside it' :
+      t < 7.6 ? 'part 1: snap, check for defects, count, read the batch' :
+      t < 10.6 ? 'part 2: a scratch' :
+      'rejected. every model ran on the box, no cloud';
+  }
+
+  chalkFigure({ END: END, paint: paint });
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+/* board.css: the shared chalkboard frame for /work figures (from the chalkboarding template).
+   Pair with chalky.css (font, tilt, dirty slate) and player.js. */
+:root{
+  --_serif: var(--serif, Georgia, 'Iowan Old Style', 'Times New Roman', serif);
+  --chalk:#F5F4EF;
+  --chalk-dim:rgba(245,244,239,.55);
+  --board:#12291d;
+  --frame:#7A5230;
+  --amber:#F2C879;
+}
+/* PencilPete has no digits or symbols; Architects Daughter (OFL) fills those glyphs in */
+@font-face{font-family:"ArchitectsDaughter";src:url("ArchitectsDaughter-Regular.ttf") format("truetype");}
+*{box-sizing:border-box}
+html{zoom:0.8}
+body{margin:0;padding:0 0 4px;background:transparent;font-family:var(--_serif)}
+.wrap{max-width:940px;margin:0 auto}
+body.standalone{min-height:calc(100vh / 0.8);display:flex;align-items:center;justify-content:center;padding:24px 12px}
+body.standalone .wrap{width:100%}
+.board{background:var(--frame);border-radius:16px;padding:12px;position:relative}
+.slate{
+  font-family:'PencilPete','ArchitectsDaughter',cursive;position:relative;border-radius:10px;padding:22px 30px 50px;color:var(--chalk);
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(255,255,255,0.045), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 75% 70%, rgba(255,255,255,0.035), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 55% 15%, rgba(255,255,255,0.03), transparent 60%),
+    var(--board);
+}
+.title{font-size:1.5rem;letter-spacing:.05em;text-align:center;color:var(--chalk);margin:2px 0 4px}
+.status{font-size:1.2rem;color:var(--chalk-dim);text-align:center;height:26px;line-height:26px;white-space:nowrap;overflow:hidden;margin-top:2px}
+
+/* svg primitives */
+.scene{display:block;width:100%;height:auto}
+.scene .stroke{fill:none;stroke:var(--chalk);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.scene .dim{stroke:var(--chalk-dim)}
+.scene .faint{stroke:rgba(245,244,239,.3)}
+.scene .dash{stroke-dasharray:6 7}
+.scene .amber{stroke:var(--amber)}
+.scene .fillc{fill:var(--chalk)}
+.scene .lbl{font-family:'PencilPete','ArchitectsDaughter',cursive;fill:var(--chalk-dim);font-size:19px;text-anchor:middle}
+.scene .lbl.l{text-anchor:start}
+.scene .lbl.big{fill:var(--chalk);font-size:24px}
+.scene .lbl.ink{fill:var(--chalk)}
+.scene .lbl.amber{fill:var(--amber)}
+.scene .wv{filter:url(#slip1)}
+.scene .wv2{filter:url(#slip2)}
+
+/* reveals: .el fades in at data-t, .draw strokes itself on at data-t (needs pathLength="1") */
+.el{opacity:0;transition:opacity .45s}
+.el.show{opacity:1}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1s ease}
+.draw.on{stroke-dashoffset:0}
+
+.replay{position:absolute;bottom:16px;right:26px;z-index:2;display:flex;align-items:center;gap:9px;background:none;border:none;cursor:pointer;padding:0}
+.replay svg{display:block;filter:url(#slip2)}
+.replay .eraser{width:34px;height:17px;border-radius:3px;flex:none;
+  background:linear-gradient(#e9e7e2 0%, #cfccc5 58%, #57544d 59%, #45423c 100%);
+  box-shadow:0 1.5px 2.5px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.7)}
+.replay:hover .eraser{filter:brightness(1.08)}
+.replay:focus-visible{outline:2px solid rgba(245,244,239,.6);outline-offset:3px}
+@media(max-width:640px){.slate{padding:14px 10px 46px}.status{font-size:1rem}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}

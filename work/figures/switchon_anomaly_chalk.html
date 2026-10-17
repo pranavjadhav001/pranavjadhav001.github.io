@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn good parts only</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F5F4EF" stop-opacity="1"/><stop offset=".4" stop-color="#F5F4EF" stop-opacity=".85"/><stop offset="1" stop-color="#F5F4EF" stop-opacity=".22"/></linearGradient>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">learn what "good" looks like</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 430" aria-label="An autoencoder trained only on good parts cannot rebuild a scratch, so the difference between input and rebuild highlights the defect.">
+      <defs>
+        <radialGradient id="glow"><stop offset="0" stop-color="#F2C879" stop-opacity=".95"/><stop offset=".55" stop-color="#F2C879" stop-opacity=".45"/><stop offset="1" stop-color="#F2C879" stop-opacity="0"/></radialGradient>
+      </defs>
+
+      <!-- ===== train row ===== -->
+      <text class="lbl l ink el" data-t="0.2" x="30" y="34">train: good parts only</text>
+      <g class="part el wv" data-t="0.5" data-x="80" data-y="105"></g>
+      <g class="part el wv" data-t="0.9" data-x="165" data-y="105"></g>
+      <g class="part el wv" data-t="1.3" data-x="250" data-y="105"></g>
+      <path class="stroke draw wv" pathLength="1" data-t="1.8" d="M298,105 L348,105 M338,98 L349,105 L338,112"/>
+      <g class="el wv" data-t="2.3">
+        <path class="stroke" d="M362,60 L444,90 L444,120 L362,150 Z"/>
+        <rect class="stroke dim" x="449" y="93" width="22" height="24" rx="3"/>
+        <path class="stroke" d="M476,90 L558,60 L558,150 L476,120 Z"/>
+        <text class="lbl" x="400" y="176" style="font-size:16px">squeeze</text>
+        <text class="lbl" x="522" y="176" style="font-size:16px">rebuild</text>
+      </g>
+      <path class="stroke draw wv" pathLength="1" data-t="3.0" d="M570,105 L620,105 M610,98 L621,105 L610,112"/>
+      <g class="part el wv" data-t="3.4" data-x="672" data-y="105"></g>
+      <text class="lbl l el" data-t="3.6" x="722" y="111">good in, good out</text>
+
+      <path class="stroke faint dash el" data-t="4.2" d="M24,208 L876,206"/>
+
+      <!-- ===== test row ===== -->
+      <text class="lbl l ink el" data-t="4.4" x="30" y="244">test: a part with a scratch</text>
+      <g class="part el wv" data-t="4.7" data-x="90" data-y="315" data-scratch="1"></g>
+      <path class="stroke draw wv" pathLength="1" data-t="5.2" d="M138,315 L184,315 M174,308 L185,315 L174,322"/>
+      <g class="el wv" data-t="5.5">
+        <path class="stroke" d="M196,270 L278,300 L278,330 L196,360 Z"/>
+        <rect class="stroke dim" x="283" y="303" width="22" height="24" rx="3"/>
+        <path class="stroke" d="M310,300 L392,270 L392,360 L310,330 Z"/>
+      </g>
+      <path class="stroke draw wv" pathLength="1" data-t="6.2" d="M404,315 L450,315 M440,308 L451,315 L440,322"/>
+      <g class="part el wv" data-t="6.6" data-x="500" data-y="315"></g>
+      <text class="lbl el" data-t="7.0" x="500" y="384" style="font-size:17px">no scratch:</text>
+      <text class="lbl el" data-t="7.0" x="500" y="406" style="font-size:17px">it never learned one</text>
+
+      <path class="stroke draw wv" pathLength="1" data-t="7.7" d="M552,315 L712,315 M702,308 L713,315 L702,322"/>
+      <text class="lbl ink el" data-t="7.7" x="632" y="302">|input - rebuild|</text>
+      <g class="part el wv faintpart" data-t="8.1" data-x="770" data-y="315"></g>
+      <circle class="el" data-t="8.5" cx="785" cy="300" r="20" fill="url(#glow)"/>
+      <circle class="stroke amber dash el wv" data-t="9.1" cx="785" cy="300" r="27"/>
+      <text class="lbl amber el" data-t="9.1" x="770" y="395">the scratch lights up</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  // a flange: rim, bore, four bolt holes. Built once, revealed by paint
+  var NS = 'http://www.w3.org/2000/svg';
+  function add(g, tag, attrs){
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    g.appendChild(n); return n;
+  }
+  document.querySelectorAll('.part').forEach(function(g){
+    var x = +g.dataset.x, y = +g.dataset.y;
+    var cls = g.classList.contains('faintpart') ? 'stroke faint' : 'stroke';
+    add(g, 'circle', {'class': cls, cx: x, cy: y, r: 34});
+    add(g, 'circle', {'class': cls, cx: x, cy: y, r: 11});
+    [[22,0],[-22,0],[0,22],[0,-22]].forEach(function(d){
+      add(g, 'circle', {'class': cls + ' dim', cx: x + d[0], cy: y + d[1], r: 4});
+    });
+    if (g.dataset.scratch) add(g, 'path', {'class': 'stroke amber', d: 'M' + (x+6) + ',' + (y-26) + ' l5,6 l-2,4 l6,4 l-1,5 l8,4'});
+  });
+
+  var status = document.getElementById('status');
+  chalkFigure({ END: 10.6, paint: function(t){
+    status.textContent =
+      t < 4.4 ? 'it only ever sees good parts, and learns to squeeze and rebuild them' :
+      t < 7.7 ? 'a scratch goes in, a clean part comes out' :
+      'the difference is the defect';
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

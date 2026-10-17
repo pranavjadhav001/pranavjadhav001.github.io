@@ -58,7 +58,7 @@ title: About
       <div class="job-dates">Aug 2019 - Jun 2022</div>
       <div class="job-body">
         <h3>Switchon <span class="job-role">&middot; Computer Vision Engineer</span></h3>
-        <div class="job-location">Bangalore</div>
+        <div class="job-location">Bangalore<span class="sep"> &middot; </span><a class="job-link" href="/work/switchon/">How it worked &rarr;</a></div>
         <ul>
           <li>Deployed a <strong>Surface Inspection</strong> product using unsupervised anomaly detection methods capable of identifying mm-level defects.</li>
           <li>Built a <strong>0 to 1 OCR product</strong>, designing and implementing models for character and word recognition tailored to real-world industrial environments.</li>

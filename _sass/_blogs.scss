@@ -471,6 +471,15 @@ pre.formula code {
 .figure-caption { font-size: .8rem; color: var(--muted); margin: .6rem 0 0; line-height: 1.55; }
 .figure-caption b { color: var(--ink); }
 
+/* ---------------- Chalk figures (iframes from /work/figures, sized by the figure's postMessage) ---------------- */
+.chalk-figure { margin: 1.6rem 0; }
+.chalk-figure iframe { display: block; width: 100%; height: 520px; border: 0; background: transparent; }
+@media (max-width: 640px) {
+  /* keep chalk labels legible: scroll the board sideways instead of shrinking it */
+  .chalk-figure { overflow-x: auto; }
+  .chalk-figure iframe { min-width: 640px; }
+}
+
 /* ---------------- Lightbox (click a figure image to view it full-size, in-page) ---------------- */
 .lightbox-overlay {
   position: fixed;
@@ -670,6 +679,9 @@ p.table-caption { font-size: .78rem; color: var(--muted); margin: .5rem 0 0; max
 .timeline-date { font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-variant-numeric: tabular-nums; }
 .timeline-title { font-size: .98rem; font-weight: 700; margin: .2rem 0 .3rem; }
 .timeline-desc { font-size: .88rem; color: var(--ink); line-height: 1.6; max-width: 58ch; margin: 0; }
+/* inside .prose, list padding and h3 margins would push the dots off the line */
+.prose .timeline { padding-left: 0; }
+.prose .timeline-title { margin: .2rem 0 .3rem; }
 
 /* ---------------- Closing / sources ---------------- */
 .closing-note {

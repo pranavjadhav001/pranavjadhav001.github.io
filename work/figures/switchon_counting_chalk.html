@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counting balls with YOLO</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F5F4EF" stop-opacity="1"/><stop offset=".4" stop-color="#F5F4EF" stop-opacity=".85"/><stop offset="1" stop-color="#F5F4EF" stop-opacity=".22"/></linearGradient>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">yolo boxes every ball, then we count the boxes</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 460" aria-label="Two bearing housings seen from the top camera. YOLO boxes 13 balls in the first, which passes, and 12 in the second, where one ball is missing.">
+      <g id="hA" class="housing" data-cx="225" data-cy="190" data-name="housing a"></g>
+      <g id="hB" class="housing" data-cx="675" data-cy="190" data-name="housing b"></g>
+      <g id="gap" class="el" data-t="9.2">
+        <circle class="stroke amber dash wv" id="gapc" r="22"/>
+        <text class="lbl amber big" id="gapq">?</text>
+      </g>
+      <g id="tallyA" class="wv"></g>
+      <g id="tallyB" class="wv"></g>
+      <text class="lbl big el" data-t="5.0" x="225" y="440">13 / 13 ok</text>
+      <text class="lbl big amber el" data-t="9.7" x="675" y="440">12 / 13 one missing</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  // ball angles (deg, clockwise from 3 o'clock) traced from SensoPart's top-down bearing images
+  var ANG = { hA: [-70.1, -42.7, -15.4, 13.1, 41.3, 69.0, 96.6, 124.3, 151.7, 179.3, -153.3, -125.8, -98.2], hB: [-77.3, -19.3, 9.7, 39.7, 68.4, 96.5, 123.7, 149.7, 176.0, -158.1, -131.9, -105.0] };
+  var GAP = -48, STEP = 0.28, A0 = 1.2, B0 = 5.6;
+  var NS = 'http://www.w3.org/2000/svg';
+  function add(g, tag, attrs){
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    g.appendChild(n); return n;
+  }
+  function at(cx, cy, r, deg){ var a = deg * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+
+  ['hA', 'hB'].forEach(function(id, h){
+    var g = document.getElementById(id), cx = +g.dataset.cx, cy = +g.dataset.cy;
+    var ring = add(g, 'g', {'class': 'el wv', 'data-t': h ? 0.5 : 0.2});
+    [[160, 'stroke'], [143, 'stroke dim'], [111, 'stroke dim'], [96, 'stroke faint'], [80, 'stroke']].forEach(function(c){
+      add(ring, 'circle', {'class': c[1], cx: cx, cy: cy, r: c[0]});
+    });
+    ANG[id].forEach(function(deg, i){
+      var p = at(cx, cy, 127, deg);
+      add(ring, 'circle', {'class': 'stroke', cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: 12});
+      add(ring, 'path', {'class': 'stroke dim', d: 'M' + (p[0] - 6).toFixed(1) + ',' + (p[1] - 3).toFixed(1) + ' q6,-6 12,0'});
+      var t = (h ? B0 : A0) + i * STEP;
+      add(g, 'rect', {'class': 'stroke el wv2', 'data-t': t, x: (p[0] - 17).toFixed(1), y: (p[1] - 17).toFixed(1), width: 34, height: 34, rx: 3,
+        transform: 'rotate(' + (i % 2 ? 2.5 : -2) + ' ' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')'});
+    });
+    add(g, 'text', {'class': 'lbl el', 'data-t': h ? 0.5 : 0.2, x: cx, y: cy + 6}).textContent = g.dataset.name;
+
+    // tally marks, one per box, fives struck through
+    var tg = document.getElementById(h ? 'tallyB' : 'tallyA'), x = cx - 75;
+    ANG[id].forEach(function(_, i){
+      var t = (h ? B0 : A0) + i * STEP;
+      if (i % 5 === 4){
+        add(tg, 'path', {'class': 'stroke el', 'data-t': t, d: 'M' + (x - 44) + ',' + 404 + ' L' + (x + 2) + ',' + 380});
+        x += 22; return;
+      }
+      add(tg, 'path', {'class': 'stroke el', 'data-t': t, d: 'M' + x + ',' + 378 + ' L' + (x + 1) + ',' + 406});
+      x += 11;
+    });
+  });
+  var gp = at(675, 190, 127, GAP);
+  var gc = document.getElementById('gapc'); gc.setAttribute('cx', gp[0].toFixed(1)); gc.setAttribute('cy', gp[1].toFixed(1));
+  var gq = document.getElementById('gapq'); gq.setAttribute('x', (gp[0] + 38).toFixed(1)); gq.setAttribute('y', (gp[1] - 14).toFixed(1));
+
+  var status = document.getElementById('status');
+  function count(t, t0, n){ return Math.max(0, Math.min(n, Math.floor((t - t0) / STEP) + 1)); }
+  chalkFigure({ END: 10.8, paint: function(t){
+    status.textContent =
+      t < A0 ? 'two bearing housings under the top camera' :
+      t < B0 ? 'housing a: ' + count(t, A0, 13) + ' boxes' :
+      t < 9.2 ? 'housing b: ' + count(t, B0, 12) + ' boxes' :
+      'a gap where a ball should be. reject';
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>
