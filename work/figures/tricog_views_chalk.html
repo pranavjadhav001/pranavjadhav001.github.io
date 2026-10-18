@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Echo view tree</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">a tree of echo views</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 470" aria-label="A tree of echo views grows left to right: an echo clip comes from a parasternal, apical, subcostal or suprasternal window; each window holds views such as PLAX and PSAX, or A2C, A3C, A4C and A5C; PSAX is cut at the AV, MV and PM levels. A2C and A3C, and A4C and A5C, are marked as look-alikes. A hierarchical model picks the window first, then the view.">
+      <g class="el wv" data-t="0.3"><rect class="stroke" x="34" y="222" width="56" height="44" rx="4"/><path class="stroke dim" d="M55,234 L71,244 L55,254 Z"/></g>
+      <text class="lbl ink el" data-t="0.5" x="62" y="292">echo clip</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="0.9" d="M96,244 C141,244 147,95 192,95"/>
+      <text id="n-parasternal" class="lbl l ink el" data-t="1.4" x="200" y="101" style="font-size:19px">Parasternal</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="1.1" d="M96,244 C141,244 147,255 192,255"/>
+      <text id="n-apical" class="lbl l ink el" data-t="1.5" x="200" y="261" style="font-size:19px">Apical</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="1.2" d="M96,244 C141,244 147,375 192,375"/>
+      <text id="n-subcostal" class="lbl l ink el" data-t="1.7" x="200" y="381" style="font-size:19px">Subcostal</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="1.4" d="M96,244 C141,244 147,440 192,440"/>
+      <text id="n-suprasternal" class="lbl l ink el" data-t="1.8" x="200" y="446" style="font-size:19px">Suprasternal</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.3" d="M316,95 C361,95 365,60 410,60"/>
+      <text id="n-plax" class="lbl l ink el" data-t="2.7" x="418" y="66" style="font-size:18px">PLAX</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.4" d="M316,95 C361,95 365,130 410,130"/>
+      <text id="n-psax" class="lbl l ink el" data-t="2.8" x="418" y="136" style="font-size:18px">PSAX</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.5" d="M262,255 C307,255 365,195 410,195"/>
+      <text id="n-a2c" class="lbl l ink el" data-t="2.9" x="418" y="201" style="font-size:18px">A2C</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.7" d="M262,255 C307,255 365,235 410,235"/>
+      <text id="n-a3c" class="lbl l ink el" data-t="3.1" x="418" y="241" style="font-size:18px">A3C</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.8" d="M262,255 C307,255 365,275 410,275"/>
+      <text id="n-a4c" class="lbl l ink el" data-t="3.2" x="418" y="281" style="font-size:18px">A4C</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="2.9" d="M262,255 C307,255 365,315 410,315"/>
+      <text id="n-a5c" class="lbl l ink el" data-t="3.3" x="418" y="321" style="font-size:18px">A5C</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.0" d="M300,375 C345,375 365,360 410,360"/>
+      <text id="n-sub4c" class="lbl l ink el" data-t="3.4" x="418" y="366" style="font-size:18px">Sub 4C</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.1" d="M300,375 C345,375 365,395 410,395"/>
+      <text id="n-ivc" class="lbl l ink el" data-t="3.5" x="418" y="401" style="font-size:18px">IVC</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.3" d="M322,440 C367,440 365,441 410,441"/>
+      <text id="n-arch" class="lbl l ink el" data-t="3.7" x="418" y="446" style="font-size:18px">Arch</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.9" d="M470,130 C515,130 535,95 580,95"/>
+      <text class="lbl l el" data-t="4.2" x="588" y="101" style="font-size:17px">AV level</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="4.0" d="M470,130 C515,130 535,131 580,131"/>
+      <text class="lbl l el" data-t="4.4" x="588" y="136" style="font-size:17px">MV level</text>
+      <path class="stroke dim draw wv" pathLength="1" data-t="4.2" d="M470,130 C515,130 535,165 580,165"/>
+      <text class="lbl l el" data-t="4.5" x="588" y="171" style="font-size:17px">PM level</text>
+      <path class="stroke amber draw wv" pathLength="1" data-t="5.2" d="M478,187 q14,0 14,14 L492,209 q0,6 10,6 q-10,0 -10,6 L492,229 q0,14 -14,14"/>
+      <text class="lbl amber l el" data-t="5.5" x="512" y="221" style="font-size:17px">look alike</text>
+      <path class="stroke amber draw wv" pathLength="1" data-t="5.7" d="M478,267 q14,0 14,14 L492,289 q0,6 10,6 q-10,0 -10,6 L492,309 q0,14 -14,14"/>
+      <text class="lbl amber l el" data-t="6.0" x="512" y="301" style="font-size:17px">look alike</text>
+      <path class="stroke amber draw wv" pathLength="1" data-t="6.6" d="M96,244 C141,244 147,255 192,255"/>
+      <path class="stroke amber draw wv" pathLength="1" data-t="7.2" d="M262,255 C307,255 365,275 410,275"/>
+      <text class="lbl ink l el" data-t="7.9" x="640" y="300" style="font-size:18px">a hierarchical model:</text>
+      <text class="lbl l el" data-t="8.1" x="640" y="326" style="font-size:17px">pick the window first,</text>
+      <text class="lbl l el" data-t="8.3" x="640" y="350" style="font-size:17px">then the view inside it</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+ var status=document.getElementById("status");
+  var hi=[["n-apical",6.9],["n-a4c",7.6]].map(function(p){return [document.getElementById(p[0]),p[1]];});
+  chalkFigure({ END: 9.2, paint: function(t){
+    hi.forEach(function(p){ p[0].style.fill = t>=p[1] ? "#F2C879" : ""; });
+    status.textContent =
+      t < 2.3 ? "every clip comes from one acoustic window" :
+      t < 5.2 ? "each window holds several views, some cut at several levels" :
+      t < 6.6 ? "siblings differ by a tilt of the probe" :
+      "coarse to fine: window, then view";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

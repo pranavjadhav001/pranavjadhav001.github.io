@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Echo pipeline</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">one study, end to end</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 360" aria-label="Five echo videos, about 750 frames, flow through a view classifier, an EF model and more models on one Triton server and come out as a report: under 14 seconds per study, about 50K studies a day on a single GPU.">
+      <text class="lbl ink el" data-t="0.2" x="105" y="62">echo study</text>
+      <g class="el wv" data-t="0.4"><rect class="stroke" x="30" y="82" width="44" height="34" rx="3"/><path class="stroke dim" d="M47,92 L59,99 L47,106 Z"/></g>
+      <g class="el wv" data-t="0.6"><rect class="stroke" x="82" y="82" width="44" height="34" rx="3"/><path class="stroke dim" d="M99,92 L111,99 L99,106 Z"/></g>
+      <g class="el wv" data-t="0.8"><rect class="stroke" x="134" y="82" width="44" height="34" rx="3"/><path class="stroke dim" d="M151,92 L163,99 L151,106 Z"/></g>
+      <g class="el wv" data-t="1.0"><rect class="stroke" x="56" y="128" width="44" height="34" rx="3"/><path class="stroke dim" d="M73,138 L85,145 L73,152 Z"/></g>
+      <g class="el wv" data-t="1.2"><rect class="stroke" x="108" y="128" width="44" height="34" rx="3"/><path class="stroke dim" d="M125,138 L137,145 L125,152 Z"/></g>
+      <text class="lbl el" data-t="1.5" x="105" y="196">5 videos</text>
+      <text class="lbl el" data-t="1.7" x="105" y="220">~750 frames</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.0" d="M192,140 L240,140 M231,146 L240,140 L231,134"/>
+      <g class="el wv" data-t="2.4"><rect class="stroke dim" x="250" y="62" width="510" height="150" rx="8"/><text class="lbl ink" x="505" y="92">Triton Inference Server &#183; 1 GPU</text></g>
+      <g class="el wv" data-t="3.0"><rect class="stroke" x="268" y="116" width="150" height="50" rx="6"/><text class="lbl ink" x="343" y="147">view classifier</text></g>
+      <g class="el wv" data-t="3.8"><rect class="stroke" x="458" y="116" width="120" height="50" rx="6"/><text class="lbl ink" x="518" y="147">EF model</text></g>
+      <g class="el wv" data-t="4.6"><rect class="stroke" x="618" y="116" width="122" height="50" rx="6"/><text class="lbl ink" x="679" y="147">...</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="3.5" d="M420,141 L454,141 M445,147 L454,141 L445,135"/>
+      <path class="stroke draw wv" pathLength="1" data-t="4.3" d="M580,141 L614,141 M605,147 L614,141 L605,135"/>
+      <path class="stroke draw wv" pathLength="1" data-t="5.2" d="M764,140 L808,140 M799,146 L808,140 L799,134"/>
+      <g class="el wv" data-t="5.6"><path class="stroke" d="M818,112 L846,112 L858,124 L858,164 L818,164 Z M846,112 L846,124 L858,124"/><path class="stroke dim" d="M825,132 L850,132"/><path class="stroke dim" d="M825,142 L842,142"/><path class="stroke dim" d="M825,152 L850,152"/></g>
+      <text class="lbl ink el" data-t="5.8" x="838" y="196">report</text>
+      <path class="stroke faint dash el" data-t="6.3" d="M24,252 L876,250"/>
+      <text class="lbl big el" data-t="6.7" x="270" y="306">&lt; 14 s end to end</text>
+      <text class="lbl el" data-t="6.9" x="270" y="336">per study</text>
+      <text class="lbl big amber el" data-t="7.5" x="640" y="306">~50K studies / day</text>
+      <text class="lbl el" data-t="7.7" x="640" y="336">on a single GPU</text>
+      <g id="flow"></g>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg", flow=document.getElementById("flow"), dots=[];
+  for (var i=0;i<6;i++){ var r=document.createElementNS(NS,"rect"); r.setAttribute("width",8); r.setAttribute("height",8);
+    r.setAttribute("class","stroke amber"); r.setAttribute("y",186); flow.appendChild(r); dots.push(r); }
+  var status=document.getElementById("status");
+  chalkFigure({ END: 8.6, paint: function(t){
+    // frames stream along the bottom of the Triton box once the models are up
+    dots.forEach(function(r,i){
+      var u=(t-5.0)/2.2 - i*0.12;
+      var on = t>=5.0 && u>=0 && u<=1;
+      r.style.opacity = on ? 1 : 0;
+      if (on) r.setAttribute("x", (262 + u*480).toFixed(1));
+    });
+    status.textContent =
+      t < 2.0 ? "a study: a handful of videos, hundreds of frames" :
+      t < 5.0 ? "several models, all served from one Triton server" :
+      t < 6.3 ? "frames stream through, a report comes out" :
+      "every frame of a study, through every model, on one GPU";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

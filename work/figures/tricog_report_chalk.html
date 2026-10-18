@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM report generation</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">from numbers to a summary</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 400" aria-label="Measurements (LVIDd 4.8 cm, IVSd 0.9 cm, EF 60 percent) and observations (moderate MR, no RWMA, normal RV function) go into an LLM fine-tuned with LoRA, which writes a brief summary: normal LV size and systolic function, moderate mitral regurgitation, no regional wall motion abnormality, normal RV function. The clinician can accept, edit or override it. Saves 3 to 4 minutes per case at human-level quality.">
+      <g class="el wv" data-t="0.3"><rect class="stroke" x="30" y="56" width="232" height="122" rx="6"/><text class="lbl amber l" x="46" y="80" style="font-size:15px">measurements</text></g>
+      <text class="lbl l ink el" data-t="0.60" x="46" y="108" style="font-size:16px">LVIDd</text>
+      <text class="lbl ink el" data-t="0.60" x="246" y="108" style="font-size:16px;text-anchor:end">4.8 cm</text>
+      <text class="lbl l ink el" data-t="0.85" x="46" y="132" style="font-size:16px">IVSd</text>
+      <text class="lbl ink el" data-t="0.85" x="246" y="132" style="font-size:16px;text-anchor:end">0.9 cm</text>
+      <text class="lbl l ink el" data-t="1.10" x="46" y="156" style="font-size:16px">EF</text>
+      <text class="lbl ink el" data-t="1.10" x="246" y="156" style="font-size:16px;text-anchor:end">60 %</text>
+      <g class="el wv" data-t="1.4"><rect class="stroke" x="30" y="198" width="232" height="122" rx="6"/><text class="lbl amber l" x="46" y="222" style="font-size:15px">observations</text></g>
+      <text class="lbl l ink el" data-t="1.70" x="46" y="250" style="font-size:16px">moderate MR</text>
+      <text class="lbl l ink el" data-t="1.95" x="46" y="274" style="font-size:16px">no RWMA</text>
+      <text class="lbl l ink el" data-t="2.20" x="46" y="298" style="font-size:16px">normal RV function</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.6" d="M266,117 C311,117 291,196 336,196"/>
+      <path class="stroke draw wv" pathLength="1" data-t="2.8" d="M266,259 C311,259 291,214 336,214"/>
+      <g class="el wv" data-t="3.2"><rect class="stroke" x="342" y="160" width="146" height="88" rx="8"/><text class="lbl big" x="415" y="212">LLM</text></g>
+      <g class="el wv" data-t="3.8"><rect class="stroke amber" x="372" y="254" width="86" height="24" rx="4"/><text class="lbl amber" x="415" y="271" style="font-size:15px">LoRA</text></g>
+      <text class="lbl el" data-t="4.0" x="415" y="302" style="font-size:15px">fine-tuned</text>
+      <path class="stroke draw wv" pathLength="1" data-t="4.5" d="M494,204 L544,204 M535,210 L544,204 L535,198"/>
+      <g class="el wv" data-t="4.8"><path class="stroke" d="M556,56 L852,56 L874,78 L874,286 L556,286 Z M852,56 L852,78 L874,78"/><text class="lbl amber l" x="574" y="84" style="font-size:15px">summary</text></g>
+      <text id="sum0" class="lbl l ink" x="574" y="116" style="font-size:17px"></text>
+      <text id="sum1" class="lbl l ink" x="574" y="143" style="font-size:17px"></text>
+      <text id="sum2" class="lbl l ink" x="574" y="170" style="font-size:17px"></text>
+      <text id="sum3" class="lbl l ink" x="574" y="197" style="font-size:17px"></text>
+      <text id="sum4" class="lbl l ink" x="574" y="224" style="font-size:17px"></text>
+      <text id="sum5" class="lbl l ink" x="574" y="251" style="font-size:17px"></text>
+      <path class="stroke amber draw wv" pathLength="1" data-t="9.4" d="M600,312 L610,324 L630,298"/>
+      <text class="lbl l el" data-t="9.6" x="642" y="318" style="font-size:16px">clinician: accept, edit, or override</text>
+      <path class="stroke faint dash el" data-t="10.0" d="M24,346 L876,344"/>
+      <text class="lbl big amber el" data-t="10.3" x="270" y="388">saves 3-4 min per case</text>
+      <text class="lbl el" data-t="10.6" x="640" y="388" style="font-size:17px">at human-level quality</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+ var status=document.getElementById("status");
+  var lines=["Normal LV size and systolic", "function (EF 60%).", "Moderate mitral regurgitation.", "No regional wall motion", "abnormality. Normal RV", "function."], els=lines.map(function(_,i){ return document.getElementById("sum"+i); });
+  var total=lines.join("").length, T0=5.0, CPS=26;
+  chalkFigure({ END: 11.4, paint: function(t){
+    // the summary writes itself, character by character
+    var n=Math.max(0,Math.floor((t-T0)*CPS));
+    els.forEach(function(el,i){ var L=lines[i]; el.textContent=L.slice(0,Math.max(0,n)); n-=L.length; });
+    status.textContent =
+      t < 2.6 ? "the clinician's measurements and observations" :
+      t < 4.5 ? "go into an LLM fine-tuned with LoRA" :
+      t < 9.4 ? "which writes the case summary" :
+      "and the clinician keeps the final say";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

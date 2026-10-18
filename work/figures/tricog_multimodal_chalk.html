@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multimodal echo models</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">one model, every signal</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 450" aria-label="Dense labels at three levels: measurements per frame, chosen frames per video, and the summary per case. An image encoder, a video encoder and a text encoder map them into one shared space, where training pulls each case's image, video and text embeddings together. The encoders become backbones for fine-tuning and for cross-modal retrieval.">
+      <g class="el wv" data-t="0.3"><rect class="stroke" x="30" y="66" width="64" height="50" rx="4"/><path class="stroke dim" d="M62,70 L42,108 A42,42 0 0 0 82,108 Z"/></g>
+      <path class="stroke amber draw" pathLength="1" data-t="0.8" d="M52,96 L72,96 M52,92 L52,100 M72,92 L72,100"/>
+      <g class="el wv" data-t="1.0"><rect class="stroke" x="24" y="180" width="80" height="44" rx="3"/><rect class="stroke dim" x="30" y="188" width="19" height="28" rx="2"/><rect class="stroke dim" x="55" y="188" width="19" height="28" rx="2"/><rect class="stroke dim" x="80" y="188" width="19" height="28" rx="2"/><path class="stroke dim" d="M28,183 L31,183 M28,221 L31,221"/><path class="stroke dim" d="M38,183 L41,183 M38,221 L41,221"/><path class="stroke dim" d="M48,183 L51,183 M48,221 L51,221"/><path class="stroke dim" d="M58,183 L61,183 M58,221 L61,221"/><path class="stroke dim" d="M68,183 L71,183 M68,221 L71,221"/><path class="stroke dim" d="M78,183 L81,183 M78,221 L81,221"/><path class="stroke dim" d="M88,183 L91,183 M88,221 L91,221"/><path class="stroke dim" d="M98,183 L101,183 M98,221 L101,221"/></g>
+      <rect class="stroke amber el" data-t="1.5" x="28" y="185" width="23" height="34" rx="3"/>
+      <rect class="stroke amber el" data-t="1.7" x="78" y="185" width="23" height="34" rx="3"/>
+      <g class="el wv" data-t="1.9"><path class="stroke" d="M44,284 L68,284 L80,296 L80,330 L44,330 Z M68,284 L68,296 L80,296"/><path class="stroke dim" d="M51,304 L72,304"/><path class="stroke dim" d="M51,314 L64,314"/><path class="stroke dim" d="M51,324 L72,324"/></g>
+      <text class="lbl amber l el" data-t="0.5" x="116" y="88" style="font-size:15px">per frame</text>
+      <text class="lbl l el" data-t="0.5" x="116" y="108" style="font-size:15px">measurements</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.6" d="M238,92 L274,92 M265,98 L274,92 L265,86"/>
+      <g class="el wv" data-t="2.9"><path class="stroke" d="M282,66 L382,79 L382,105 L282,118 Z"/><text class="lbl ink" x="330" y="91" style="font-size:15px">image</text><text class="lbl" x="330" y="108" style="font-size:13px">encoder</text></g>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.6" d="M388,92 C433,92 425,170 470,170"/>
+      <text class="lbl amber l el" data-t="1.3" x="116" y="198" style="font-size:15px">per video</text>
+      <text class="lbl l el" data-t="1.3" x="116" y="218" style="font-size:15px">choosing frames</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.75" d="M238,202 L274,202 M265,208 L274,202 L265,196"/>
+      <g class="el wv" data-t="3.1"><path class="stroke" d="M282,176 L382,189 L382,215 L282,228 Z"/><text class="lbl ink" x="330" y="201" style="font-size:15px">video</text><text class="lbl" x="330" y="218" style="font-size:13px">encoder</text></g>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.8" d="M388,202 C433,202 425,200 470,200"/>
+      <text class="lbl amber l el" data-t="2.1" x="116" y="308" style="font-size:15px">per case</text>
+      <text class="lbl l el" data-t="2.1" x="116" y="328" style="font-size:15px">the summary</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.9" d="M238,312 L274,312 M265,318 L274,312 L265,306"/>
+      <g class="el wv" data-t="3.3"><path class="stroke" d="M282,286 L382,299 L382,325 L282,338 Z"/><text class="lbl ink" x="330" y="311" style="font-size:15px">text</text><text class="lbl" x="330" y="328" style="font-size:13px">encoder</text></g>
+      <path class="stroke dim draw wv" pathLength="1" data-t="3.9" d="M388,312 C433,312 425,230 470,230"/>
+      <g class="el wv" data-t="3.4"><ellipse class="stroke dim" cx="630" cy="200" rx="160" ry="135"/></g>
+      <text class="lbl ink el" data-t="3.5" x="630" y="52" style="font-size:18px">one shared space</text>
+      <g class="el" data-t="4.2"><circle class="stroke" cx="480" cy="362" r="6"/><text class="lbl l" x="492" y="368" style="font-size:15px">image</text><rect class="stroke" x="545" y="356.5" width="11" height="11"/><text class="lbl l" x="562" y="368" style="font-size:15px">video</text><path class="stroke" d="M620,355 L627,367 L613,367 Z"/><text class="lbl l" x="634" y="368" style="font-size:15px">text</text></g>
+      <g id="pts"></g>
+      <g id="rings"></g>
+      <text class="lbl amber l el" data-t="6.9" x="700" y="356" style="font-size:15px">same case, three views of it,</text>
+      <text class="lbl amber l el" data-t="6.9" x="700" y="376" style="font-size:15px">pulled together</text>
+      <path class="stroke faint dash el" data-t="7.3" d="M24,396 L876,394"/>
+      <text class="lbl ink el" data-t="7.6" x="250" y="436" style="font-size:18px">backbones for fine-tuning</text>
+      <text class="lbl ink el" data-t="8.0" x="650" y="436" style="font-size:18px">cross-modal retrieval</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+ var NS="http://www.w3.org/2000/svg", status=document.getElementById("status"), pts=document.getElementById("pts");
+  // three cases; each has an image (circle), a video (square) and a text (triangle) embedding
+  var C=[[560,140],[700,175],[610,275]], S=[];
+  var scatter=[[520,250],[735,120],[660,300],[580,95],[540,200],[745,250],[690,110],[600,320],[515,150]];
+  for (var c=0;c<3;c++) for (var m=0;m<3;m++){
+    var el=document.createElementNS(NS, m===0?"circle":(m===1?"rect":"path"));
+    el.setAttribute("class","stroke"); pts.appendChild(el);
+    var off=[[-11,-6],[10,-8],[0,11]][m];
+    S.push({el:el,m:m,a:scatter[c*3+m],b:[C[c][0]+off[0],C[c][1]+off[1]]});
+  }
+  var rings=C.map(function(p){ var r=document.createElementNS(NS,"circle"); r.setAttribute("cx",p[0]); r.setAttribute("cy",p[1]); r.setAttribute("r",26);
+    r.setAttribute("class","stroke amber dash"); r.style.opacity=0; document.getElementById("rings").appendChild(r); return r; });
+  function place(o,x,y){
+    if (o.m===0){ o.el.setAttribute("cx",x); o.el.setAttribute("cy",y); o.el.setAttribute("r",6); }
+    else if (o.m===1){ o.el.setAttribute("x",x-5.5); o.el.setAttribute("y",y-5.5); o.el.setAttribute("width",11); o.el.setAttribute("height",11); }
+    else o.el.setAttribute("d","M"+x+","+(y-7)+" L"+(x+7)+","+(y+5)+" L"+(x-7)+","+(y+5)+" Z");
+  }
+  chalkFigure({ END: 8.8, paint: function(t){
+    // embeddings land scattered, then training pulls each case's three modalities together
+    var u=Math.min(Math.max((t-4.6)/2.0,0),1), e=u*u*(3-2*u);
+    S.forEach(function(o){ o.el.style.opacity = t>=4.0 ? 1 : 0;
+      place(o, (o.a[0]+(o.b[0]-o.a[0])*e).toFixed(1), (o.a[1]+(o.b[1]-o.a[1])*e).toFixed(1)); });
+    rings.forEach(function(r){ r.style.opacity = t>=6.7 ? 1 : 0; });
+    status.textContent =
+      t < 2.6 ? "dense labels at every level: frame, video, case" :
+      t < 4.0 ? "one encoder per modality" :
+      t < 7.3 ? "trained together, a case's image, video and text meet" :
+      "encoders worth reusing everywhere";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

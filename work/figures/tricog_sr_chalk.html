@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DICOM SR</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">measurements, without retyping</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 470" aria-label="Three echo machines from different vendors measure the same left ventricle diameter and write it differently in their DICOM structured reports: LVIDd 4.8 cm, LV Diam d 48 mm, and code 29436-3 4.8 cm. The reports flow straight to the Tricog cloud, are mapped to the Tricog standard as LVIDd 4.8 cm, and the viewer shows LVIDd, IVSd, LVPWd and EF. Under a second, no manual entry.">
+      <g class="el wv" data-t="0.3"><rect class="stroke" x="30" y="60" width="70" height="48" rx="4"/><path class="stroke dim" d="M65,64 L47,102 A40,40 0 0 0 83,102 Z"/><path class="stroke" d="M65,108 L65,126 M47,126 L83,126"/></g>
+      <text class="lbl el" data-t="0.3" x="65" y="150" style="font-size:16px">vendor A</text>
+      <path class="stroke amber draw" pathLength="1" data-t="1.6" d="M56,87 L74,87.5 M56,83 L56,91 M74,83.5 L74,91.5"/>
+      <text class="lbl l ink el" data-t="2.4" x="112" y="76" style="font-size:14px">SR</text>
+      <text class="lbl l ink el" data-t="2.4" x="112" y="98" style="font-size:17px">LVIDd = 4.8 cm</text>
+      <path id="wire0" class="stroke dim draw wv" pathLength="1" data-t="3.40" d="M282,90 C340,90 350,201 398,201"/>
+      <g class="el wv" data-t="0.7"><rect class="stroke" x="30" y="185" width="70" height="48" rx="4"/><path class="stroke dim" d="M65,189 L47,227 A40,40 0 0 0 83,227 Z"/><path class="stroke" d="M65,233 L65,251 M47,251 L83,251"/></g>
+      <text class="lbl el" data-t="0.7" x="65" y="275" style="font-size:16px">vendor B</text>
+      <path class="stroke amber draw" pathLength="1" data-t="1.9" d="M56,212 L74,212.5 M56,208 L56,216 M74,208.5 L74,216.5"/>
+      <text class="lbl l ink el" data-t="2.7" x="112" y="201" style="font-size:14px">SR</text>
+      <text class="lbl l ink el" data-t="2.7" x="112" y="223" style="font-size:17px">LV Diam d = 48 mm</text>
+      <path id="wire1" class="stroke dim draw wv" pathLength="1" data-t="3.55" d="M282,215 C340,215 350,216 398,216"/>
+      <g class="el wv" data-t="1.1"><rect class="stroke" x="30" y="310" width="70" height="48" rx="4"/><path class="stroke dim" d="M65,314 L47,352 A40,40 0 0 0 83,352 Z"/><path class="stroke" d="M65,358 L65,376 M47,376 L83,376"/></g>
+      <text class="lbl el" data-t="1.1" x="65" y="400" style="font-size:16px">vendor C</text>
+      <path class="stroke amber draw" pathLength="1" data-t="2.2" d="M56,337 L74,337.5 M56,333 L56,341 M74,333.5 L74,341.5"/>
+      <text class="lbl l ink el" data-t="3.0" x="112" y="326" style="font-size:14px">SR</text>
+      <text class="lbl l ink el" data-t="3.0" x="112" y="348" style="font-size:17px">29436-3 = 4.8 cm</text>
+      <path id="wire2" class="stroke dim draw wv" pathLength="1" data-t="3.70" d="M282,340 C340,340 350,229 398,229"/>
+      <g class="el wv" data-t="3.0"><path class="stroke" d="M408,240 a22,22 0 0 1 6,-40 a28,28 0 0 1 50,-14 a26,26 0 0 1 42,20 a20,20 0 0 1 -4,34 Z"/><text class="lbl ink" x="456" y="226" style="font-size:16px">Tricog cloud</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="5.2" d="M512,215 L552,215 M543,221 L552,215 L543,209"/>
+      <g class="el wv" data-t="5.5"><rect class="stroke" x="560" y="182" width="180" height="66" rx="6"/><text class="lbl ink" x="650" y="210" style="font-size:17px">map to the</text><text class="lbl ink" x="650" y="234" style="font-size:17px">Tricog standard</text></g>
+      <text class="lbl amber l el" data-t="6.3" x="752" y="206" style="font-size:16px">3 names, 2 units</text>
+      <text class="lbl amber l el" data-t="6.6" x="752" y="230" style="font-size:16px">&#8594; LVIDd 4.8 cm</text>
+      <path class="stroke draw wv" pathLength="1" data-t="7.0" d="M650,252 L650,296 M644,287 L650,296 L656,287"/>
+      <g class="el wv" data-t="7.3"><rect class="stroke" x="540" y="302" width="330" height="152" rx="6"/><path class="stroke dim" d="M540,324 L870,324"/><circle class="stroke dim" cx="554" cy="313" r="3"/><circle class="stroke dim" cx="566" cy="313" r="3"/><circle class="stroke dim" cx="578" cy="313" r="3"/><text class="lbl" x="705" y="318" style="font-size:14px">viewer</text></g>
+      <text class="lbl l amber el" data-t="7.8" x="566" y="352" style="font-size:17px">LVIDd</text>
+      <text class="lbl amber el" data-t="7.8" x="846" y="352" style="font-size:17px;text-anchor:end">4.8 cm</text>
+      <text class="lbl l ink el" data-t="8.1" x="566" y="378" style="font-size:17px">IVSd</text>
+      <text class="lbl ink el" data-t="8.1" x="846" y="378" style="font-size:17px;text-anchor:end">0.9 cm</text>
+      <text class="lbl l ink el" data-t="8.4" x="566" y="404" style="font-size:17px">LVPWd</text>
+      <text class="lbl ink el" data-t="8.4" x="846" y="404" style="font-size:17px;text-anchor:end">0.9 cm</text>
+      <text class="lbl l ink el" data-t="8.7" x="566" y="430" style="font-size:17px">EF</text>
+      <text class="lbl ink el" data-t="8.7" x="846" y="430" style="font-size:17px;text-anchor:end">60 %</text>
+      <text class="lbl big amber el" data-t="9.4" x="300" y="452">&lt; 1 s, no manual entry</text>
+      <g id="tokens"></g>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+ var NS="http://www.w3.org/2000/svg", status=document.getElementById("status"), toks=[];
+  for (var i=0;i<3;i++){ var r=document.createElementNS(NS,"rect"); r.setAttribute("width",14); r.setAttribute("height",18); r.setAttribute("rx",2);
+    r.setAttribute("class","stroke amber"); r.style.opacity=0; document.getElementById("tokens").appendChild(r);
+    var w=document.getElementById("wire"+i); toks.push([r,w,w.getTotalLength()]); }
+  chalkFigure({ END: 10.4, paint: function(t){
+    // each SR packet rides its wire into the cloud
+    toks.forEach(function(k,i){
+      var u=(t-4.0-i*0.25)/1.0, on=u>=0&&u<=1;
+      k[0].style.opacity = on ? 1 : 0;
+      if (on){ var pt=k[1].getPointAtLength(u*k[2]); k[0].setAttribute("x",(pt.x-7).toFixed(1)); k[0].setAttribute("y",(pt.y-9).toFixed(1)); }
+    });
+    status.textContent =
+      t < 2.4 ? "sonographers measure on the echo machine" :
+      t < 4.0 ? "each machine writes the same measure its own way" :
+      t < 5.5 ? "the structured reports flow straight to the cloud" :
+      t < 7.3 ? "mapped to one Tricog standard: names and units" :
+      "and the viewer shows one clean table";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

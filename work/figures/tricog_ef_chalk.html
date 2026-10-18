@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ejection fraction</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">ejection fraction, automated</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 470" aria-label="An apical 4-chamber echo frame: model 1 segments the left ventricle and finds the apex and mitral annulus keypoints; a separate model 2 regresses diastole and systole to pick the end-diastole and end-systole frames on the volume curve. EF equals EDV minus ESV over EDV. By hand 5 minutes, by the model under 3 seconds.">
+      <path class="stroke dim draw wv" pathLength="1" data-t="0.2" d="M200,40 L59,305 A300,300 0 0 0 341,305 Z"/>
+      <text class="lbl el" data-t="0.6" x="200" y="372">apical 4-chamber</text>
+      <path class="stroke draw wv" pathLength="1" data-t="0.9" d="M206,236 C196,180 202,118 230,92 C258,116 268,180 262,236 Z"/>
+      <path class="stroke draw wv" pathLength="1" data-t="1.3" d="M198,236 C176,186 170,132 222,96 M150,236 C150,190 168,140 222,96"/>
+      <g class="el wv" data-t="1.7"><ellipse class="stroke" cx="236" cy="270" rx="30" ry="28"/><ellipse class="stroke" cx="172" cy="268" rx="28" ry="27"/></g>
+      <g class="el wv" data-t="1.9"><text class="lbl" x="175" y="190" style="font-size:16px">RV</text><text class="lbl" x="172" y="274" style="font-size:16px">RA</text><text class="lbl" x="236" y="276" style="font-size:16px">LA</text></g>
+      <path id="mask" class="el" data-t="2.4" d="M206,236 C196,180 202,118 230,92 C258,116 268,180 262,236 Z" fill="#F2C879" fill-opacity=".35" stroke="#F2C879" stroke-width="2"/>
+      <text class="lbl ink el" data-t="2.6" x="234" y="180" style="font-size:16px">LV</text>
+      <text class="lbl l el" data-t="2.2" x="24" y="30" style="font-size:18px"><tspan fill="#F5F4EF">model 1</tspan><tspan fill="#F2C879">: segmentation + keypoints</tspan></text>
+      <text class="lbl amber l el" data-t="2.8" x="285" y="160" style="font-size:16px">segmentation</text>
+      <circle class="el" data-t="3.2" cx="230" cy="93" r="5" fill="#F2C879"/>
+      <circle class="el" data-t="3.4" cx="206" cy="236" r="5" fill="#F2C879"/>
+      <circle class="el" data-t="3.6" cx="262" cy="236" r="5" fill="#F2C879"/>
+      <text class="lbl amber l el" data-t="3.6" x="244" y="76" style="font-size:16px">keypoints: apex, mitral annulus</text>
+      <g class="el wv" data-t="4.1"><rect class="stroke" x="452" y="48" width="58" height="30" rx="3"/><rect class="stroke dim" x="457" y="53" width="13" height="20" rx="2"/><rect class="stroke dim" x="474" y="53" width="13" height="20" rx="2"/><rect class="stroke dim" x="491" y="53" width="13" height="20" rx="2"/></g>
+      <path class="stroke draw wv" pathLength="1" data-t="4.3" d="M514,63 L536,63 M527,69 L536,63 L527,57"/>
+      <g class="el wv" data-t="4.4"><rect class="stroke" x="542" y="48" width="96" height="30" rx="5"/><text class="lbl ink" x="590" y="69" style="font-size:16px">2D CNN</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="4.6" d="M642,63 L664,63 M655,69 L664,63 L655,57"/>
+      <g class="el wv" data-t="4.7"><rect class="stroke" x="670" y="48" width="150" height="30" rx="5"/><text class="lbl ink" x="745" y="69" style="font-size:16px">temporal BERT</text></g>
+      <path class="stroke dim draw wv" pathLength="1" data-t="5.0" d="M470,104 L470,300 L870,300"/>
+      <text class="lbl l el" data-t="5.1" x="480" y="108" style="font-size:15px">one value per frame, -1 to +1</text>
+      <text class="lbl el" data-t="5.1" x="456" y="146" style="font-size:14px;text-anchor:end">+1</text>
+      <text class="lbl el" data-t="5.1" x="456" y="276" style="font-size:14px;text-anchor:end">-1</text>
+      <text class="lbl el" data-t="4.2" x="842" y="326">frames</text>
+      <path class="stroke draw wv" pathLength="1" data-t="5.3" d="M480,205.0 L486,194.8 L492,184.9 L498,175.5 L504,166.8 L510,159.0 L516,152.4 L522,147.1 L528,143.2 L534,140.8 L540,140.0 L546,140.8 L552,143.2 L558,147.1 L564,152.4 L570,159.0 L576,166.8 L582,175.5 L588,184.9 L594,194.8 L600,205.0 L606,215.2 L612,225.1 L618,234.5 L624,243.2 L630,251.0 L636,257.6 L642,262.9 L648,266.8 L654,269.2 L660,270.0 L666,269.2 L672,266.8 L678,262.9 L684,257.6 L690,251.0 L696,243.2 L702,234.5 L708,225.1 L714,215.2 L720,205.0 L726,194.8 L732,184.9 L738,175.5 L744,166.8 L750,159.0 L756,152.4 L762,147.1 L768,143.2 L774,140.8 L780,140.0 L786,140.8 L792,143.2 L798,147.1 L804,152.4 L810,159.0 L816,166.8 L822,175.5 L828,184.9 L834,194.8 L840,205.0 L846,215.2 L852,225.1 L858,234.5"/>
+      <text class="lbl l el" data-t="4.0" x="470" y="30" style="font-size:18px"><tspan fill="#F5F4EF">model 2</tspan><tspan fill="#F2C879">: ED / ES regression</tspan></text>
+      <path class="stroke faint dash el" data-t="4.0" d="M440,14 L440.5,330"/>
+      <circle id="cursor" r="6" fill="#F5F4EF" style="opacity:0"/>
+      <g class="el" data-t="6.0"><circle cx="540" cy="140" r="5" fill="#F2C879"/><text class="lbl amber" x="540" y="128">ED</text></g>
+      <g class="el" data-t="7.6"><circle cx="780" cy="140" r="5" fill="#F2C879"/><text class="lbl amber" x="780" y="128">ED</text></g>
+      <g class="el" data-t="6.8"><circle cx="660" cy="270" r="5" fill="#F2C879"/><text class="lbl amber" x="660" y="294">ES</text></g>
+      <text class="lbl el" data-t="6.2" x="540" y="164" style="font-size:15px">fullest</text>
+      <text class="lbl el" data-t="7.0" x="660" y="250" style="font-size:15px">emptiest</text>
+      <text class="lbl big el" data-t="8.4" x="660" y="356">EF = (EDV - ESV) / EDV</text>
+      <text class="lbl amber el" data-t="8.9" x="660" y="386">e.g. 60%</text>
+      <path class="stroke faint dash el" data-t="9.4" d="M24,410 L876,408"/>
+      <text class="lbl big el" data-t="9.7" x="450" y="448">by hand: 5 min   &#8594;   model: &lt; 3 s</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var mask=document.getElementById("mask"), cur=document.getElementById("cursor"), status=document.getElementById("status");
+  function c(x){ return Math.cos(2*Math.PI*(x-540)/240); }
+  chalkFigure({ END: 10.6, paint: function(t){
+    // a cursor rides the volume curve; the LV mask breathes with it
+    var u=Math.min(Math.max((t-5.6)/2.4,0),1), x=480+u*300, k=c(x);
+    var on = t>=5.6;
+    cur.style.opacity = on ? 1 : 0;
+    cur.setAttribute("cx", x.toFixed(1)); cur.setAttribute("cy", (205-65*k).toFixed(1));
+    var s = on ? 0.86+0.14*k : 1;
+    mask.setAttribute("transform","translate(234,236) scale("+s.toFixed(3)+") translate(-234,-236)");
+    status.textContent =
+      t < 2.4 ? "an apical 4-chamber view of the heart" :
+      t < 4.0 ? "model 1: the left ventricle mask and its keypoints" :
+      t < 8.4 ? "model 2: the frames where it is fullest (ED) and emptiest (ES)" :
+      "two models, and EF falls out";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

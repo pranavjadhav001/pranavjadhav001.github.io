@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EF by hand</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">ejection fraction, by hand</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 400" aria-label="Simpson's biplane method in five steps: pick the end-diastole and end-systole frames; trace the left ventricle in the apical 4- and 2-chamber views; mark the apex and mitral annulus to get the long axis L; slice the cavity into 20 discs and sum their volumes, V equals pi over 4 times the sum of a times b times L over 20; then EF equals EDV minus ESV over EDV, for example 120 and 48 ml give 60 percent. About 5 minutes by hand.">
+      <g class="el" data-t="0.3"><circle cx="28" cy="52" r="11" fill="none" stroke="#F2C879" stroke-width="2"/><text class="lbl amber" x="28" y="58" style="font-size:15px">1</text><text class="lbl ink l" x="45" y="58" style="font-size:16px">pick ED and ES</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="1.9000000000000001" d="M160,180 L196,180 M187,186 L196,180 L187,174"/>
+      <g class="el" data-t="2.2"><circle cx="208" cy="52" r="11" fill="none" stroke="#F2C879" stroke-width="2"/><text class="lbl amber" x="208" y="58" style="font-size:15px">2</text><text class="lbl ink l" x="225" y="58" style="font-size:16px">trace the LV</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="3.8" d="M340,180 L376,180 M367,186 L376,180 L367,174"/>
+      <g class="el" data-t="4.1"><circle cx="388" cy="52" r="11" fill="none" stroke="#F2C879" stroke-width="2"/><text class="lbl amber" x="388" y="58" style="font-size:15px">3</text><text class="lbl ink l" x="405" y="58" style="font-size:16px">find the long axis</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="5.699999999999999" d="M520,180 L556,180 M547,186 L556,180 L547,174"/>
+      <g class="el" data-t="6.0"><circle cx="568" cy="52" r="11" fill="none" stroke="#F2C879" stroke-width="2"/><text class="lbl amber" x="568" y="58" style="font-size:15px">4</text><text class="lbl ink l" x="585" y="58" style="font-size:16px">slice into discs</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="7.6" d="M700,180 L736,180 M727,186 L736,180 L727,174"/>
+      <g class="el" data-t="7.9"><circle cx="748" cy="52" r="11" fill="none" stroke="#F2C879" stroke-width="2"/><text class="lbl amber" x="748" y="58" style="font-size:15px">5</text><text class="lbl ink l" x="765" y="58" style="font-size:16px">volumes to EF</text></g>
+      <path class="stroke dim draw" pathLength="1" data-t="0.5" d="M24,110 L24,236 L156,236"/>
+      <path class="stroke draw wv" pathLength="1" data-t="0.7" d="M30,160.0 L34,151.2 L38,144.7 L42,140.9 L46,140.1 L50,142.4 L54,147.6 L58,155.4 L62,165.0 L66,175.8 L70,186.9 L74,197.5 L78,206.8 L82,213.9 L86,218.5 L90,220.0 L94,218.5 L98,213.9 L102,206.8 L106,197.5 L110,186.9 L114,175.8 L118,165.0 L122,155.4 L126,147.6 L130,142.4 L134,140.1 L138,140.9 L142,144.7 L146,151.2 L150,160.0"/>
+      <g class="el" data-t="1.3"><circle cx="45" cy="140" r="4.5" fill="#F2C879"/><text class="lbl amber" x="45" y="130" style="font-size:15px">ED</text></g>
+      <g class="el" data-t="1.3"><circle cx="135" cy="140" r="4.5" fill="#F2C879"/><text class="lbl amber" x="135" y="130" style="font-size:15px">ED</text></g>
+      <g class="el" data-t="1.3"><circle cx="90" cy="220" r="4.5" fill="#F2C879"/><text class="lbl amber" x="90" y="244" style="font-size:15px">ES</text></g>
+      <text class="lbl el" data-t="1.5" x="90" y="262" style="font-size:14px">fullest and emptiest</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.4" d="M215.0,240 A25.0,120 0 0 1 265.0,240 Z"/>
+      <path class="el" data-t="3.1" d="M215.0,240 A25.0,120 0 0 1 265.0,240 Z" fill="#F2C879" fill-opacity=".3"/>
+      <text class="lbl el" data-t="2.5" x="240" y="262" style="font-size:14px">A4C</text>
+      <path class="stroke draw wv" pathLength="1" data-t="2.4" d="M283.0,240 A21.0,120 0 0 1 325.0,240 Z"/>
+      <path class="el" data-t="3.1" d="M283.0,240 A21.0,120 0 0 1 325.0,240 Z" fill="#F2C879" fill-opacity=".3"/>
+      <text class="lbl el" data-t="2.5" x="304" y="262" style="font-size:14px">A2C</text>
+      <path class="stroke draw wv" pathLength="1" data-t="4.2" d="M418.0,240 A32.0,130 0 0 1 482.0,240 Z"/>
+      <circle class="el" data-t="4.6" cx="450" cy="110" r="5" fill="#F2C879"/>
+      <circle class="el" data-t="4.6" cx="418" cy="240" r="5" fill="#F2C879"/>
+      <circle class="el" data-t="4.6" cx="482" cy="240" r="5" fill="#F2C879"/>
+      <path class="stroke amber dash el" data-t="5.0" d="M450,112 L450.5,238"/>
+      <text class="lbl amber l el" data-t="5.0" x="458" y="180" style="font-size:16px">L</text>
+      <text class="lbl l el" data-t="4.7" x="460" y="104" style="font-size:14px">apex</text>
+      <text class="lbl el" data-t="4.7" x="450" y="262" style="font-size:14px">mitral annulus</text>
+      <path class="stroke draw wv" pathLength="1" data-t="6.1" d="M598.0,240 A32.0,130 0 0 1 662.0,240 Z"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.50" d="M598.0,233.5 L662.0,234.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.56" d="M598.4,220.5 L661.6,221.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.62" d="M599.0,207.5 L661.0,208.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.68" d="M600.0,194.5 L660.0,195.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.74" d="M601.4,181.5 L658.6,182.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.80" d="M603.3,168.5 L656.7,169.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.86" d="M605.7,155.5 L654.3,156.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.92" d="M608.8,142.5 L651.2,143.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="6.98" d="M613.1,129.5 L646.9,130.0"/>
+      <path class="stroke amber draw" pathLength="1" data-t="7.04" d="M620.0,116.5 L640.0,117.0"/>
+      <text class="lbl el" data-t="7.0" x="630" y="262" style="font-size:14px">20 discs</text>
+      <text class="lbl ink el" data-t="7.2" x="630" y="296" style="font-size:16px">V = &#960;/4 &#183; &#931; a&#7522; b&#7522; &#183; L/20</text>
+      <text class="lbl el" data-t="7.4" x="630" y="318" style="font-size:13px">a from A4C, b from A2C</text>
+      <text class="lbl ink el" data-t="8.1" x="810" y="130" style="font-size:18px">EDV  120 ml</text>
+      <text class="lbl ink el" data-t="8.4" x="810" y="160" style="font-size:18px">ESV   48 ml</text>
+      <text class="lbl ink el" data-t="8.8" x="810" y="206" style="font-size:15px">EF = (EDV - ESV) / EDV</text>
+      <text class="lbl big amber el" data-t="9.2" x="810" y="244">= 60%</text>
+      <path class="stroke faint dash el" data-t="9.6" d="M24,344 L876,342"/>
+      <text class="lbl el" data-t="9.8" x="450" y="380" style="font-size:17px">steps 1 to 4 in both views, at ED and at ES: about 5 minutes by hand</text>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+ var status=document.getElementById("status");
+  chalkFigure({ END: 10.6, paint: function(t){
+    status.textContent =
+      t < 2.2 ? "find the frames where the LV is fullest and emptiest" :
+      t < 4.1 ? "trace the LV cavity in the 4- and 2-chamber views" :
+      t < 6.0 ? "mark the apex and mitral annulus: the long axis" :
+      t < 7.9 ? "Simpson's biplane: stack 20 discs, sum their volumes" :
+      "two volumes, one ratio";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

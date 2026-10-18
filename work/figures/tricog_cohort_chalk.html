@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cohort retrieval</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+        <div class="title">find every case like this one</div>
+    <svg class="scene" id="scene" viewBox="0 0 900 440" aria-label="First, every report is encoded by the DPR model and its embedding is saved in an index. Then a query, moderate mitral regurgitation, is encoded the same way and compared by similarity with the saved embeddings. Three passages come back: a direct match, the abbreviation Mod MR, and a paraphrase, moderate regurgitant jet across the mitral valve. The three results are reports from the indexed cases. A keyword search would miss Mod MR.">
+      <text class="lbl amber l el" data-t="0.1" x="30" y="40" style="font-size:16px">1. index every case, once</text>
+      <g class="el wv" data-t="0.3"><path class="stroke dim" d="M30,62 L42,62 L54,74 L54,94 L30,94 Z M42,62 L42,74 L54,74"/><path class="stroke dim dim" d="M37,82 L46,82"/><path class="stroke dim dim" d="M37,92 L38,92"/></g>
+      <g class="el wv" data-t="0.35"><path class="stroke dim" d="M62,62 L74,62 L86,74 L86,94 L62,94 Z M74,62 L74,74 L86,74"/><path class="stroke dim dim" d="M69,82 L78,82"/><path class="stroke dim dim" d="M69,92 L70,92"/></g>
+      <g class="el wv" data-t="0.4"><path class="stroke dim" d="M94,62 L106,62 L118,74 L118,94 L94,94 Z M106,62 L106,74 L118,74"/><path class="stroke dim dim" d="M101,82 L110,82"/><path class="stroke dim dim" d="M101,92 L102,92"/></g>
+      <g class="el wv" data-t="0.45"><path class="stroke dim" d="M126,62 L138,62 L150,74 L150,94 L126,94 Z M138,62 L138,74 L150,74"/><path class="stroke dim dim" d="M133,82 L142,82"/><path class="stroke dim dim" d="M133,92 L134,92"/></g>
+      <g class="el wv" data-t="0.5"><path class="stroke dim" d="M30,108 L42,108 L54,120 L54,140 L30,140 Z M42,108 L42,120 L54,120"/><path class="stroke dim dim" d="M37,128 L46,128"/><path class="stroke dim dim" d="M37,138 L38,138"/></g>
+      <g class="el wv" data-t="0.55"><path class="stroke dim" d="M62,108 L74,108 L86,120 L86,140 L62,140 Z M74,108 L74,120 L86,120"/><path class="stroke dim dim" d="M69,128 L78,128"/><path class="stroke dim dim" d="M69,138 L70,138"/></g>
+      <g class="el wv" data-t="0.6000000000000001"><path class="stroke dim" d="M94,108 L106,108 L118,120 L118,140 L94,140 Z M106,108 L106,120 L118,120"/><path class="stroke dim dim" d="M101,128 L110,128"/><path class="stroke dim dim" d="M101,138 L102,138"/></g>
+      <g class="el wv" data-t="0.65"><path class="stroke dim" d="M126,108 L138,108 L150,120 L150,140 L126,140 Z M138,108 L138,120 L150,120"/><path class="stroke dim dim" d="M133,128 L142,128"/><path class="stroke dim dim" d="M133,138 L134,138"/></g>
+      <g class="el wv" data-t="0.7"><path class="stroke dim" d="M30,154 L42,154 L54,166 L54,186 L30,186 Z M42,154 L42,166 L54,166"/><path class="stroke dim dim" d="M37,174 L46,174"/><path class="stroke dim dim" d="M37,184 L38,184"/></g>
+      <g class="el wv" data-t="0.75"><path class="stroke dim" d="M62,154 L74,154 L86,166 L86,186 L62,186 Z M74,154 L74,166 L86,166"/><path class="stroke dim dim" d="M69,174 L78,174"/><path class="stroke dim dim" d="M69,184 L70,184"/></g>
+      <g class="el wv" data-t="0.8"><path class="stroke dim" d="M94,154 L106,154 L118,166 L118,186 L94,186 Z M106,154 L106,166 L118,166"/><path class="stroke dim dim" d="M101,174 L110,174"/><path class="stroke dim dim" d="M101,184 L102,184"/></g>
+      <g class="el wv" data-t="0.8500000000000001"><path class="stroke dim" d="M126,154 L138,154 L150,166 L150,186 L126,186 Z M138,154 L138,166 L150,166"/><path class="stroke dim dim" d="M133,174 L142,174"/><path class="stroke dim dim" d="M133,184 L134,184"/></g>
+      <text class="lbl el" data-t="0.9" x="85" y="210" style="font-size:15px">thousands of reports</text>
+      <path class="stroke draw wv" pathLength="1" data-t="1.2" d="M160,126 L198,126 M189,132 L198,126 L189,120"/>
+      <g class="el wv" data-t="1.5"><rect class="stroke" x="206" y="100" width="80" height="52" rx="6"/><text class="lbl ink" x="246" y="132">DPR</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="2.0" d="M292,126 L370,126 M361,132 L370,126 L361,120"/>
+      <g class="el wv" data-t="2.2"><ellipse class="stroke" cx="440" cy="76" rx="60" ry="14"/><path class="stroke" d="M380,76 L380,170 A60,14 0 0 0 500,170 L500,76"/></g>
+      <g class="el" data-t="2.90"><rect class="stroke dim" x="410" y="102" width="4" height="10"/><rect class="stroke dim" x="417" y="96" width="4" height="16"/><rect class="stroke dim" x="424" y="105" width="4" height="7"/><rect class="stroke dim" x="431" y="99" width="4" height="13"/></g>
+      <g class="el" data-t="3.25"><rect class="stroke dim" x="444" y="102" width="4" height="10"/><rect class="stroke dim" x="451" y="96" width="4" height="16"/><rect class="stroke dim" x="458" y="105" width="4" height="7"/><rect class="stroke dim" x="465" y="99" width="4" height="13"/></g>
+      <g class="el" data-t="3.60"><rect class="stroke dim" x="410" y="132" width="4" height="10"/><rect class="stroke dim" x="417" y="126" width="4" height="16"/><rect class="stroke dim" x="424" y="135" width="4" height="7"/><rect class="stroke dim" x="431" y="129" width="4" height="13"/></g>
+      <g class="el" data-t="3.95"><rect class="stroke dim" x="444" y="132" width="4" height="10"/><rect class="stroke dim" x="451" y="126" width="4" height="16"/><rect class="stroke dim" x="458" y="135" width="4" height="7"/><rect class="stroke dim" x="465" y="129" width="4" height="13"/></g>
+      <text class="lbl el" data-t="4.2" x="440" y="50" style="font-size:15px">case embeddings, saved</text>
+      <path class="stroke faint dash el" data-t="4.5" d="M24,232 L540,231"/>
+      <text class="lbl amber l el" data-t="4.6" x="30" y="262" style="font-size:16px">2. a query comes in</text>
+      <g class="el wv" data-t="4.9"><rect class="stroke" x="30" y="280" width="176" height="64" rx="6"/><text class="lbl ink" x="118" y="306" style="font-size:17px">moderate mitral</text><text class="lbl ink" x="118" y="330" style="font-size:17px">regurgitation</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="5.4" d="M210,312 L248,312 M239,318 L248,312 L239,306"/>
+      <g class="el wv" data-t="5.6"><rect class="stroke" x="254" y="286" width="80" height="52" rx="6"/><text class="lbl ink" x="294" y="318">DPR</text></g>
+      <path class="stroke draw wv" pathLength="1" data-t="6.0" d="M338,312 L370,312 M361,318 L370,312 L361,306"/>
+      <g class="el" data-t="6.2"><rect class="stroke amber" x="378" y="310" width="4" height="12"/><rect class="stroke amber" x="385" y="307" width="4" height="15"/><rect class="stroke amber" x="392" y="314" width="4" height="8"/><rect class="stroke amber" x="399" y="310" width="4" height="12"/></g>
+      <path class="stroke amber draw wv" pathLength="1" data-t="6.6" d="M392,300 C392,250 440,240 440,192"/>
+      <text class="lbl amber l el" data-t="6.9" x="452" y="262" style="font-size:16px">similarity</text>
+      <text class="lbl l el" data-t="7.0" x="452" y="284" style="font-size:14px">nearest embeddings</text>
+      <g class="el" data-t="7.0"><rect class="stroke amber" x="410" y="102" width="4" height="10"/><rect class="stroke amber" x="417" y="96" width="4" height="16"/><rect class="stroke amber" x="424" y="105" width="4" height="7"/><rect class="stroke amber" x="431" y="99" width="4" height="13"/></g>
+      <g class="el" data-t="7.2"><rect class="stroke amber" x="444" y="102" width="4" height="10"/><rect class="stroke amber" x="451" y="96" width="4" height="16"/><rect class="stroke amber" x="458" y="105" width="4" height="7"/><rect class="stroke amber" x="465" y="99" width="4" height="13"/></g>
+      <g class="el" data-t="7.4"><rect class="stroke amber" x="410" y="132" width="4" height="10"/><rect class="stroke amber" x="417" y="126" width="4" height="16"/><rect class="stroke amber" x="424" y="135" width="4" height="7"/><rect class="stroke amber" x="431" y="129" width="4" height="13"/></g>
+      <rect class="stroke amber el" data-t="7.4" x="58" y="58" width="32" height="40" rx="3"/>
+      <text class="lbl amber el" data-t="7.4" x="74" y="55" style="font-size:13px">1</text>
+      <g class="el wv" data-t="8.6"><rect class="stroke" x="578" y="63" width="300" height="68" rx="6"/><text class="lbl amber l" x="590" y="83" style="font-size:14px">1  direct</text><text class="lbl amber" x="866" y="83" style="font-size:14px;text-anchor:end">0.91</text><text class="lbl l ink" x="590" y="105" style="font-size:16px"><tspan>...</tspan><tspan fill="#F2C879">moderate mitral regurgitation</tspan><tspan>,</tspan></text><text class="lbl l ink" x="590" y="123" style="font-size:16px"><tspan>with normal LV function.</tspan></text></g>
+      <rect class="stroke amber el" data-t="7.8" x="122" y="104" width="32" height="40" rx="3"/>
+      <text class="lbl amber el" data-t="7.8" x="138" y="101" style="font-size:13px">2</text>
+      <g class="el wv" data-t="9.0"><rect class="stroke" x="578" y="163" width="300" height="68" rx="6"/><text class="lbl amber l" x="590" y="183" style="font-size:14px">2  abbreviation</text><text class="lbl amber" x="866" y="183" style="font-size:14px;text-anchor:end">0.88</text><text class="lbl l ink" x="590" y="205" style="font-size:16px"><tspan fill="#F2C879">Mod MR</tspan><tspan>, LVEF 55%.</tspan></text></g>
+      <rect class="stroke amber el" data-t="8.2" x="26" y="150" width="32" height="40" rx="3"/>
+      <text class="lbl amber el" data-t="8.2" x="42" y="147" style="font-size:13px">3</text>
+      <g class="el wv" data-t="9.4"><rect class="stroke" x="578" y="263" width="300" height="68" rx="6"/><text class="lbl amber l" x="590" y="283" style="font-size:14px">3  paraphrase</text><text class="lbl amber" x="866" y="283" style="font-size:14px;text-anchor:end">0.86</text><text class="lbl l ink" x="590" y="305" style="font-size:16px"><tspan fill="#F2C879">moderate regurgitant jet</tspan></text><text class="lbl l ink" x="590" y="323" style="font-size:16px"><tspan fill="#F2C879">across the mitral valve</tspan><tspan>.</tspan></text></g>
+      <path class="stroke faint dash el" data-t="9.9" d="M24,376 L876,374"/>
+      <text class="lbl el" data-t="10.1" x="450" y="420" style="font-size:18px">a keyword search would miss "Mod MR"</text>
+      <g id="tokens"></g><g id="ghosts"></g>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+ var NS="http://www.w3.org/2000/svg", status=document.getElementById("status"), toks=[];
+  for (var i=0;i<4;i++){ var g=document.createElementNS(NS,"g"); g.innerHTML='<rect class=\"stroke amber\" x=\"290\" y=\"122\" width=\"4\" height=\"10\"/><rect class=\"stroke amber\" x=\"297\" y=\"116\" width=\"4\" height=\"16\"/><rect class=\"stroke amber\" x=\"304\" y=\"125\" width=\"4\" height=\"7\"/><rect class=\"stroke amber\" x=\"311\" y=\"119\" width=\"4\" height=\"13\"/>'; g.style.opacity=0;
+    document.getElementById("tokens").appendChild(g); toks.push(g); }
+  var F=[[62, 62, 578, 63, 7.800000000000001, 8.600000000000001], [126, 108, 578, 163, 8.200000000000001, 9.000000000000002], [30, 154, 578, 263, 8.600000000000001, 9.400000000000002]], ghosts=F.map(function(f){ var r=document.createElementNS(NS,"rect"); r.setAttribute("width",24); r.setAttribute("height",32); r.setAttribute("rx",2);
+    r.setAttribute("class","stroke amber"); r.style.opacity=0; document.getElementById("ghosts").appendChild(r); return r; });
+  function bez(a,b,c,d,u){ var v=1-u; return v*v*v*a+3*v*v*u*b+3*v*u*u*c+u*u*u*d; }
+  chalkFigure({ END: 11.0, paint: function(t){
+    // each selected report lifts off the grid and flies to its result card
+    F.forEach(function(f,i){
+      var u=(t-f[4])/(f[5]-f[4]), on=u>=0&&u<1, r=ghosts[i];
+      r.style.opacity = on ? 1 : 0;
+      if (on){ r.setAttribute("x",bez(f[0],f[0],f[2]-60,f[2],u).toFixed(1)); r.setAttribute("y",bez(f[1],-10,-10,f[3]+18,u).toFixed(1)); }
+    });
+    // embeddings leave the encoder and settle into the index
+    toks.forEach(function(g,i){
+      var u=(t-2.4-i*0.35)/0.6, on=u>=0&&u<1;
+      g.style.opacity = on ? 1 : 0;
+      if (on) g.setAttribute("transform","translate("+(u*90).toFixed(1)+",0)");
+    });
+    status.textContent =
+      t < 2.2 ? "every report goes through the DPR encoder" :
+      t < 4.5 ? "and its embedding is saved in an index" :
+      t < 6.6 ? "a query is encoded the same way" :
+      t < 9.9 ? "the nearest cases come back: direct, abbreviated, paraphrased" :
+      "one cohort, however it was written";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

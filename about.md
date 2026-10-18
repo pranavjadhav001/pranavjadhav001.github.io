@@ -30,7 +30,7 @@ title: About
       <div class="job-dates">Dec 2024 - Present</div>
       <div class="job-body">
         <h3>Tricog Health <span class="job-role">&middot; Senior Machine Learning Engineer</span></h3>
-        <div class="job-location">Bangalore</div>
+        <div class="job-location">Bangalore<span class="sep"> &middot; </span><a class="job-link" href="/work/tricog/">How it works &rarr;</a></div>
         <ul>
           <li>Researched and trained a DPR model to retrieve medical conditions, anatomical structures, and severities from thousands of unstructured diagnostic reports, achieving <strong>over a 50% improvement</strong> over the BM25 baseline.</li>
           <li>Led end-to-end development of an <strong>LLM-powered automatic report generation</strong> system, evaluated through custom domain-specific methods, <strong>saving 3&ndash;4 minutes per case</strong> while matching human-level performance.</li>
