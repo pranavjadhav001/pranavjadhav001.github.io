@@ -5,7 +5,7 @@ title: 'Tricog Health'
 lead: "Echo AI, report generation, and the clinical plumbing around them at Tricog Health."
 ---
 
-<div class="back-link-wrap is-wide"><a class="back-link" href="/about/">&larr; About</a></div>
+<div class="back-link-wrap is-wide"><a class="back-link" href="/">&larr; Home</a></div>
 
 <div class="work-page">
 
@@ -34,8 +34,6 @@ lead: "Echo AI, report generation, and the clinical plumbing around them at Tric
         </li>
         <li class="timeline-item" data-role="present">
           <div class="timeline-date">Present</div>
-          <h3 class="timeline-title">Training multimodal echo models</h3>
-          <p class="timeline-desc">Tinkering with <strong>foundation models for echocardiography</strong>.</p>
         </li>
       </ol>
       </div>
@@ -85,7 +83,7 @@ lead: "Echo AI, report generation, and the clinical plumbing around them at Tric
           <iframe src="/work/figures/tricog_views_chalk.html" title="Animated chalk figure: a tree of echo views grows from window to view to level" loading="lazy"></iframe>
         </figure>
         <div class="project-body">
-          <p><strong>What makes it hard</strong> is that siblings in the tree look nearly the same. A small tilt of the probe turns one view into the next, and a single frame often shows just one structure of difference. On top of that, the classes are imbalanced, since some views are captured far more often than others, and the labels are noisy because of inter-observer variability, where the labels of two experts may differ, and intra-observer variability, where the same expert can label a borderline clip differently on another day. My model classifies views with <strong>91% accuracy</strong>.</p>
+          <p><strong>What makes it hard</strong> is that siblings in the tree look nearly the same. A small tilt of the probe turns one view into the next, and a single frame often shows just one structure of difference. On top of that, the <strong>classes are imbalanced</strong>, since some views are captured far more often than others, and the <strong>labels are noisy</strong> because of inter-observer variability, where the labels of two experts may differ, and intra-observer variability, where the same expert can label a borderline clip differently on another day. My model classifies views with <strong>91% accuracy</strong>.</p>
         </div>
         <figure class="figure lookalikes">
           <div class="figure-frame">
@@ -158,7 +156,7 @@ lead: "Echo AI, report generation, and the clinical plumbing around them at Tric
           <iframe src="/work/figures/tricog_pipeline_chalk.html" title="Animated chalk figure: an echo study flows through models on one Triton server into a report" loading="lazy"></iframe>
         </figure>
         <div class="project-body">
-          <p>One echo study is about 5 videos and 750 frames, and every frame goes through several models before a report can go out. I designed and deployed the cardiac ultrasound pipeline on Triton Inference Server. A study runs end to <strong>end in under 14 seconds</strong>, scaling to about 50K cases a day on a single GPU.</p>
+          <p>One echo study has around 10 images and 20 videos, and every frame goes through several models before a report can go out. I designed and deployed the cardiac ultrasound pipeline on Triton Inference Server. A study runs end to <strong>end in under 14 seconds</strong>, scaling to about 50K cases a day on a single GPU.</p>
         </div>
       </article>
 

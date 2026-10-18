@@ -5,7 +5,7 @@ title: 'SwitchOn'
 lead: "Different inspection models that run on edge, custom tailored for each line and each plant."
 ---
 
-<div class="back-link-wrap is-wide"><a class="back-link" href="/about/">&larr; About</a></div>
+<div class="back-link-wrap is-wide"><a class="back-link" href="/">&larr; Home</a></div>
 
 <div class="work-page">
 
