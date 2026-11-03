@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReAct loop</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+<link rel="stylesheet" href="harness.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#F5F4EF" stroke-width="1.6" stroke-linecap="round"/></marker>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate hz" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">the ReAct loop, replaying one agent trace</div>
+    <div class="react">
+      <svg viewBox="0 0 260 340" aria-label="ReAct loop: a query goes to a Thought diamond; an Action arrow goes to a Tool; an Observation arrow returns to Thought; a dashed arrow leads to the Answer. The active part lights up as the trace plays.">
+        <g data-node="query"><rect class="s fill-chalk" x="78" y="8" width="104" height="38" rx="4" ry="6"/><text x="130" y="34" text-anchor="middle" font-size="22">Query</text></g>
+        <text class="t-dim" x="190" y="32" font-size="14">issues</text>
+        <path class="s" d="M130,46 L130,76" marker-end="url(#ah)"/>
+        <g data-node="think"><path class="s fill-chalk w1" d="M130,80 L214,130 L130,180 L46,130 Z"/><text x="130" y="137" text-anchor="middle" font-size="23">Thought</text></g>
+        <g data-node="act">
+          <path class="s w2" d="M70,158 C40,186 36,228 56,260" marker-end="url(#ah)"/>
+          <path class="s s-faint" d="M76,162 C48,190 44,228 62,258"/>
+          <text x="2" y="214" font-size="19">Action</text>
+          <rect class="s fill-chalk" x="26" y="264" width="76" height="38" rx="10" ry="8"/><text x="64" y="290" text-anchor="middle" font-size="21">Tool</text>
+        </g>
+        <g data-node="obs"><path class="s w3" d="M92,264 C108,236 116,208 124,184" marker-end="url(#ah)"/><text x="112" y="236" font-size="18">Observation</text></g>
+        <g data-node="answer"><path class="s dash" d="M176,156 C190,190 200,226 206,256" marker-end="url(#ah)"/><rect class="s fill-chalk" x="166" y="262" width="84" height="38" rx="4" ry="6"/><text x="208" y="288" text-anchor="middle" font-size="21">Answer</text></g>
+        <text id="turn" x="130" y="330" text-anchor="middle" font-size="20">turn 1 of 30</text>
+      </svg>
+      <div class="log">
+        <div class="ln issue el" data-t="0.3"><span class="who">query</span><span class="txt">A2C LVESV 51.4 mL · recordings disagree on LV function</span></div>
+        <div class="ln think el" data-t="1.1"><span class="who">thought</span><span class="txt">which clip is driving the A2C volume?</span></div>
+        <div class="ln act el" data-t="1.8"><span class="who">action</span><span class="txt">get_clip_values("LVESV MOD A2C")</span></div>
+        <div class="ln obs el" data-t="2.5"><span class="who">observation</span><span class="txt">clip 25: 35.0 mL · clip 26 (colour): 47.5 mL</span></div>
+        <div class="ln think el" data-t="3.4"><span class="who">thought</span><span class="txt">look at both clips myself</span></div>
+        <div class="ln act el" data-t="4.0"><span class="who">action</span><span class="txt">view_frames(clip 26, [15, 22, 43, 50])</span></div>
+        <div class="ln obs el" data-t="4.8"><span class="who">observation</span><span class="txt">frame 50: mitral filling colour, lateral border lost</span></div>
+        <div class="ln act el" data-t="5.7"><span class="who">action</span><span class="txt">classify_view(clip 25) · classify_view(clip 26)</span></div>
+        <div class="ln obs el" data-t="6.4"><span class="who">observation</span><span class="txt">A2C 1.00 · A2C 0.98: both really A2C</span></div>
+        <div class="ln act el" data-t="7.3"><span class="who">action</span><span class="txt">segment_chamber(clip 25, frames 8 &amp; 38, LV, ES)</span></div>
+        <div class="ln obs el" data-t="8.1"><span class="who">observation</span><span class="txt">35.4 / 43.1 mL, two cycles → median 39.3</span></div>
+        <div class="ln act el" data-t="9.0"><span class="who">action</span><span class="txt">use_clip_value("LVESV MOD A2C", clip 25)</span></div>
+        <div class="ln obs el" data-t="9.7"><span class="who">observation</span><span class="txt">51.4 → 39.3 mL · formulas + rules re-run</span></div>
+        <div class="ln fin el" data-t="10.8"><span class="who">answer</span><span class="txt">escalate · open questions for the doctor</span></div>
+      </div>
+    </div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function mk(tag, attrs, parent){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  var beats=[[0,'query',1],[1.1,'think',2],[1.8,'act',2],[2.5,'obs',2],[3.4,'think',3],[4.0,'act',3],[4.8,'obs',3],[5.7,'act',4],[6.4,'obs',4],[7.3,'act',8],[8.1,'obs',8],[9.0,'act',13],[9.7,'obs',13],[10.8,'answer',19]];
+  var turn=document.getElementById('turn'), nodes=document.querySelectorAll('[data-node]');
+  chalkFigure({ END: 12.0, paint: function(t){
+    var b=beats[0]; for(var i=0;i<beats.length;i++) if(t>=beats[i][0]) b=beats[i];
+    turn.textContent='turn '+b[2]+' of 30';
+    nodes.forEach(function(n){
+      var on=n.getAttribute('data-node')===b[1];
+      n.querySelectorAll('.s').forEach(function(e){ if(e.classList.contains('s-faint')) return; e.style.stroke=on?'#F4D47C':''; e.style.strokeWidth=on?'3':''; });
+      n.querySelectorAll('text').forEach(function(e){ e.style.fill=on?'#F4D47C':''; });
+    });
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the time goes</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+<link rel="stylesheet" href="harness.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#F5F4EF" stroke-width="1.6" stroke-linecap="round"/></marker>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate hz" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">where the time goes</div>
+    <svg class="scene" viewBox="0 0 900 600" aria-label="Timeline of one 32-recording study, about 12 minutes in total. Our models take 59 percent of the time, the LLM 41 percent, and formulas, rules and coverage under a second. PanEcho and EchoPrime alone take about 220 seconds.">
+      <g class="el" data-t="0.1"><path class="s s-faint" d="M340.0,64 L340.0,450"/><text class="t-dim" x="340.0" y="476" text-anchor="middle" font-size="20">0</text><path class="s s-faint" d="M396.8,64 L396.8,450"/><text class="t-dim" x="396.8" y="476" text-anchor="middle" font-size="20">2</text><path class="s s-faint" d="M453.5,64 L453.5,450"/><text class="t-dim" x="453.5" y="476" text-anchor="middle" font-size="20">4</text><path class="s s-faint" d="M510.3,64 L510.3,450"/><text class="t-dim" x="510.3" y="476" text-anchor="middle" font-size="20">6</text><path class="s s-faint" d="M567.0,64 L567.0,450"/><text class="t-dim" x="567.0" y="476" text-anchor="middle" font-size="20">8</text><path class="s s-faint" d="M623.8,64 L623.8,450"/><text class="t-dim" x="623.8" y="476" text-anchor="middle" font-size="20">10</text><path class="s s-faint" d="M680.5,64 L680.5,450"/><text class="t-dim" x="680.5" y="476" text-anchor="middle" font-size="20">12 min</text></g>
+      <text class="el t-dim" data-t="0.1" x="708" y="54" font-size="20">time</text>
+      <text class="el t-dim" data-t="0.1" x="800" y="54" font-size="20">cost</text>
+      <text class="el" data-t="0.20" x="326" y="98" text-anchor="end" font-size="25">view classification</text>
+      <text class="el t-dim" data-t="__0" x="708" y="98" font-size="23">164 s</text>
+      <text class="el" data-t="0.25" x="326" y="146" text-anchor="end" font-size="25">ED/ES phase</text>
+      <text class="el t-dim" data-t="__1" x="708" y="146" font-size="23">34 s</text>
+      <text class="el t-p" data-t="0.30" x="326" y="194" text-anchor="end" font-size="25">vision review</text>
+      <text class="el t-dim" data-t="__2" x="708" y="194" font-size="23">83 s</text>
+      <text class="el t-p" data-t="__2" x="800" y="194" font-size="23">$1.39</text>
+      <text class="el" data-t="0.35" x="326" y="242" text-anchor="end" font-size="25">calipers · volumes · Doppler</text>
+      <text class="el t-dim" data-t="__3" x="708" y="242" font-size="23">17 s</text>
+      <text class="el" data-t="0.40" x="326" y="290" text-anchor="end" font-size="25">PanEcho + EchoPrime</text>
+      <text class="el t-dim" data-t="__4" x="708" y="290" font-size="23">221 s</text>
+      <text class="el t-b" data-t="0.45" x="326" y="338" text-anchor="end" font-size="25">formulas · rules · coverage</text>
+      <text class="el t-dim" data-t="__5" x="708" y="338" font-size="23">&lt; 1 s</text>
+      <text class="el t-p" data-t="0.50" x="326" y="386" text-anchor="end" font-size="25">agent · 19 turns</text>
+      <text class="el t-dim" data-t="__6" x="708" y="386" font-size="23">207 s</text>
+      <text class="el t-p" data-t="__6" x="800" y="386" font-size="23">$2.69</text>
+      <text class="el t-p" data-t="0.55" x="326" y="434" text-anchor="end" font-size="25">summary</text>
+      <text class="el t-dim" data-t="__7" x="708" y="434" font-size="23">11 s</text>
+      <text class="el t-p" data-t="__7" x="800" y="434" font-size="23">$0.11</text>
+      <g id="bars"></g>
+      <line id="head" class="s s-y" x1="340" y1="60" x2="340" y2="454" style="opacity:0"/>
+      <g class="el" data-t="7.0">
+        <rect x="340" y="510" width="205.0" height="24" rx="4" style="fill:rgba(245,244,239,.55)"/>
+        <rect x="548.0" y="510" width="142.0" height="24" rx="4" style="fill:rgba(242,164,142,.75)"/>
+        <text x="326" y="530" text-anchor="end" font-size="25">share of time</text>
+        <text x="346" y="566" font-size="23">our models 59%</text>
+        <text class="t-p" x="554.0" y="566" font-size="23">LLM 41%</text>
+        <text class="t-b" x="708" y="530" font-size="23">code: 0.9 s</text>
+      </g>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function mk(tag, attrs, parent){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  var rows=[[0, 164.5, "m"], [164.5, 198.6, "m"], [198.6, 281.9, "l"], [281.9, 299.0, "m"], [299.6, 520.3, "m"], [520.3, 520.8, "c"], [520.9, 727.5, "l"], [728.0, 738.9, "l"]];
+  var X0=340, SC=0.472973, P0=0.8, P1=6.6, TOT=740.0;
+  var bars=document.getElementById('bars'), head=document.getElementById('head'), status=document.getElementById('status');
+  var fills={m:'rgba(245,244,239,.55)',c:'#9ED4E3',l:'rgba(242,164,142,.75)'};
+  var rects=rows.map(function(r,i){
+    return mk('rect',{'x':(X0+r[0]*SC).toFixed(1),'y':78+i*48,'height':24,'width':0,'rx':4,'style':'fill:'+fills[r[2]]},bars);
+  });
+  // duration and cost labels appear when the playhead reaches the end of their bar
+  document.querySelectorAll('[data-t^="__"]').forEach(function(el){
+    var i=+el.getAttribute('data-t').slice(2), r=rows[i];
+    el.setAttribute('data-t',(P0+(r[1]/TOT)*(P1-P0)).toFixed(2));
+  });
+  chalkFigure({ END: 8.4, paint: function(t){
+    var u=Math.max(0,Math.min(1,(t-P0)/(P1-P0))), sec=u*TOT;
+    head.style.opacity=(t>=P0&&t<P1)?.9:0;
+    var x=(X0+sec*SC).toFixed(1); head.setAttribute('x1',x); head.setAttribute('x2',x);
+    rects.forEach(function(rc,i){
+      var r=rows[i], w=Math.max(0,Math.min(sec,r[1])-r[0])*SC;
+      if(sec>=r[0]) w=Math.max(w,3);
+      rc.setAttribute('width',w.toFixed(1));
+    });
+    status.textContent =
+      t < P0 ? "one study, 32 recordings" :
+      t < P1 ? (Math.floor(sec/60)+" min "+String(Math.floor(sec%60)).padStart(2,'0')+" s") :
+      "about 12 minutes and $4 a study";
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

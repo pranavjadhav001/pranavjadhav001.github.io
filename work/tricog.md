@@ -40,7 +40,7 @@ lead: "Echo AI, report generation, and the clinical plumbing around them at Tric
       <div class="side-block">
         <p class="side-label">Stack</p>
         <ul class="chips">
-          <li>Python</li><li>PyTorch</li><li>HuggingFace</li><li>LLMs</li><li>DPR</li><li>Triton Inference Server</li><li>DICOM</li><li>AWS Lambda</li><li>Kubernetes</li>
+          <li>Python</li><li>PyTorch</li><li>HuggingFace</li><li>LLMs</li><li>LLM agents</li><li>ReAct</li><li>Tool calling</li><li>DPR</li><li>Triton Inference Server</li><li>DICOM</li><li>AWS Lambda</li><li>Kubernetes</li>
         </ul>
       </div>
       <div class="side-block">
@@ -191,6 +191,38 @@ lead: "Echo AI, report generation, and the clinical plumbing around them at Tric
         </figure>
         <div class="project-body">
           <p>Lately I've been tinkering with <strong>foundation models for echocardiography</strong>, since we are sitting on a rich annotated dataset in a niche domain. There are dense signals per frame (the measurements performed on it), per video (choosing the right frames), and per case (the final summary). Training a holistic system is tricky, but it gives you decent image, video, and text encoders: great backbones for fine-tuning tasks and for cross-modal retrieval.</p>
+        </div>
+      </article>
+
+      <article class="project" id="harness" data-role="present">
+        <div class="project-head"><span class="project-num">10</span><h2>An agentic harness for echo</h2></div>
+        <div class="project-body">
+          <p>Diagnosing an echo case is complex. It means going through the entire study, looking for subjective markers like regurgitation, performing specific measurements to confirm a condition, sometimes going back to repeat a measurement on the same video or a different one, and finally adding observations and a case summary. I built a <strong>domain-specific harness</strong> for that, where our in-house models do the measuring, deterministic code does the grading, and a vision-capable LLM looks at the pictures and fixes what the pipeline got wrong.</p>
+          <p><strong>Why build custom, and not use a general-purpose harness like Claude Code?</strong> Claude Code and Pi are coding harnesses, built around how developers work: skim a repo, read and write a file, run the tests and edit. They have been polished to get the most out of tools like <strong>grep, read/write and bash</strong>. Echo is an entirely different domain. A cardiologist has their own way of going through a study: picking the right views, looping over a video to find the right frame, and using the measurement tools at their disposal.</p>
+        </div>
+        <figure class="chalk-figure">
+          <iframe src="/work/figures/tricog_harness_expert_chalk.html" title="Animated chalk figure: a coding agent greps, opens, tests and edits a repo, while a cardiologist skims, picks views, freezes a frame and places calipers" loading="lazy"></iframe>
+        </figure>
+        <div class="project-body">
+          <p>At the center of the harness is a <strong>ReAct (reason + act) loop</strong>: reason, call tools, observe, repeat. It has tools to look at frames, re-ask our models, read guidelines and change a value's status. It resolves a conflicting diagnosis by gathering more evidence and reasoning through it, again and again until the conflict is settled.</p>
+        </div>
+        <figure class="chalk-figure">
+          <iframe src="/work/figures/tricog_harness_react_chalk.html" title="Animated chalk figure: the ReAct loop of query, thought, action, tool and observation lights up as it replays one agent trace that resolves a disagreement between two A2C clips" loading="lazy"></iframe>
+        </figure>
+        <div class="project-body">
+          <p>Over the years at Tricog I have built in-house models for specific tasks, but even deployed, they need a clinician's domain expertise to know where to apply them: on which videos and on which frames. For this we use a frontier vision-language model, OpenAI Astra 6. We also give it the deterministic rules already used on our platform, InstaEcho, along with the formulas that compute measurements from coordinates and traces. <strong>The deterministic rules keep the agent grounded</strong> and let it back its diagnosis with proper citations.</p>
+        </div>
+        <figure class="chalk-figure">
+          <iframe src="/work/figures/tricog_harness_flow_chalk.html" title="Animated chalk figure: a study moves through three lanes, models, code and LLM, from ingest to summary, with the agent near the end and the deterministic checks re-run after it" loading="lazy"></iframe>
+        </figure>
+        <div class="project-body">
+          <p>A full study of around 32 recordings takes <strong>about 12 minutes and $4</strong>. Most of the time is our models, and most of the cost is the agent. The rules, formulas and coverage checks take under a second, which is the point of keeping them out of the LLM.</p>
+        </div>
+        <figure class="chalk-figure">
+          <iframe src="/work/figures/tricog_harness_time_chalk.html" title="Animated chalk figure: a timeline of one study, about 12 minutes, where our models take 59 percent of the time, the LLM 41 percent, and code under a second" loading="lazy"></iframe>
+        </figure>
+        <div class="project-body">
+          <p>We are barely scratching the surface here, and there are still a lot of bottlenecks. VLMs still can't take <strong>precise measurements</strong>, so you need custom models to supply them. Native image understanding is not enough either: the model needs <strong>native video understanding</strong> to reason well across a clip. And <strong>cost grows with every VLM call</strong>: the more evidence you reason over, the more it costs.</p>
         </div>
       </article>
 

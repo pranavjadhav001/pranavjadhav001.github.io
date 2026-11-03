@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Echo harness flow</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+<link rel="stylesheet" href="harness.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#F5F4EF" stroke-width="1.6" stroke-linecap="round"/></marker>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate hz" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">a fixed pipeline, an agent for exceptions</div>
+    <svg class="scene" viewBox="0 0 900 400" aria-label="Three swim lanes: our models on Triton, deterministic code, and the LLM. A study travels from ingest through views, phase, vision review, calipers, volumes, Doppler, formulas, estimates, rules, coverage, issues, the agent, a re-run of formulas, rules and coverage, and the summary.">
+      <text class="el t-dim" data-t="0" x="12" y="72" font-size="18">models</text><text class="el t-dim" data-t="0" x="12" y="92" font-size="14">Triton · 1 GPU</text>
+      <text class="el t-dim" data-t="0" x="12" y="192" font-size="18">code</text><text class="el t-dim" data-t="0" x="12" y="212" font-size="14">deterministic</text>
+      <text class="el t-dim" data-t="0" x="12" y="312" font-size="18">LLM</text><text class="el t-dim" data-t="0" x="12" y="332" font-size="14">vision + reasoning</text>
+      <path class="s s-faint dash el" data-t="0" d="M110,130 L890,130 M110,250 L890,250"/>
+      <path id="route" class="s s-faint el" data-t="0.2" d=""/>
+      <g id="nodes"></g>
+      <circle id="study" r="9" style="fill:#F4D47C;opacity:0"/>
+      <g class="el" data-t="8.6"><path class="s s-p" d="M774,330 C814,300 834,248 822,214" marker-end="url(#ah)"/></g>
+      <g class="el" data-t="8.0"><text class="t-p" x="610" y="384" font-size="17">21 tools · at most 30 turns</text></g>
+    </svg>
+    <div class="status" id="status"></div>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function mk(tag, attrs, parent){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  var lanesY={m:72,c:192,l:312};
+  var steps=[['ingest','c'],['views','m'],['phase','m'],['vision review','l'],['PLAX calipers','m'],['volumes','m'],['Doppler','m'],['formulas','c'],['PanEcho est.','m'],['rules','c'],['coverage','c'],['issues','l'],['agent','l'],['re-run','c'],['summary','l']];
+  var x0=150, dx=(870-x0)/(steps.length-1), T0=0.4, DT=0.62;
+  var nodes=document.getElementById('nodes'), pts=[];
+  steps.forEach(function(s,i){
+    var x=x0+i*dx, y=lanesY[s[1]], t=T0+i*DT; pts.push([x,y,t]);
+    var g=mk('g',{'class':'el','data-t':t.toFixed(2)},nodes);
+    var col=s[1]==='m'?'':(s[1]==='c'?' s-b':' s-p');
+    if(s[0]==='agent'){ mk('circle',{'class':'s s-p','cx':x,'cy':y,'r':17,'style':'fill:var(--board)'},g); mk('path',{'class':'s s-p','d':'M'+(x-8)+','+(y-4)+' A9,9 0 1 1 '+(x-6)+','+(y+7),'marker-end':'url(#ah)'},g); }
+    else mk('circle',{'class':'s'+col,'cx':x,'cy':y,'r':11,'style':'fill:var(--board)'},g);
+    var up=(i%2===0);
+    var t2=mk('text',{'x':x,'y':up?y-22:y+34,'text-anchor':'middle','font-size':'16','class':s[1]==='m'?'':(s[1]==='c'?'t-b':'t-p')},g); t2.textContent=s[0];
+  });
+  document.getElementById('route').setAttribute('d','M'+pts.map(function(p){return p[0]+','+p[1];}).join(' L'));
+  var dot=document.getElementById('study'), status=document.getElementById('status');
+  chalkFigure({ END: 10.0, paint: function(t){
+    status.textContent =
+      t < 0.4 ? "" :
+      t < 7.2 ? "models measure, code grades, the LLM reviews every recording" :
+      t < 8.0 ? "the agent only gets the issues the pipeline raised" :
+      "after the agent, formulas, rules and coverage run again";
+    if(t<T0){ dot.style.opacity=0; return; }
+    dot.style.opacity=1;
+    var last=pts[pts.length-1];
+    if(t>=last[2]){ dot.setAttribute('cx',last[0]); dot.setAttribute('cy',last[1]); return; }
+    for(var i=0;i<pts.length-1;i++){ if(t<pts[i+1][2]){ var f=(t-pts[i][2])/(pts[i+1][2]-pts[i][2]); f=f*f*(3-2*f);
+      dot.setAttribute('cx',pts[i][0]+(pts[i+1][0]-pts[i][0])*f); dot.setAttribute('cy',pts[i][1]+(pts[i+1][1]-pts[i][1])*f); return; } }
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>

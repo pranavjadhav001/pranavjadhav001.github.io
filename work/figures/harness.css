@@ -1,0 +1,25 @@
+/* harness.css: extra chalk vocabulary for the echo harness figures (tricog_harness_*).
+   Load after chalky.css and board.css. */
+:root{ --chalk-faint:rgba(245,244,239,.22); --chalk-y:#F4D47C; --chalk-b:#9ED4E3; --chalk-p:#F2A48E; }
+.hz svg text{font-family:'PencilPete','ArchitectsDaughter',cursive;fill:var(--chalk)}
+.hz .t-dim{fill:var(--chalk-dim)}
+.hz .t-y{fill:var(--chalk-y)} .hz .t-b{fill:var(--chalk-b)} .hz .t-p{fill:var(--chalk-p)}
+.hz .s{stroke:var(--chalk);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.hz .s-dim{stroke:var(--chalk-dim)} .hz .s-faint{stroke:var(--chalk-faint)}
+.hz .s-y{stroke:var(--chalk-y)} .hz .s-b{stroke:var(--chalk-b)} .hz .s-p{stroke:var(--chalk-p)}
+.hz .dash{stroke-dasharray:7 6}
+.hz .fill-chalk{fill:rgba(245,244,239,.06)}
+.hz .w1{filter:url(#slip1)} .hz .w2{filter:url(#slip2)} .hz .w3{filter:url(#slip3)}
+
+/* ReAct figure: loop diagram on the left, trace log on the right */
+.react{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;align-items:start}
+.react svg{display:block;width:100%;height:auto;overflow:visible}
+.log{display:grid;gap:7px;font-size:1.05rem;line-height:1.3;align-content:start;min-width:0}
+.log .ln{display:grid;grid-template-columns:108px minmax(0,1fr);gap:8px;align-items:baseline}
+.log .who{font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;color:var(--chalk-dim)}
+.log .txt{overflow-wrap:anywhere}
+.log .think .txt{color:var(--chalk-b)}
+.log .act .txt{color:var(--chalk);font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:.82rem}
+.log .obs .txt{color:var(--chalk-y)}
+.log .issue .txt{color:var(--chalk-p)}
+.log .fin .txt{border:1.5px dashed rgba(245,244,239,.6);border-radius:9px 7px 10px 6px;padding:1px 8px;transform:rotate(-.6deg);display:inline-block}

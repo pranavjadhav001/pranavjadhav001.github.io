@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How an expert finds their way</title>
+<link rel="stylesheet" href="chalky.css">
+<link rel="stylesheet" href="board.css">
+<link rel="stylesheet" href="harness.css">
+</head>
+<body>
+<script>if(window.self===window.top)document.documentElement.classList.add("standalone"),document.body.classList.add("standalone");</script>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="slip1" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="slip3" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="dust" filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="6000">
+    <feMorphology in="SourceGraphic" operator="dilate" radius="0.6" result="fat"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.12 0.35" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="mask"><feFuncA id="dustA" type="linear" slope="2.4" intercept="-0.25"/></feComponentTransfer>
+    <feComposite in="fat" in2="mask" operator="in" result="patchy"/>
+    <feGaussianBlur in="patchy" stdDeviation="1.6" result="halo"/>
+    <feComponentTransfer in="halo" result="halo2"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+    <feMerge><feMergeNode in="halo2"/><feMergeNode in="patchy"/></feMerge>
+  </filter>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#F5F4EF" stroke-width="1.6" stroke-linecap="round"/></marker>
+</svg>
+<div class="wrap">
+  <div class="board"><div class="slate hz" data-chalk="tidy">
+    <button class="replay" id="replay" type="button" aria-label="replay"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M20.49 15 a9 9 0 1 1 -2.12 -9.36 L23 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" fill="none"/><polyline points="23 4 23 10 17 10" stroke="#F5F4EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="eraser"></span></button>
+    <div class="title">how does an expert find their way around?</div>
+    <svg class="scene" viewBox="0 0 900 450" aria-label="Left: a coding agent greps three files, opens one at line 142, runs tests and edits. Right: a cardiologist skims 34 echo recordings, picks PLAX, A4C, A2C and a CW still, zooms into PLAX at end-diastole and places a caliper. Four aligned steps: find, open, check, change.">
+      <text class="el" data-t="0.1" x="30" y="30" font-size="23">coding agent · a repo</text>
+      <text class="el" data-t="0.1" x="470" y="30" font-size="23">cardiologist · a study of 34 recordings</text>
+      <path class="s s-faint dash el" data-t="0.1" d="M450,14 L450,440"/>
+      <g class="el" data-t="0.4" id="files"></g>
+      <g class="el" data-t="1.6"><rect x="168" y="102" width="112" height="15" rx="3" style="fill:rgba(244,212,124,.35)"/><text class="t-y" x="286" y="115" font-size="17">app.js:142</text></g>
+      <g id="thumbs"></g>
+      <line id="skim" class="s s-b" x1="470" y1="44" x2="470" y2="200" style="opacity:0"/>
+      <g id="picks"></g>
+      <g class="el" data-t="3.2">
+        <rect x="690" y="70" width="190" height="136" rx="8" style="fill:#0f2318;stroke:#F5F4EF;stroke-width:2"/>
+        <path class="s s-dim" d="M785,80 L700,196 A120,120 0 0 0 870,196 Z"/>
+        <path class="s s-dim" d="M712,150 C750,140 800,138 860,146"/>
+        <path class="s s-dim" d="M716,174 C760,168 812,168 858,172"/>
+        <text class="t-dim" x="700" y="94" font-size="15">PLAX · ED frame</text>
+      </g>
+      <g class="el" data-t="4.2"><path class="s s-y" d="M790,140 L790,178"/><circle cx="790" cy="140" r="3.5" style="fill:#F4D47C"/><circle cx="790" cy="178" r="3.5" style="fill:#F4D47C"/><text class="t-y" x="798" y="166" font-size="16">IVSd</text></g>
+      <g font-size="19">
+        <text class="el t-dim" data-t="1.2" x="450" y="262" text-anchor="middle" font-size="17" style="letter-spacing:.1em">FIND</text>
+        <text class="el t-dim" data-t="2.8" x="450" y="312" text-anchor="middle" font-size="17" style="letter-spacing:.1em">OPEN</text>
+        <text class="el t-dim" data-t="4.0" x="450" y="362" text-anchor="middle" font-size="17" style="letter-spacing:.1em">CHECK</text>
+        <text class="el t-dim" data-t="5.4" x="450" y="412" text-anchor="middle" font-size="17" style="letter-spacing:.1em">CHANGE</text>
+        <text class="el" data-t="1.2" x="30" y="262">grep -rn "paint("  → 3 hits</text>
+        <text class="el" data-t="2.8" x="30" y="312">read app.js : 120–180</text>
+        <text class="el" data-t="4.0" x="30" y="362">pytest  → 12 passed</text>
+        <text class="el" data-t="5.4" x="30" y="412">edit  → diff</text>
+        <text class="el t-b" data-t="1.2" x="510" y="262">skim + classify views</text>
+        <text class="el t-b" data-t="2.8" x="510" y="312">freeze PLAX at end-diastole</text>
+        <text class="el t-y" data-t="4.0" x="510" y="362">place calipers → IVSd 1.08 cm</text>
+        <text class="el t-b" data-t="5.4" x="510" y="412">compare views · write the finding</text>
+      </g>
+      <path class="s s-faint el" data-t="6.2" d="M30,430 L870,430"/>
+    </svg>
+  </div></div>
+</div>
+<script src="player.js"></script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function mk(tag, attrs, parent){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  var files=document.getElementById('files');
+  [[40,60],[165,60],[290,60]].forEach(function(p,fi){
+    mk('path',{'class':'s s-dim','d':'M'+p[0]+','+p[1]+' L'+(p[0]+100)+','+p[1]+' L'+(p[0]+118)+','+(p[1]+18)+' L'+(p[0]+118)+','+(p[1]+150)+' L'+p[0]+','+(p[1]+150)+' Z'},files);
+    for(var i=0;i<8;i++){ var w=40+((i*37+fi*13)%60); mk('path',{'class':'s s-faint','d':'M'+(p[0]+10)+','+(p[1]+28+i*15)+' L'+(p[0]+10+w)+','+(p[1]+28+i*15)},files); }
+  });
+  var th=document.getElementById('thumbs'), picks=document.getElementById('picks');
+  var W=40,H=30,G=5,x0=472,y0=50;
+  for(var i=0;i<34;i++){
+    var c=i%9, r=Math.floor(i/9), x=x0+c*(W+G), y=y0+r*(H+G+4);
+    var g=mk('g',{'class':'el','data-t':(0.3+i*0.025).toFixed(3)},th);
+    mk('rect',{'class':'s s-faint','x':x,'y':y,'width':W,'height':H,'rx':3},g);
+    if(i%3===2){
+      mk('path',{'class':'s s-dim','style':'stroke-width:1.4','d':'M'+(x+3)+','+(y+12)+' L'+(x+W-3)+','+(y+12)},g);
+      mk('path',{'class':'s s-dim','style':'stroke-width:1.4','d':'M'+(x+4)+','+(y+12)+' C'+(x+8)+','+(y+27)+' '+(x+13)+','+(y+27)+' '+(x+16)+','+(y+12)+' C'+(x+20)+','+(y+27)+' '+(x+25)+','+(y+27)+' '+(x+28)+','+(y+12)+' C'+(x+31)+','+(y+27)+' '+(x+35)+','+(y+27)+' '+(x+37)+','+(y+12)},g);
+    } else {
+      var cx=x+W/2;
+      mk('path',{'class':'s s-dim','style':'stroke-width:1.4','d':'M'+cx+','+(y+4)+' L'+(x+5)+','+(y+H-6)+' A26,26 0 0 0 '+(x+W-5)+','+(y+H-6)+' Z'},g);
+    }
+  }
+  [[1,'PLAX'],[12,'A4C'],[21,'A2C'],[29,'CW']].forEach(function(p,k){
+    var i=p[0], c=i%9, r=Math.floor(i/9), x=x0+c*(W+G), y=y0+r*(H+G+4);
+    var g=mk('g',{'class':'el','data-t':(1.9+k*0.2).toFixed(2)},picks);
+    mk('ellipse',{'class':'s s-y','cx':x+W/2,'cy':y+H/2,'rx':W/2+6,'ry':H/2+6},g);
+    var t=mk('text',{'class':'t-y','x':x+W/2,'y':y-6,'text-anchor':'middle','font-size':'15'},g); t.textContent=p[1];
+  });
+  var sk=document.getElementById('skim');
+  chalkFigure({ END: 7.0, paint: function(t){
+    if(t<0.9||t>1.95){ sk.style.opacity=0; return; }
+    var x=468+(t-0.9)*402; sk.setAttribute('x1',x); sk.setAttribute('x2',x); sk.style.opacity=.85;
+  }});
+})();
+</script>
+<script src="chalky.js"></script>
+</body>
+</html>
